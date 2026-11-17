@@ -12,6 +12,11 @@
 
   <title>Development Around Washington Metro</title>
 
+
+  <!-- ======================================================
+       LEAFLET
+       ====================================================== -->
+
   <link
     rel="stylesheet"
     href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
@@ -22,6 +27,10 @@
   ></script>
 
 
+  <!-- ======================================================
+       STYLES
+       ====================================================== -->
+
   <style>
 
     :root {
@@ -29,14 +38,16 @@
       --text: #282522;
       --secondary-text: #756D66;
       --border: #D8D1C8;
+
       --station-outline: #3F3A35;
       --accent: #C8643B;
 
       --water: #DCE6E5;
-
       --county: #AEA59C;
+      --highway: #B8B1A9;
 
-      --highway: #B5ADA5;
+      --secondary-road: #CEC7BF;
+      --local-road: #DDD7D0;
     }
 
 
@@ -44,6 +55,7 @@
     body {
       margin: 0;
       padding: 0;
+
       width: 100%;
       height: 100%;
     }
@@ -100,25 +112,33 @@
 
 
     .metric-control-title {
-      margin-bottom: 7px;
+      margin-bottom:
+        7px;
 
       color:
         var(--secondary-text);
 
-      font-size: 10px;
-      font-weight: 700;
+      font-size:
+        10px;
 
-      letter-spacing: 0.07em;
+      font-weight:
+        700;
 
-      text-transform: uppercase;
+      letter-spacing:
+        0.07em;
+
+      text-transform:
+        uppercase;
     }
 
 
     .metric-select {
-      width: 100%;
+      width:
+        100%;
 
       padding:
-        6px 7px;
+        6px
+        7px;
 
       background:
         #FFFFFF;
@@ -147,16 +167,20 @@
 
 
     .metric-description {
-      max-width: 210px;
+      max-width:
+        210px;
 
-      margin-top: 7px;
+      margin-top:
+        7px;
 
       color:
         var(--secondary-text);
 
-      font-size: 10px;
+      font-size:
+        10px;
 
-      line-height: 1.35;
+      line-height:
+        1.35;
     }
 
 
@@ -172,7 +196,8 @@
 
 
     .leaflet-popup-content-wrapper {
-      border-radius: 6px;
+      border-radius:
+        6px;
 
       box-shadow:
         0 2px 12px
@@ -181,7 +206,8 @@
 
 
     .leaflet-popup-content {
-      width: 250px !important;
+      width:
+        250px !important;
 
       margin:
         15px
@@ -193,14 +219,20 @@
 
 
     .station-popup-name {
-      margin-bottom: 2px;
+      margin-bottom:
+        2px;
 
       color:
         var(--text);
 
-      font-size: 17px;
-      font-weight: 700;
-      line-height: 1.2;
+      font-size:
+        17px;
+
+      font-weight:
+        700;
+
+      line-height:
+        1.2;
     }
 
 
@@ -208,16 +240,20 @@
       color:
         var(--secondary-text);
 
-      font-size: 12px;
+      font-size:
+        12px;
 
-      line-height: 1.4;
+      line-height:
+        1.4;
     }
 
 
     .popup-section {
-      margin-top: 12px;
+      margin-top:
+        12px;
 
-      padding-top: 9px;
+      padding-top:
+        9px;
 
       border-top:
         1px solid
@@ -226,41 +262,56 @@
 
 
     .popup-section-title {
-      margin-bottom: 5px;
+      margin-bottom:
+        5px;
 
       color:
         var(--secondary-text);
 
-      font-size: 10px;
-      font-weight: 700;
+      font-size:
+        10px;
 
-      letter-spacing: 0.07em;
+      font-weight:
+        700;
 
-      line-height: 1.3;
+      letter-spacing:
+        0.07em;
 
-      text-transform: uppercase;
+      line-height:
+        1.3;
+
+      text-transform:
+        uppercase;
     }
 
 
     .popup-stat {
-      display: flex;
+      display:
+        flex;
 
-      justify-content: space-between;
+      justify-content:
+        space-between;
 
-      align-items: baseline;
+      align-items:
+        baseline;
 
-      gap: 18px;
+      gap:
+        18px;
 
-      padding: 2px 0;
+      padding:
+        2px 0;
 
-      font-size: 13px;
+      font-size:
+        13px;
 
-      line-height: 1.35;
+      line-height:
+        1.35;
     }
 
 
     .popup-stat span {
-      color: #514B46;
+      color:
+        #514B46;
     }
 
 
@@ -268,16 +319,20 @@
       color:
         var(--text);
 
-      font-weight: 700;
+      font-weight:
+        700;
 
-      text-align: right;
+      text-align:
+        right;
     }
 
 
     .popup-stat-total {
-      margin-top: 3px;
+      margin-top:
+        3px;
 
-      padding-top: 5px;
+      padding-top:
+        5px;
 
       border-top:
         1px dotted
@@ -286,22 +341,27 @@
 
 
     .popup-note {
-      margin-top: 10px;
+      margin-top:
+        10px;
 
-      color: #8A8179;
+      color:
+        #8A8179;
 
-      font-size: 10px;
+      font-size:
+        10px;
 
-      line-height: 1.35;
+      line-height:
+        1.35;
     }
 
 
     /* ======================================================
-       SIZE LEGEND
+       DYNAMIC SIZE LEGEND
        ====================================================== */
 
     .size-legend {
-      min-width: 145px;
+      min-width:
+        145px;
 
       padding:
         10px
@@ -314,7 +374,8 @@
         1px solid
         rgba(216, 209, 200, 0.95);
 
-      border-radius: 6px;
+      border-radius:
+        6px;
 
       box-shadow:
         0 2px 8px
@@ -323,51 +384,68 @@
       color:
         var(--text);
 
-      font-size: 11px;
+      font-size:
+        11px;
 
-      line-height: 1.3;
+      line-height:
+        1.3;
     }
 
 
     .size-legend-title {
-      margin-bottom: 8px;
+      margin-bottom:
+        8px;
 
-      font-size: 11px;
+      font-size:
+        11px;
 
-      font-weight: 700;
+      font-weight:
+        700;
     }
 
 
     .size-legend-row {
-      display: flex;
+      display:
+        flex;
 
-      align-items: center;
+      align-items:
+        center;
 
-      gap: 9px;
+      gap:
+        9px;
 
-      min-height: 27px;
+      min-height:
+        27px;
 
-      margin: 3px 0;
+      margin:
+        3px 0;
     }
 
 
     .size-legend-circle-wrap {
-      display: flex;
+      display:
+        flex;
 
-      justify-content: center;
+      justify-content:
+        center;
 
-      align-items: center;
+      align-items:
+        center;
 
-      width: 32px;
+      width:
+        32px;
 
-      height: 27px;
+      height:
+        27px;
     }
 
 
     .size-legend-circle {
-      display: block;
+      display:
+        block;
 
-      box-sizing: border-box;
+      box-sizing:
+        border-box;
 
       background:
         var(--background);
@@ -376,7 +454,226 @@
         1.5px solid
         var(--station-outline);
 
-      border-radius: 50%;
+      border-radius:
+        50%;
+    }
+
+
+    /* ======================================================
+       STATIC MAP LEGEND
+       ====================================================== */
+
+    .map-legend {
+      min-width:
+        145px;
+
+      padding:
+        10px
+        12px;
+
+      background:
+        rgba(247, 243, 236, 0.95);
+
+      border:
+        1px solid
+        rgba(216, 209, 200, 0.95);
+
+      border-radius:
+        6px;
+
+      box-shadow:
+        0 2px 8px
+        rgba(40, 37, 34, 0.08);
+
+      color:
+        var(--text);
+
+      font-size:
+        10px;
+
+      line-height:
+        1.3;
+    }
+
+
+    .map-legend-title {
+      margin-bottom:
+        7px;
+
+      font-size:
+        11px;
+
+      font-weight:
+        700;
+    }
+
+
+    .map-legend-row {
+      display:
+        flex;
+
+      align-items:
+        center;
+
+      gap:
+        8px;
+
+      margin:
+        5px 0;
+    }
+
+
+    .map-symbol {
+      display:
+        inline-block;
+
+      flex:
+        0 0 auto;
+
+      width:
+        28px;
+    }
+
+
+    .symbol-metro {
+      height:
+        4px;
+
+      border-radius:
+        2px;
+
+      background:
+        linear-gradient(
+          to right,
+          #BF0D3E 0%,
+          #BF0D3E 16%,
+          #ED8B00 16%,
+          #ED8B00 32%,
+          #FFD100 32%,
+          #FFD100 48%,
+          #00B140 48%,
+          #00B140 64%,
+          #009CDE 64%,
+          #009CDE 80%,
+          #919D9D 80%,
+          #919D9D 100%
+        );
+    }
+
+
+    .symbol-highway {
+      height:
+        0;
+
+      border-top:
+        1.25px solid
+        #B8B1A9;
+    }
+
+
+    .symbol-county {
+      height:
+        0;
+
+      border-top:
+        1px dashed
+        #AEA59C;
+    }
+
+
+    .symbol-water {
+      height:
+        7px;
+
+      border-radius:
+        2px;
+
+      background:
+        #DCE6E5;
+    }
+
+
+    .symbol-station {
+      width:
+        10px;
+
+      height:
+        10px;
+
+      margin-left:
+        9px;
+
+      margin-right:
+        9px;
+
+      box-sizing:
+        border-box;
+
+      border:
+        1.4px solid
+        #3F3A35;
+
+      border-radius:
+        50%;
+
+      background:
+        #F7F3EC;
+    }
+
+
+    .symbol-local-road {
+      height:
+        0;
+
+      border-top:
+        1px solid
+        #DDD7D0;
+    }
+
+
+    /* ======================================================
+       JURISDICTION LABELS
+       ====================================================== */
+
+    .jurisdiction-label {
+      color:
+        #988F87;
+
+      font-size:
+        11px;
+
+      font-weight:
+        600;
+
+      letter-spacing:
+        0.10em;
+
+      line-height:
+        1;
+
+      white-space:
+        nowrap;
+
+      text-align:
+        center;
+
+      text-shadow:
+        0 1px 0 #F7F3EC,
+        1px 0 0 #F7F3EC,
+        0 -1px 0 #F7F3EC,
+        -1px 0 0 #F7F3EC;
+
+      pointer-events:
+        none;
+    }
+
+
+    .jurisdiction-label-dc {
+      color:
+        #756D66;
+
+      font-weight:
+        700;
     }
 
 
@@ -403,7 +700,8 @@
       color:
         #8A8179;
 
-      font-size: 9px;
+      font-size:
+        9px;
     }
 
 
@@ -412,21 +710,33 @@
     ) {
 
       .metric-control {
-        min-width: 165px;
-        max-width: 180px;
+        min-width:
+          160px;
+
+        max-width:
+          175px;
       }
 
 
       .metric-description {
-        display: none;
+        display:
+          none;
       }
 
 
-      .size-legend {
-        min-width: 120px;
+      .size-legend,
+      .map-legend {
+        min-width:
+          115px;
 
         padding:
           8px
+          9px;
+      }
+
+
+      .jurisdiction-label {
+        font-size:
           9px;
       }
 
@@ -464,13 +774,6 @@
 
     // ======================================================
     // PANES
-    //
-    // background
-    // water
-    // counties
-    // highways
-    // Metro
-    // stations
     // ======================================================
 
     map.createPane(
@@ -490,7 +793,17 @@
     map.getPane(
       "countyPane"
     ).style.zIndex =
-      260;
+      250;
+
+
+    map.createPane(
+      "minorRoadPane"
+    );
+
+    map.getPane(
+      "minorRoadPane"
+    ).style.zIndex =
+      290;
 
 
     map.createPane(
@@ -501,6 +814,22 @@
       "highwayPane"
     ).style.zIndex =
       320;
+
+
+    map.createPane(
+      "labelPane"
+    );
+
+    map.getPane(
+      "labelPane"
+    ).style.zIndex =
+      360;
+
+
+    map.getPane(
+      "labelPane"
+    ).style.pointerEvents =
+      "none";
 
 
     map.createPane(
@@ -531,7 +860,6 @@
     const metrics = {
 
       ridership: {
-
         label:
           "Metrorail use",
 
@@ -546,12 +874,10 @@
 
         format:
           "number"
-
       },
 
 
       activity: {
-
         label:
           "Residents + jobs",
 
@@ -566,12 +892,10 @@
 
         format:
           "number"
-
       },
 
 
       population: {
-
         label:
           "Residents",
 
@@ -586,12 +910,10 @@
 
         format:
           "number"
-
       },
 
 
       jobs: {
-
         label:
           "Jobs",
 
@@ -606,12 +928,10 @@
 
         format:
           "number"
-
       },
 
 
       housing: {
-
         label:
           "Housing units",
 
@@ -626,12 +946,10 @@
 
         format:
           "number"
-
       },
 
 
       coverage: {
-
         label:
           "Building coverage",
 
@@ -646,7 +964,6 @@
 
         format:
           "percent"
-
       }
 
     };
@@ -666,6 +983,18 @@
 
     let sizeLegend =
       null;
+
+
+    let secondaryRoadLayer =
+      null;
+
+
+    let localRoadLayer =
+      null;
+
+
+    let jurisdictionLayer =
+      L.layerGroup();
 
 
 
@@ -696,7 +1025,8 @@
       return number.toLocaleString(
         "en-US",
         {
-          maximumFractionDigits: 0
+          maximumFractionDigits:
+            0
         }
       );
 
@@ -727,8 +1057,11 @@
         number.toLocaleString(
           "en-US",
           {
-            minimumFractionDigits: 1,
-            maximumFractionDigits: 1
+            minimumFractionDigits:
+              1,
+
+            maximumFractionDigits:
+              1
           }
         ) +
         "%"
@@ -765,9 +1098,7 @@
 
 
     // ======================================================
-    // DYNAMIC SIZE SCALING
-    //
-    // Reduced from 20px max to 14px max.
+    // SIZE SCALING
     // ======================================================
 
     function getRadius(
@@ -840,7 +1171,7 @@
 
 
     // ======================================================
-    // NHD WATER
+    // WATER
     // ======================================================
 
     fetch(
@@ -848,21 +1179,9 @@
     )
 
       .then(
-        response => {
-
-          if (!response.ok) {
-
-            throw new Error(
-              "Could not load water_nhd.geojson"
-            );
-
-          }
-
-          return response.json();
-
-        }
+        response =>
+          response.json()
       )
-
 
       .then(
         data => {
@@ -874,9 +1193,10 @@
               pane:
                 "waterPane",
 
+              interactive:
+                false,
 
               style: {
-
                 fillColor:
                   "#DCE6E5",
 
@@ -891,7 +1211,6 @@
 
                 opacity:
                   0.90
-
               }
 
             }
@@ -903,6 +1222,7 @@
       );
 
 
+
     // ======================================================
     // COUNTY BOUNDARIES
     // ======================================================
@@ -912,12 +1232,71 @@
     )
 
       .then(
+        response =>
+          response.json()
+      )
+
+      .then(
+        data => {
+
+          L.geoJSON(
+            data,
+            {
+
+              pane:
+                "countyPane",
+
+              interactive:
+                false,
+
+              style: {
+                color:
+                  "#AEA59C",
+
+                weight:
+                  1,
+
+                opacity:
+                  0.60,
+
+                dashArray:
+                  "4,5",
+
+                lineCap:
+                  "round"
+              }
+
+            }
+          ).addTo(
+            map
+          );
+
+        }
+      );
+
+
+
+    // ======================================================
+    // MINOR ROADS
+    //
+    // S1200 = secondary roads
+    // S1400 = local roads
+    //
+    // Both layers are loaded once, but not initially
+    // displayed.
+    // ======================================================
+
+    fetch(
+      "minor_roads.geojson"
+    )
+
+      .then(
         response => {
 
           if (!response.ok) {
 
             throw new Error(
-              "Could not load county_boundaries.geojson"
+              "Could not load minor_roads.geojson"
             );
 
           }
@@ -931,41 +1310,98 @@
       .then(
         data => {
 
-          L.geoJSON(
-            data,
-            {
 
-              pane:
-                "countyPane",
+          secondaryRoadLayer =
+            L.geoJSON(
+              data,
+              {
 
+                pane:
+                  "minorRoadPane",
 
-              interactive:
-                false,
+                filter: function(
+                  feature
+                ) {
 
+                  return (
+                    feature
+                      .properties
+                      .MTFCC ===
+                    "S1200"
+                  );
 
-              style: {
+                },
 
-                color:
-                  "#AEA59C",
+                interactive:
+                  false,
 
-                weight:
-                  1,
+                style: {
+                  color:
+                    "#CEC7BF",
 
-                opacity:
-                  0.62,
+                  weight:
+                    0.9,
 
-                dashArray:
-                  "4,5",
+                  opacity:
+                    0.65,
 
-                lineCap:
-                  "round"
+                  lineCap:
+                    "round",
+
+                  lineJoin:
+                    "round"
+                }
 
               }
+            );
 
-            }
-          ).addTo(
-            map
-          );
+
+          localRoadLayer =
+            L.geoJSON(
+              data,
+              {
+
+                pane:
+                  "minorRoadPane",
+
+                filter: function(
+                  feature
+                ) {
+
+                  return (
+                    feature
+                      .properties
+                      .MTFCC ===
+                    "S1400"
+                  );
+
+                },
+
+                interactive:
+                  false,
+
+                style: {
+                  color:
+                    "#DDD7D0",
+
+                  weight:
+                    0.55,
+
+                  opacity:
+                    0.60,
+
+                  lineCap:
+                    "round",
+
+                  lineJoin:
+                    "round"
+                }
+
+              }
+            );
+
+
+          updateRoadVisibility();
 
         }
       )
@@ -975,7 +1411,7 @@
         error => {
 
           console.error(
-            "County boundary error:",
+            "Minor road error:",
             error
           );
 
@@ -993,21 +1429,9 @@
     )
 
       .then(
-        response => {
-
-          if (!response.ok) {
-
-            throw new Error(
-              "Could not load major_highways.geojson"
-            );
-
-          }
-
-          return response.json();
-
-        }
+        response =>
+          response.json()
       )
-
 
       .then(
         data => {
@@ -1019,28 +1443,24 @@
               pane:
                 "highwayPane",
 
-
               interactive:
                 false,
 
-
               style: {
-
                 color:
-                  "#B5ADA5",
+                  "#B8B1A9",
 
                 weight:
-                  1.5,
+                  1.25,
 
                 opacity:
-                  0.65,
+                  0.50,
 
                 lineCap:
                   "round",
 
                 lineJoin:
                   "round"
-
               }
 
             }
@@ -1049,19 +1469,334 @@
           );
 
         }
-      )
+      );
 
 
-      .catch(
-        error => {
 
-          console.error(
-            "Highway layer error:",
-            error
+    // ======================================================
+    // JURISDICTION LABELS
+    // ======================================================
+
+    const jurisdictions =
+      [
+
+        {
+          name:
+            "LOUDOUN",
+
+          lat:
+            39.005,
+
+          lon:
+            -77.50
+        },
+
+
+        {
+          name:
+            "FAIRFAX",
+
+          lat:
+            38.88,
+
+          lon:
+            -77.32
+        },
+
+
+        {
+          name:
+            "MONTGOMERY",
+
+          lat:
+            39.09,
+
+          lon:
+            -77.13
+        },
+
+
+        {
+          name:
+            "PRINCE GEORGE'S",
+
+          lat:
+            38.94,
+
+          lon:
+            -76.84
+        },
+
+
+        {
+          name:
+            "ARLINGTON",
+
+          lat:
+            38.88,
+
+          lon:
+            -77.13
+        },
+
+
+        {
+          name:
+            "ALEXANDRIA",
+
+          lat:
+            38.79,
+
+          lon:
+            -77.08
+        },
+
+
+        {
+          name:
+            "DISTRICT OF COLUMBIA",
+
+          lat:
+            38.915,
+
+          lon:
+            -77.025,
+
+          dc:
+            true
+        }
+
+      ];
+
+
+    function buildJurisdictionLabels() {
+
+      jurisdictionLayer.clearLayers();
+
+
+      jurisdictions.forEach(
+        place => {
+
+
+          const className =
+
+            place.dc
+
+              ? "jurisdiction-label jurisdiction-label-dc"
+
+              : "jurisdiction-label";
+
+
+          const marker =
+            L.marker(
+              [
+                place.lat,
+                place.lon
+              ],
+              {
+
+                pane:
+                  "labelPane",
+
+                interactive:
+                  false,
+
+                icon:
+                  L.divIcon(
+                    {
+
+                      className:
+                        "",
+
+                      html:
+                        `
+                        <div
+                          class="${className}"
+                        >
+                          ${place.name}
+                        </div>
+                        `,
+
+                      iconSize:
+                        null
+
+                    }
+                  )
+
+              }
+            );
+
+
+          jurisdictionLayer.addLayer(
+            marker
           );
 
         }
       );
+
+    }
+
+
+    buildJurisdictionLabels();
+
+
+
+    // ======================================================
+    // ROAD + LABEL ZOOM VISIBILITY
+    // ======================================================
+
+    function updateRoadVisibility() {
+
+      const zoom =
+        map.getZoom();
+
+
+      // ----------------------------------------------
+      // Secondary roads:
+      // zoom 11+
+      // ----------------------------------------------
+
+      if (
+        secondaryRoadLayer
+      ) {
+
+        if (
+          zoom >= 11
+        ) {
+
+          if (
+            !map.hasLayer(
+              secondaryRoadLayer
+            )
+          ) {
+
+            secondaryRoadLayer.addTo(
+              map
+            );
+
+          }
+
+        }
+
+        else {
+
+          if (
+            map.hasLayer(
+              secondaryRoadLayer
+            )
+          ) {
+
+            map.removeLayer(
+              secondaryRoadLayer
+            );
+
+          }
+
+        }
+
+      }
+
+
+      // ----------------------------------------------
+      // Local roads:
+      // zoom 13+
+      // ----------------------------------------------
+
+      if (
+        localRoadLayer
+      ) {
+
+        if (
+          zoom >= 13
+        ) {
+
+          if (
+            !map.hasLayer(
+              localRoadLayer
+            )
+          ) {
+
+            localRoadLayer.addTo(
+              map
+            );
+
+          }
+
+        }
+
+        else {
+
+          if (
+            map.hasLayer(
+              localRoadLayer
+            )
+          ) {
+
+            map.removeLayer(
+              localRoadLayer
+            );
+
+          }
+
+        }
+
+      }
+
+
+      // ----------------------------------------------
+      // Jurisdiction labels:
+      //
+      // visible through zoom 11.
+      // Hide when neighborhood streets become the
+      // useful geographic context.
+      // ----------------------------------------------
+
+      if (
+        zoom <= 11
+      ) {
+
+        if (
+          !map.hasLayer(
+            jurisdictionLayer
+          )
+        ) {
+
+          jurisdictionLayer.addTo(
+            map
+          );
+
+        }
+
+      }
+
+      else {
+
+        if (
+          map.hasLayer(
+            jurisdictionLayer
+          )
+        ) {
+
+          map.removeLayer(
+            jurisdictionLayer
+          );
+
+        }
+
+      }
+
+    }
+
+
+    map.on(
+      "zoomend",
+      updateRoadVisibility
+    );
+
+
+    jurisdictionLayer.addTo(
+      map
+    );
 
 
 
@@ -1097,21 +1832,9 @@
     )
 
       .then(
-        response => {
-
-          if (!response.ok) {
-
-            throw new Error(
-              "Could not load metro_lines.geojson"
-            );
-
-          }
-
-          return response.json();
-
-        }
+        response =>
+          response.json()
       )
-
 
       .then(
         data => {
@@ -1123,30 +1846,28 @@
               pane:
                 "metroPane",
 
-
               style: function(
                 feature
               ) {
 
-                const properties =
+                const p =
                   feature.properties;
 
 
                 const lineName =
 
-                  properties.LINE ||
+                  p.LINE ||
 
-                  properties.Line ||
+                  p.Line ||
 
-                  properties.NAME ||
+                  p.NAME ||
 
-                  properties.Name ||
+                  p.Name ||
 
                   "";
 
 
                 return {
-
                   color:
                     lineColors[
                       lineName
@@ -1164,7 +1885,6 @@
 
                   lineJoin:
                     "round"
-
                 };
 
               }
@@ -1180,7 +1900,7 @@
 
 
     // ======================================================
-    // METRIC SELECTOR
+    // METRIC CONTROL
     // ======================================================
 
     const metricControl =
@@ -1280,13 +2000,13 @@
 
 
     // ======================================================
-    // DYNAMIC LEGEND
+    // DYNAMIC SIZE LEGEND
     // ======================================================
 
     function updateLegend() {
 
       if (
-        sizeLegend !== null
+        sizeLegend
       ) {
 
         map.removeControl(
@@ -1325,59 +2045,66 @@
             "";
 
 
-          config.legendValues.forEach(
-            value => {
-
-              const diameter =
-                getRadius(
-                  value,
-                  activeMetric
-                ) *
-                2;
+          config
+            .legendValues
+            .forEach(
+              value => {
 
 
-              rows +=
-                `
+                const diameter =
+                  getRadius(
+                    value,
+                    activeMetric
+                  ) *
+                  2;
 
-                <div
-                  class="size-legend-row"
-                >
+
+                rows +=
+                  `
 
                   <div
-                    class="size-legend-circle-wrap"
+                    class="size-legend-row"
                   >
 
-                    <span
-                      class="size-legend-circle"
-                      style="
-                        width:
-                          ${diameter}px;
-
-                        height:
-                          ${diameter}px;
+                    <div
+                      class="
+                        size-legend-circle-wrap
                       "
-                    ></span>
+                    >
+
+                      <span
+                        class="
+                          size-legend-circle
+                        "
+                        style="
+                          width:
+                            ${diameter}px;
+
+                          height:
+                            ${diameter}px;
+                        "
+                      ></span>
+
+                    </div>
+
+
+                    <span>
+
+                      ${
+                        formatMetricValue(
+                          value,
+                          activeMetric
+                        )
+                      }
+
+                    </span>
 
                   </div>
 
+                  `;
 
-                  <span>
-
-                    ${
-                      formatMetricValue(
-                        value,
-                        activeMetric
-                      )
-                    }
-
-                  </span>
-
-                </div>
-
-                `;
-
-            }
-          );
+              }
+            );
 
 
           div.innerHTML =
@@ -1406,13 +2133,206 @@
 
 
     // ======================================================
+    // STATIC MAP LEGEND
+    // ======================================================
+
+    const mapLegend =
+      L.control(
+        {
+          position:
+            "bottomleft"
+        }
+      );
+
+
+    mapLegend.onAdd =
+      function() {
+
+        const div =
+          L.DomUtil.create(
+            "div",
+            "map-legend"
+          );
+
+
+        div.innerHTML =
+          `
+
+          <div class="map-legend-title">
+            Map
+          </div>
+
+
+          <div class="map-legend-row">
+
+            <span
+              class="
+                map-symbol
+                symbol-metro
+              "
+            ></span>
+
+            <span>
+              Metrorail
+            </span>
+
+          </div>
+
+
+          <div class="map-legend-row">
+
+            <span
+              class="
+                map-symbol
+                symbol-highway
+              "
+            ></span>
+
+            <span>
+              Major highway
+            </span>
+
+          </div>
+
+
+          <div class="map-legend-row">
+
+            <span
+              class="
+                map-symbol
+                symbol-county
+              "
+            ></span>
+
+            <span>
+              County / city boundary
+            </span>
+
+          </div>
+
+
+          <div class="map-legend-row">
+
+            <span
+              class="
+                map-symbol
+                symbol-water
+              "
+            ></span>
+
+            <span>
+              Water
+            </span>
+
+          </div>
+
+
+          <div class="map-legend-row">
+
+            <span
+              class="
+                map-symbol
+                symbol-station
+              "
+            ></span>
+
+            <span>
+              Metrorail station
+            </span>
+
+          </div>
+
+
+          <div
+            class="
+              map-legend-row
+              local-road-legend-row
+            "
+            style="display:none;"
+          >
+
+            <span
+              class="
+                map-symbol
+                symbol-local-road
+              "
+            ></span>
+
+            <span>
+              Local streets
+            </span>
+
+          </div>
+
+        `;
+
+
+        return div;
+
+      };
+
+
+    mapLegend.addTo(
+      map
+    );
+
+
+
+    // ======================================================
+    // UPDATE STATIC LEGEND WITH ZOOM
+    // ======================================================
+
+    function updateMapLegend() {
+
+      const row =
+        document.querySelector(
+          ".local-road-legend-row"
+        );
+
+
+      if (
+        !row
+      ) {
+
+        return;
+
+      }
+
+
+      if (
+        map.getZoom() >= 13
+      ) {
+
+        row.style.display =
+          "flex";
+
+      }
+
+      else {
+
+        row.style.display =
+          "none";
+
+      }
+
+    }
+
+
+    map.on(
+      "zoomend",
+      updateMapLegend
+    );
+
+
+
+    // ======================================================
     // UPDATE STATION SIZES
     // ======================================================
 
     function updateStationSizes() {
 
       if (
-        stationLayer === null
+        !stationLayer
       ) {
 
         return;
@@ -1433,15 +2353,11 @@
             layer.feature.properties;
 
 
-          const value =
-            p[
-              config.field
-            ];
-
-
           layer.setRadius(
             getRadius(
-              value,
+              p[
+                config.field
+              ],
               activeMetric
             )
           );
@@ -1473,7 +2389,7 @@
 
 
     // ======================================================
-    // POPUPS
+    // POPUP
     // ======================================================
 
     function buildPopup(
@@ -1762,8 +2678,8 @@
 
           Population: 2020 Census.
           Jobs: 2024 LEHD LODES.
-          Ridership and land-use measures use different
-          source years.
+          Ridership and land-use measures use
+          different source years.
 
         </div>
 
@@ -1774,7 +2690,7 @@
 
 
     // ======================================================
-    // LOAD STATIONS
+    // STATIONS
     // ======================================================
 
     fetch(
@@ -1782,21 +2698,9 @@
     )
 
       .then(
-        response => {
-
-          if (!response.ok) {
-
-            throw new Error(
-              "Could not load stations.geojson"
-            );
-
-          }
-
-          return response.json();
-
-        }
+        response =>
+          response.json()
       )
-
 
       .then(
         data => {
@@ -1898,7 +2802,6 @@
 
                       fillOpacity:
                         0.96
-
                     }
                   );
 
@@ -2004,17 +2907,9 @@
 
           updateLegend();
 
-        }
-      )
+          updateRoadVisibility();
 
-
-      .catch(
-        error => {
-
-          console.error(
-            "Station layer error:",
-            error
-          );
+          updateMapLegend();
 
         }
       );
