@@ -1,7 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
   <meta charset="utf-8">
+
   <meta
     name="viewport"
     content="width=device-width, initial-scale=1.0"
@@ -9,7 +12,11 @@
 
   <title>WMATA Station Development</title>
 
-  <!-- Leaflet -->
+
+  <!-- ======================================================
+       LEAFLET
+       ====================================================== -->
+
   <link
     rel="stylesheet"
     href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
@@ -19,18 +26,21 @@
     src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
   ></script>
 
-<script
-  src="https://unpkg.com/leaflet-polylineoffset@1.1.1/leaflet.polylineoffset.js"
-></script>
-  
+
+  <!-- ======================================================
+       STYLES
+       ====================================================== -->
+
   <style>
 
     html,
     body {
       margin: 0;
       padding: 0;
+      width: 100%;
       height: 100%;
     }
+
 
     body {
       font-family:
@@ -38,305 +48,551 @@
         Helvetica,
         sans-serif;
 
-      background: #f7f3ec;
+      background: #F7F3EC;
       color: #282522;
     }
 
-#map {
-  width: 100%;
-  height: 100vh;
-  background: #f7f3ec;
-}
+
+    #map {
+      width: 100%;
+      height: 100vh;
+
+      background: #F7F3EC;
+    }
+
+
+    /* ------------------------------------------------------
+       Leaflet popup
+       ------------------------------------------------------ */
+
     .leaflet-popup-content-wrapper,
     .leaflet-popup-tip {
-      background: #f7f3ec;
+      background: #F7F3EC;
     }
+
 
     .leaflet-popup-content {
       color: #282522;
+
+      margin:
+        14px
+        16px;
     }
+
 
     .station-popup-name {
       font-size: 16px;
       font-weight: 700;
+
       margin-bottom: 4px;
     }
 
+
+    .station-popup-state {
+      font-size: 12px;
+      color: #756D66;
+    }
+
+
+    /* ------------------------------------------------------
+       Zoom controls
+       ------------------------------------------------------ */
+
+    .leaflet-control-zoom a {
+      color: #3F3A35;
+    }
+
+
+    /* ------------------------------------------------------
+       Remove unnecessary visual framing
+       ------------------------------------------------------ */
+
+    .leaflet-container {
+      background: #F7F3EC;
+    }
+
   </style>
+
 </head>
+
 
 <body>
 
   <div id="map"></div>
 
+
   <script>
 
-    // --------------------------------------------------------
-    // Create map
-    // --------------------------------------------------------
 
-    const map = L.map("map", {
-      zoomControl: true
-    }).setView(
+    // ======================================================
+    // CREATE MAP
+    // ======================================================
+
+    const map = L.map(
+      "map",
+      {
+
+        zoomControl: true,
+
+        attributionControl: true,
+
+        preferCanvas: true
+
+      }
+    ).setView(
       [38.92, -77.04],
       10
     );
-    
-// --------------------------------------------------------
-// WMATA line colors
-// --------------------------------------------------------
 
-const lineColors = {
-  "Red": "#BF0D3E",
-  "Blue": "#009CDE",
-  "Orange": "#ED8B00",
-  "Silver": "#919D9D",
-  "Green": "#00B140",
-  "Yellow": "#FFD100"
-};
 
-const lineOffsets = {
-  "Red": 0,
+    // ======================================================
+    // LEAFLET PANES
+    //
+    // Explicit panes guarantee that:
+    //
+    // water
+    //   ↓
+    // Metro lines
+    //   ↓
+    // stations
+    //
+    // remain in the correct visual order.
+    // ======================================================
 
-  // Shared Blue / Orange / Silver trunk
-  "Blue": -3.5,
-  "Orange": 0,
-  "Silver": 3.5,
+    map.createPane(
+      "waterPane"
+    );
 
-  // Shared Green / Yellow trunk
-  "Green": -2.25,
-  "Yellow": 2.25
-};
+    map.getPane(
+      "waterPane"
+    ).style.zIndex = 200;
 
-// --------------------------------------------------------
-// Major water features
-// --------------------------------------------------------
 
-fetch("water.geojson")
+    map.createPane(
+      "metroPane"
+    );
 
-  .then(response => {
+    map.getPane(
+      "metroPane"
+    ).style.zIndex = 400;
 
-    if (!response.ok) {
-      throw new Error(
-        "Could not load water.geojson"
-      );
-    }
 
-    return response.json();
+    map.createPane(
+      "stationPane"
+    );
 
-  })
+    map.getPane(
+      "stationPane"
+    ).style.zIndex = 600;
 
-  .then(data => {
 
-    const waterLayer = L.geoJSON(
-      data,
-      {
 
-        style: {
-          fillColor: "#DCE6E5",
-          fillOpacity: 0.9,
-          color: "#DCE6E5",
-          weight: 0.5,
-          opacity: 0.9
+    // ======================================================
+    // WATER
+    //
+    // NHD-derived regional water layer.
+    //
+    // This layer DOES NOT control the map extent.
+    // The initial extent is set later from stations.geojson.
+    // ======================================================
+
+    fetch(
+      "water_nhd.geojson"
+    )
+
+      .then(
+        response => {
+
+          if (!response.ok) {
+
+            throw new Error(
+              "Could not load water_nhd.geojson"
+            );
+
+          }
+
+          return response.json();
+
         }
-
-      }
-    ).addTo(map);
+      )
 
 
-    // Keep water beneath Metro lines and stations.
-    waterLayer.bringToBack();
-
-  })
-
-  .catch(error => {
-
-    console.error(
-      "Water layer error:",
-      error
-    );
-
-  });
-    
-// --------------------------------------------------------
-// Load Metro lines
-// --------------------------------------------------------
-
-fetch("metro_lines.geojson")
-
-  .then(response => {
-
-    if (!response.ok) {
-      throw new Error(
-        "Could not load metro_lines.geojson"
-      );
-    }
-
-    return response.json();
-
-  })
-
-  .then(data => {
-
-    console.log(
-      "Metro line fields:",
-      data.features[0].properties
-    );
-
-const metroLayer = L.geoJSON(
-  data,
-  {
-
-    style: function(feature) {
-
-      const properties = feature.properties;
-
-      const lineName =
-        properties.LINE ||
-        properties.Line ||
-        properties.NAME ||
-        properties.Name ||
-        "";
-
-      return {
-
-        color:
-          lineColors[lineName] || "#77736E",
-
-        weight: 4,
-
-        opacity: 0.9,
-
-        offset:
-          lineOffsets[lineName] || 0,
-
-        lineCap: "round",
-
-        lineJoin: "round"
-      };
-
-    }
-
-  }
-).addTo(map);
+      .then(
+        data => {
 
 
-    // Make sure lines stay beneath stations.
+          const waterLayer = L.geoJSON(
+            data,
+            {
 
-    metroLayer.bringToBack();
-
-
-    console.log(
-      "Metro line features loaded:",
-      data.features.length
-    );
-
-  })
-
-  .catch(error => {
-
-    console.error(
-      "Metro line error:",
-      error
-    );
-
-  });
-    
-    // --------------------------------------------------------
-    // Load stations
-    // --------------------------------------------------------
-
-    fetch("stations.geojson")
-
-      .then(response => {
-
-        if (!response.ok) {
-          throw new Error(
-            "Could not load stations.geojson"
-          );
-        }
-
-        return response.json();
-
-      })
-
-      .then(data => {
-
-        const stationLayer = L.geoJSON(
-          data,
-          {
-
-            pointToLayer: function(
-              feature,
-              latlng
-            ) {
-
-return L.circleMarker(
-  latlng,
-  {
-    radius: 4.5,
-    fillColor: "#F7F3EC",
-    color: "#3F3A35",
-    weight: 1.5,
-    opacity: 1,
-    fillOpacity: 1
-  }
-);
-
-            },
+              pane:
+                "waterPane",
 
 
-            onEachFeature: function(
-              feature,
-              layer
-            ) {
+              style: function() {
 
-              const p =
-                feature.properties;
+                return {
 
+                  fillColor:
+                    "#DCE6E5",
 
-              layer.bindPopup(
-                `
-                <div class="station-popup-name">
-                  ${p.Station_Name}
-                </div>
+                  fillOpacity:
+                    0.9,
 
-                <div>
-                  ${p.State || ""}
-                </div>
-                `
-              );
+                  color:
+                    "#DCE6E5",
+
+                  weight:
+                    0.5,
+
+                  opacity:
+                    0.9
+
+                };
+
+              }
 
             }
+          ).addTo(
+            map
+          );
+
+
+          console.log(
+            "NHD water features loaded:",
+            data.features.length
+          );
+
+
+        }
+      )
+
+
+      .catch(
+        error => {
+
+          console.error(
+            "Water layer error:",
+            error
+          );
+
+        }
+      );
+
+
+
+    // ======================================================
+    // WMATA LINE COLORS
+    // ======================================================
+
+    const lineColors = {
+
+      "Red":
+        "#BF0D3E",
+
+      "Blue":
+        "#009CDE",
+
+      "Orange":
+        "#ED8B00",
+
+      "Silver":
+        "#919D9D",
+
+      "Green":
+        "#00B140",
+
+      "Yellow":
+        "#FFD100"
+
+    };
+
+
+
+    // ======================================================
+    // METRO LINES
+    //
+    // IMPORTANT:
+    //
+    // No polyline offsets.
+    // No interlining manipulation.
+    // Original line geometry only.
+    // ======================================================
+
+    fetch(
+      "metro_lines.geojson"
+    )
+
+      .then(
+        response => {
+
+          if (!response.ok) {
+
+            throw new Error(
+              "Could not load metro_lines.geojson"
+            );
 
           }
-        ).addTo(map);
+
+          return response.json();
+
+        }
+      )
 
 
-        // Zoom to all stations automatically.
+      .then(
+        data => {
 
-        map.fitBounds(
-          stationLayer.getBounds(),
-          {
-            padding: [20, 20]
+
+          const metroLayer = L.geoJSON(
+            data,
+            {
+
+              pane:
+                "metroPane",
+
+
+              style: function(
+                feature
+              ) {
+
+
+                const properties =
+                  feature.properties;
+
+
+                const lineName =
+
+                  properties.LINE ||
+
+                  properties.Line ||
+
+                  properties.NAME ||
+
+                  properties.Name ||
+
+                  "";
+
+
+                return {
+
+                  color:
+
+                    lineColors[
+                      lineName
+                    ] ||
+
+                    "#77736E",
+
+                  weight:
+                    4,
+
+                  opacity:
+                    0.90,
+
+                  lineCap:
+                    "round",
+
+                  lineJoin:
+                    "round"
+
+                };
+
+              }
+
+            }
+          ).addTo(
+            map
+          );
+
+
+          console.log(
+            "Metro line features loaded:",
+            data.features.length
+          );
+
+
+        }
+      )
+
+
+      .catch(
+        error => {
+
+          console.error(
+            "Metro line error:",
+            error
+          );
+
+        }
+      );
+
+
+
+    // ======================================================
+    // STATIONS
+    // ======================================================
+
+    fetch(
+      "stations.geojson"
+    )
+
+      .then(
+        response => {
+
+          if (!response.ok) {
+
+            throw new Error(
+              "Could not load stations.geojson"
+            );
+
           }
-        );
+
+          return response.json();
+
+        }
+      )
 
 
-        console.log(
-          "Stations loaded:",
-          data.features.length
-        );
+      .then(
+        data => {
 
-      })
 
-      .catch(error => {
+          const stationLayer = L.geoJSON(
+            data,
+            {
 
-        console.error(error);
+              pane:
+                "stationPane",
 
-      });
+
+              pointToLayer: function(
+                feature,
+                latlng
+              ) {
+
+
+                return L.circleMarker(
+                  latlng,
+                  {
+
+                    pane:
+                      "stationPane",
+
+                    radius:
+                      4.5,
+
+                    fillColor:
+                      "#F7F3EC",
+
+                    color:
+                      "#3F3A35",
+
+                    weight:
+                      1.5,
+
+                    opacity:
+                      1,
+
+                    fillOpacity:
+                      1
+
+                  }
+                );
+
+              },
+
+
+              onEachFeature: function(
+                feature,
+                layer
+              ) {
+
+
+                const p =
+                  feature.properties;
+
+
+                layer.bindPopup(
+                  `
+
+                    <div
+                      class="station-popup-name"
+                    >
+
+                      ${
+                        p.Station_Name
+                      }
+
+                    </div>
+
+
+                    <div
+                      class="station-popup-state"
+                    >
+
+                      ${
+                        p.State || ""
+                      }
+
+                    </div>
+
+                  `
+                );
+
+              }
+
+            }
+          ).addTo(
+            map
+          );
+
+
+          // ------------------------------------------------
+          // INITIAL MAP EXTENT
+          //
+          // Fit ONLY to station geometry.
+          //
+          // water_nhd.geojson may extend well beyond the
+          // Metro system and intentionally does not affect
+          // the default regional zoom.
+          // ------------------------------------------------
+
+          map.fitBounds(
+            stationLayer.getBounds(),
+            {
+
+              padding:
+                [30, 30]
+
+            }
+          );
+
+
+          console.log(
+            "Stations loaded:",
+            data.features.length
+          );
+
+
+        }
+      )
+
+
+      .catch(
+        error => {
+
+          console.error(
+            "Station layer error:",
+            error
+          );
+
+        }
+      );
+
 
   </script>
 
 </body>
+
 </html>
