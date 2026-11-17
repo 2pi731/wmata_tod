@@ -12,14 +12,14 @@
 
   <title>Development Around Washington Metro</title>
 
-  <link
-    rel="stylesheet"
-    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-  >
+<link
+  rel="stylesheet"
+  href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+>
 
-  <script
-    src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-  ></script>
+<script
+  src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+></script>
 
 
   <style>
@@ -229,41 +229,42 @@
       line-height: 1.3;
     }
 
-    /* ======================================================
+   /* ======================================================
    FIXED STATION INFORMATION PANEL
    ====================================================== */
 
 .station-info-panel {
-  *idth: 265px;
+  width: 265px;
 
   max-height:
-    ca*c(100vh - 40px);
+    calc(100vh - 40px);
 
-  overflow-y: au*o;
+  overflow-y:
+    auto;
 
   margin-left:
-    42px !impor*ant;
+    42px !important;
 
   padding:
     15px
-    17px*
+    17px;
 
   background:
-    rgba(247, 243,*236, 0.97);
+    rgba(247, 243, 236, 0.97);
 
   border:
-    1px sol*d
+    1px solid
     rgba(216, 209, 200, 0.95);
 
-* border-radius:
+  border-radius:
     6px;
 
-  box-sh*dow:
+  box-shadow:
     0 2px 12px
-    rgba(40, 3*, 34, 0.14);
+    rgba(40, 37, 34, 0.14);
 
   color:
-    #282522*
+    #282522;
 }
 
     /* ======================================================
@@ -2278,24 +2279,24 @@
       selectedStationName =
         properties.Station_Name;
 
-      const pan*l =
-  document.get*lementById(
-    "station-info-pane*"
+      const panel =
+  document.getElementById(
+    "station-info-panel"
   );
 
 
-if *
+if (
   panel
 ) {
 
   panel.innerHTML =
-*   buildPopup(
+    buildPopup(
       properties
-  * );
+    );
 
 
   panel.style.display =
-    *block";
+    "block";
 
 }
 
