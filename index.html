@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>WMATA Station Development</title>
+
+  <!-- Leaflet -->
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+  >
+
+  <script
+    src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+  ></script>
+
+  <style>
+
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+    }
+
+    body {
+      font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
+      background: #f7f3ec;
+      color: #282522;
+    }
+
+    #map {
+      width: 100%;
+      height: 100vh;
+    }
+
+    .leaflet-popup-content-wrapper,
+    .leaflet-popup-tip {
+      background: #f7f3ec;
+    }
+
+    .leaflet-popup-content {
+      color: #282522;
+    }
+
+    .station-popup-name {
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+  </style>
+</head>
+
+<body>
+
+  <div id="map"></div>
+
+  <script>
+
+    // --------------------------------------------------------
+    // Create map
+    // --------------------------------------------------------
+
+    const map = L.map("map", {
+      zoomControl: true
+    }).setView(
+      [38.92, -77.04],
+      10
+    );
+
+
+    // --------------------------------------------------------
+    // Light basemap
+    // --------------------------------------------------------
+
+    L.tileLayer(
+      "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png",
+      {
+        attribution:
+          '&copy; OpenStreetMap contributors &copy; CARTO',
+        maxZoom: 19
+      }
+    ).addTo(map);
+
+
+    // --------------------------------------------------------
+    // Load stations
+    // --------------------------------------------------------
+
+    fetch("stations.geojson")
+
+      .then(response => {
+
+        if (!response.ok) {
+          throw new Error(
+            "Could not load stations.geojson"
+          );
+        }
+
+        return response.json();
+
+      })
+
+      .then(data => {
+
+        const stationLayer = L.geoJSON(
+          data,
+          {
+
+            pointToLayer: function(
+              feature,
+              latlng
+            ) {
+
+              return L.circleMarker(
+                latlng,
+                {
+                  radius: 5,
+                  fillColor: "#c8643b",
+                  color: "#ffffff",
+                  weight: 1.5,
+                  opacity: 1,
+                  fillOpacity: 0.9
+                }
+              );
+
+            },
+
+
+            onEachFeature: function(
+              feature,
+              layer
+            ) {
+
+              const p =
+                feature.properties;
+
+
+              layer.bindPopup(
+                `
+                <div class="station-popup-name">
+                  ${p.Station_Name}
+                </div>
+
+                <div>
+                  ${p.State || ""}
+                </div>
+                `
+              );
+
+            }
+
+          }
+        ).addTo(map);
+
+
+        // Zoom to all stations automatically.
+
+        map.fitBounds(
+          stationLayer.getBounds(),
+          {
+            padding: [20, 20]
+          }
+        );
+
+
+        console.log(
+          "Stations loaded:",
+          data.features.length
+        );
+
+      })
+
+      .catch(error => {
+
+        console.error(error);
+
+      });
+
+  </script>
+
+</body>
+</html>
