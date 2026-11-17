@@ -78,21 +78,20 @@
       10
     );
 
-
 // --------------------------------------------------------
-// OpenStreetMap basemap
+// Minimal basemap
 // --------------------------------------------------------
 
 L.tileLayer(
-  "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+  "https://tiles.stadiamaps.com/tiles/alidade_smooth/{z}/{x}/{y}{r}.png",
   {
     attribution:
-      '&copy; OpenStreetMap contributors',
-    maxZoom: 19
+      '&copy; OpenStreetMap contributors &copy; Stadia Maps',
+    maxZoom: 20
   }
 ).addTo(map);
 
-
+    
     // --------------------------------------------------------
     // Load stations
     // --------------------------------------------------------
