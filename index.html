@@ -19,6 +19,10 @@
     src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
   ></script>
 
+<script
+  src="https://unpkg.com/leaflet-polylineoffset@1.1.1/leaflet.polylineoffset.js"
+></script>
+  
   <style>
 
     html,
@@ -91,7 +95,19 @@ const lineColors = {
   "Yellow": "#FFD100"
 };
 
+const lineOffsets = {
+  "Red": 0,
 
+  // Shared Blue / Orange / Silver trunk
+  "Blue": -3.5,
+  "Orange": 0,
+  "Silver": 3.5,
+
+  // Shared Green / Yellow trunk
+  "Green": -2.25,
+  "Yellow": 2.25
+};
+    
 // --------------------------------------------------------
 // Load Metro lines
 // --------------------------------------------------------
@@ -117,41 +133,42 @@ fetch("metro_lines.geojson")
       data.features[0].properties
     );
 
-    const metroLayer = L.geoJSON(
-      data,
-      {
+const metroLayer = L.geoJSON(
+  data,
+  {
 
-        style: function(feature) {
+    style: function(feature) {
 
-          // We'll refine this after seeing the actual
-          // line-name field from the GeoJSON.
+      const properties = feature.properties;
 
-          const properties = feature.properties;
+      const lineName =
+        properties.LINE ||
+        properties.Line ||
+        properties.NAME ||
+        properties.Name ||
+        "";
 
-          const lineName =
-            properties.LINE ||
-            properties.Line ||
-            properties.NAME ||
-            properties.Name ||
-            "";
+      return {
 
-          return {
-            color:
-              lineColors[lineName] || "#77736E",
+        color:
+          lineColors[lineName] || "#77736E",
 
-            weight: 4,
+        weight: 4,
 
-            opacity: 0.85,
+        opacity: 0.9,
 
-            lineCap: "round",
+        offset:
+          lineOffsets[lineName] || 0,
 
-            lineJoin: "round"
-          };
+        lineCap: "round",
 
-        }
+        lineJoin: "round"
+      };
 
-      }
-    ).addTo(map);
+    }
+
+  }
+).addTo(map);
 
 
     // Make sure lines stay beneath stations.
