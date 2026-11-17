@@ -39,6 +39,7 @@
       --secondary-text: #756D66;
       --border: #D8D1C8;
       --station-outline: #3F3A35;
+      --accent: #C8643B;
       --water: #DCE6E5;
     }
 
@@ -47,6 +48,7 @@
     body {
       margin: 0;
       padding: 0;
+
       width: 100%;
       height: 100%;
     }
@@ -58,15 +60,112 @@
         Helvetica,
         sans-serif;
 
-      background: var(--background);
-      color: var(--text);
+      background:
+        var(--background);
+
+      color:
+        var(--text);
     }
 
 
     #map {
       width: 100%;
       height: 100vh;
-      background: var(--background);
+
+      background:
+        var(--background);
+    }
+
+
+    /* ======================================================
+       METRIC SELECTOR
+       ====================================================== */
+
+    .metric-control {
+      min-width: 190px;
+
+      padding:
+        11px
+        12px;
+
+      background:
+        rgba(247, 243, 236, 0.96);
+
+      border:
+        1px solid
+        rgba(216, 209, 200, 0.95);
+
+      border-radius:
+        6px;
+
+      box-shadow:
+        0 2px 10px
+        rgba(40, 37, 34, 0.10);
+    }
+
+
+    .metric-control-title {
+      margin-bottom: 7px;
+
+      color:
+        var(--secondary-text);
+
+      font-size: 10px;
+      font-weight: 700;
+
+      letter-spacing: 0.07em;
+
+      text-transform: uppercase;
+    }
+
+
+    .metric-select {
+      width: 100%;
+
+      padding:
+        6px
+        7px;
+
+      background:
+        #FFFFFF;
+
+      border:
+        1px solid
+        #CFC7BE;
+
+      border-radius:
+        4px;
+
+      color:
+        var(--text);
+
+      font-size:
+        13px;
+
+      font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
+      cursor:
+        pointer;
+    }
+
+
+    .metric-description {
+      max-width: 210px;
+
+      margin-top:
+        7px;
+
+      color:
+        var(--secondary-text);
+
+      font-size:
+        10px;
+
+      line-height:
+        1.35;
     }
 
 
@@ -76,51 +175,70 @@
 
     .leaflet-popup-content-wrapper,
     .leaflet-popup-tip {
-      background: var(--background);
+      background:
+        var(--background);
     }
 
 
     .leaflet-popup-content-wrapper {
-      border-radius: 6px;
+      border-radius:
+        6px;
 
       box-shadow:
-        0 2px 12px rgba(40, 37, 34, 0.16);
+        0 2px 12px
+        rgba(40, 37, 34, 0.16);
     }
 
 
     .leaflet-popup-content {
-      width: 250px !important;
+      width:
+        250px !important;
 
       margin:
         15px
         17px;
 
-      color: var(--text);
+      color:
+        var(--text);
     }
 
 
     .station-popup-name {
-      margin-bottom: 2px;
+      margin-bottom:
+        2px;
 
-      color: var(--text);
+      color:
+        var(--text);
 
-      font-size: 17px;
-      font-weight: 700;
-      line-height: 1.2;
+      font-size:
+        17px;
+
+      font-weight:
+        700;
+
+      line-height:
+        1.2;
     }
 
 
     .station-popup-state {
-      color: var(--secondary-text);
+      color:
+        var(--secondary-text);
 
-      font-size: 12px;
-      line-height: 1.4;
+      font-size:
+        12px;
+
+      line-height:
+        1.4;
     }
 
 
     .popup-section {
-      margin-top: 12px;
-      padding-top: 9px;
+      margin-top:
+        12px;
+
+      padding-top:
+        9px;
 
       border-top:
         1px solid
@@ -129,51 +247,77 @@
 
 
     .popup-section-title {
-      margin-bottom: 5px;
+      margin-bottom:
+        5px;
 
-      color: var(--secondary-text);
+      color:
+        var(--secondary-text);
 
-      font-size: 10px;
-      font-weight: 700;
-      letter-spacing: 0.07em;
-      line-height: 1.3;
+      font-size:
+        10px;
 
-      text-transform: uppercase;
+      font-weight:
+        700;
+
+      letter-spacing:
+        0.07em;
+
+      line-height:
+        1.3;
+
+      text-transform:
+        uppercase;
     }
 
 
     .popup-stat {
-      display: flex;
+      display:
+        flex;
 
-      justify-content: space-between;
-      align-items: baseline;
+      justify-content:
+        space-between;
 
-      gap: 18px;
+      align-items:
+        baseline;
 
-      padding: 2px 0;
+      gap:
+        18px;
 
-      font-size: 13px;
-      line-height: 1.35;
+      padding:
+        2px 0;
+
+      font-size:
+        13px;
+
+      line-height:
+        1.35;
     }
 
 
     .popup-stat span {
-      color: #514B46;
+      color:
+        #514B46;
     }
 
 
     .popup-stat strong {
-      color: var(--text);
+      color:
+        var(--text);
 
-      font-weight: 700;
+      font-weight:
+        700;
 
-      text-align: right;
+      text-align:
+        right;
     }
 
 
     .popup-stat-total {
-      margin-top: 3px;
-      padding-top: 5px;
+      margin-top:
+        3px;
+
+      padding-top:
+        5px;
 
       border-top:
         1px dotted
@@ -182,70 +326,111 @@
 
 
     .popup-note {
-      margin-top: 10px;
+      margin-top:
+        10px;
 
-      color: #8A8179;
+      color:
+        #8A8179;
 
-      font-size: 10px;
-      line-height: 1.35;
+      font-size:
+        10px;
+
+      line-height:
+        1.35;
     }
 
 
     /* ======================================================
-       LEGEND
+       DYNAMIC SIZE LEGEND
        ====================================================== */
 
-    .ridership-legend {
+    .size-legend {
+      min-width:
+        145px;
+
       padding:
         10px
         12px;
 
       background:
-        rgba(247, 243, 236, 0.94);
+        rgba(247, 243, 236, 0.95);
 
       border:
         1px solid
-        rgba(216, 209, 200, 0.9);
+        rgba(216, 209, 200, 0.95);
 
       border-radius:
-        5px;
+        6px;
 
       box-shadow:
-        0 1px 5px
+        0 2px 8px
         rgba(40, 37, 34, 0.08);
 
-      color: var(--text);
+      color:
+        var(--text);
 
-      font-size: 11px;
-      line-height: 1.3;
+      font-size:
+        11px;
+
+      line-height:
+        1.3;
     }
 
 
-    .ridership-legend-title {
-      margin-bottom: 8px;
+    .size-legend-title {
+      margin-bottom:
+        8px;
 
-      font-size: 11px;
-      font-weight: 700;
+      font-size:
+        11px;
+
+      font-weight:
+        700;
     }
 
 
-    .legend-row {
-      display: flex;
+    .size-legend-row {
+      display:
+        flex;
 
-      align-items: center;
+      align-items:
+        center;
 
-      gap: 8px;
+      gap:
+        9px;
 
-      margin: 5px 0;
+      min-height:
+        28px;
+
+      margin:
+        3px 0;
     }
 
 
-    .legend-circle {
-      display: inline-block;
+    .size-legend-circle-wrap {
+      display:
+        flex;
 
-      flex: 0 0 auto;
+      justify-content:
+        center;
 
-      box-sizing: border-box;
+      align-items:
+        center;
+
+      width:
+        38px;
+
+      height:
+        30px;
+    }
+
+
+    .size-legend-circle {
+      display:
+        block;
+
+      box-sizing:
+        border-box;
 
       background:
         var(--background);
@@ -254,25 +439,8 @@
         1.5px solid
         var(--station-outline);
 
-      border-radius: 50%;
-    }
-
-
-    .legend-circle-small {
-      width: 8px;
-      height: 8px;
-    }
-
-
-    .legend-circle-medium {
-      width: 14px;
-      height: 14px;
-    }
-
-
-    .legend-circle-large {
-      width: 20px;
-      height: 20px;
+      border-radius:
+        50%;
     }
 
 
@@ -281,12 +449,14 @@
        ====================================================== */
 
     .leaflet-control-zoom a {
-      color: var(--station-outline);
+      color:
+        var(--station-outline);
     }
 
 
     .leaflet-container {
-      background: var(--background);
+      background:
+        var(--background);
     }
 
 
@@ -294,9 +464,46 @@
       background:
         rgba(247, 243, 236, 0.75) !important;
 
-      color: #8A8179;
+      color:
+        #8A8179;
 
-      font-size: 9px;
+      font-size:
+        9px;
+    }
+
+
+    /* ======================================================
+       MOBILE
+       ====================================================== */
+
+    @media (
+      max-width: 700px
+    ) {
+
+      .metric-control {
+        min-width:
+          165px;
+
+        max-width:
+          180px;
+      }
+
+
+      .metric-description {
+        display:
+          none;
+      }
+
+
+      .size-legend {
+        min-width:
+          120px;
+
+        padding:
+          8px
+          9px;
+      }
+
     }
 
   </style>
@@ -330,7 +537,7 @@
 
 
     // ======================================================
-    // PANES
+    // MAP PANES
     // ======================================================
 
     map.createPane(
@@ -339,7 +546,8 @@
 
     map.getPane(
       "waterPane"
-    ).style.zIndex = 200;
+    ).style.zIndex =
+      200;
 
 
     map.createPane(
@@ -348,7 +556,8 @@
 
     map.getPane(
       "metroPane"
-    ).style.zIndex = 400;
+    ).style.zIndex =
+      400;
 
 
     map.createPane(
@@ -357,7 +566,153 @@
 
     map.getPane(
       "stationPane"
-    ).style.zIndex = 600;
+    ).style.zIndex =
+      600;
+
+
+
+    // ======================================================
+    // METRIC CONFIGURATION
+    // ======================================================
+
+    const metrics = {
+
+      ridership: {
+
+        label:
+          "Metrorail use",
+
+        field:
+          "avg_daily_entries_7day",
+
+        description:
+          "Average daily station entries",
+
+        legendValues:
+          [1000, 5000, 15000],
+
+        format:
+          "number"
+
+      },
+
+
+      activity: {
+
+        label:
+          "Residents + jobs",
+
+        field:
+          "population_jobs_quarter",
+
+        description:
+          "Residents and jobs within ¼ mile",
+
+        legendValues:
+          [2000, 10000, 50000],
+
+        format:
+          "number"
+
+      },
+
+
+      population: {
+
+        label:
+          "Residents",
+
+        field:
+          "population_quarter",
+
+        description:
+          "Residents within ¼ mile",
+
+        legendValues:
+          [1000, 5000, 15000],
+
+        format:
+          "number"
+
+      },
+
+
+      jobs: {
+
+        label:
+          "Jobs",
+
+        field:
+          "jobs_quarter",
+
+        description:
+          "Jobs within ¼ mile",
+
+        legendValues:
+          [1000, 10000, 50000],
+
+        format:
+          "number"
+
+      },
+
+
+      housing: {
+
+        label:
+          "Housing units",
+
+        field:
+          "housing_units_quarter",
+
+        description:
+          "Housing units within ¼ mile",
+
+        legendValues:
+          [500, 2000, 5000],
+
+        format:
+          "number"
+
+      },
+
+
+      coverage: {
+
+        label:
+          "Building coverage",
+
+        field:
+          "building_coverage_pct_eighth",
+
+        description:
+          "Share of land covered by buildings within ⅛ mile",
+
+        legendValues:
+          [10, 30, 50],
+
+        format:
+          "percent"
+
+      }
+
+    };
+
+
+    let activeMetric =
+      "ridership";
+
+
+    let stationLayer =
+      null;
+
+
+    let stationValues =
+      [];
+
+
+    let sizeLegend =
+      null;
 
 
 
@@ -365,7 +720,9 @@
     // HELPER FUNCTIONS
     // ======================================================
 
-    function formatNumber(value) {
+    function formatNumber(
+      value
+    ) {
 
       const number =
         Number(value);
@@ -393,7 +750,9 @@
     }
 
 
-    function formatPercent(value) {
+    function formatPercent(
+      value
+    ) {
 
       const number =
         Number(value);
@@ -424,27 +783,110 @@
     }
 
 
-    function ridershipRadius(entries) {
+    function formatMetricValue(
+      value,
+      metricKey
+    ) {
+
+      if (
+        metrics[
+          metricKey
+        ].format ===
+        "percent"
+      ) {
+
+        return formatPercent(
+          value
+        );
+
+      }
+
+
+      return formatNumber(
+        value
+      );
+
+    }
+
+
+
+    // ======================================================
+    // SIZE SCALING
+    //
+    // Stronger than the previous version.
+    //
+    // Minimum radius:
+    //   3.5 px
+    //
+    // Maximum radius:
+    //   20 px
+    //
+    // Radius is proportional to square root of the share
+    // of the maximum value.
+    // ======================================================
+
+    function getRadius(
+      value,
+      metricKey
+    ) {
 
       const number =
-        Number(entries) || 0;
+        Number(value) || 0;
 
 
-      // Square-root scaling.
-      //
-      // Approximately:
-      //
-      // 1,000 entries  -> ~4.7 px
-      // 5,000 entries  -> ~7.6 px
-      // 10,000 entries -> ~9.6 px
-      // busiest        -> max 11 px
+      const values =
+        stationValues[
+          metricKey
+        ] || [];
 
-      return Math.max(
-        4,
-        Math.min(
-          11,
-          2.5 +
-          Math.sqrt(number) / 14
+
+      if (
+        values.length === 0
+      ) {
+
+        return 4;
+
+      }
+
+
+      const maxValue =
+        Math.max(
+          ...values
+        );
+
+
+      if (
+        maxValue <= 0
+      ) {
+
+        return 4;
+
+      }
+
+
+      const minRadius =
+        3.5;
+
+
+      const maxRadius =
+        20;
+
+
+      const ratio =
+        Math.max(
+          0,
+          number / maxValue
+        );
+
+
+      return (
+        minRadius +
+        Math.sqrt(
+          ratio
+        ) *
+        (
+          maxRadius -
+          minRadius
         )
       );
 
@@ -488,38 +930,28 @@
                 "waterPane",
 
 
-              style: function() {
+              style: {
 
-                return {
+                fillColor:
+                  "#DCE6E5",
 
-                  fillColor:
-                    "#DCE6E5",
+                fillOpacity:
+                  0.9,
 
-                  fillOpacity:
-                    0.9,
+                color:
+                  "#DCE6E5",
 
-                  color:
-                    "#DCE6E5",
+                weight:
+                  0.5,
 
-                  weight:
-                    0.5,
-
-                  opacity:
-                    0.9
-
-                };
+                opacity:
+                  0.9
 
               }
 
             }
           ).addTo(
             map
-          );
-
-
-          console.log(
-            "NHD water features loaded:",
-            data.features.length
           );
 
         }
@@ -540,7 +972,7 @@
 
 
     // ======================================================
-    // WMATA LINE COLORS
+    // METRO LINES
     // ======================================================
 
     const lineColors = {
@@ -565,14 +997,6 @@
 
     };
 
-
-
-    // ======================================================
-    // METRO LINES
-    //
-    // Original geometry only.
-    // No line offsets or interlining manipulation.
-    // ======================================================
 
     fetch(
       "metro_lines.geojson"
@@ -656,31 +1080,614 @@
             map
           );
 
-
-          console.log(
-            "Metro line features loaded:",
-            data.features.length
-          );
-
-        }
-      )
-
-
-      .catch(
-        error => {
-
-          console.error(
-            "Metro line error:",
-            error
-          );
-
         }
       );
 
 
 
     // ======================================================
-    // STATIONS
+    // METRIC SELECTOR
+    // ======================================================
+
+    const metricControl =
+      L.control(
+        {
+          position:
+            "topright"
+        }
+      );
+
+
+    metricControl.onAdd =
+      function() {
+
+        const div =
+          L.DomUtil.create(
+            "div",
+            "metric-control"
+          );
+
+
+        div.innerHTML =
+          `
+
+          <div class="metric-control-title">
+            Size stations by
+          </div>
+
+
+          <select
+            id="metric-select"
+            class="metric-select"
+          >
+
+            <option value="ridership">
+              Metrorail use
+            </option>
+
+            <option value="activity">
+              Residents + jobs
+            </option>
+
+            <option value="population">
+              Residents
+            </option>
+
+            <option value="jobs">
+              Jobs
+            </option>
+
+            <option value="housing">
+              Housing units
+            </option>
+
+            <option value="coverage">
+              Building coverage
+            </option>
+
+          </select>
+
+
+          <div
+            id="metric-description"
+            class="metric-description"
+          >
+
+            ${
+              metrics[
+                activeMetric
+              ].description
+            }
+
+          </div>
+
+        `;
+
+
+        L.DomEvent.disableClickPropagation(
+          div
+        );
+
+
+        L.DomEvent.disableScrollPropagation(
+          div
+        );
+
+
+        return div;
+
+      };
+
+
+    metricControl.addTo(
+      map
+    );
+
+
+
+    // ======================================================
+    // DYNAMIC LEGEND
+    // ======================================================
+
+    function updateLegend() {
+
+      if (
+        sizeLegend !== null
+      ) {
+
+        map.removeControl(
+          sizeLegend
+        );
+
+      }
+
+
+      sizeLegend =
+        L.control(
+          {
+            position:
+              "bottomright"
+          }
+        );
+
+
+      sizeLegend.onAdd =
+        function() {
+
+          const div =
+            L.DomUtil.create(
+              "div",
+              "size-legend"
+            );
+
+
+          const config =
+            metrics[
+              activeMetric
+            ];
+
+
+          let rows =
+            "";
+
+
+          config.legendValues.forEach(
+            value => {
+
+              const diameter =
+                getRadius(
+                  value,
+                  activeMetric
+                ) * 2;
+
+
+              rows +=
+                `
+
+                <div
+                  class="size-legend-row"
+                >
+
+                  <div
+                    class="size-legend-circle-wrap"
+                  >
+
+                    <span
+                      class="size-legend-circle"
+                      style="
+                        width:
+                          ${diameter}px;
+
+                        height:
+                          ${diameter}px;
+                      "
+                    ></span>
+
+                  </div>
+
+
+                  <span>
+
+                    ${
+                      formatMetricValue(
+                        value,
+                        activeMetric
+                      )
+                    }
+
+                  </span>
+
+                </div>
+
+                `;
+
+            }
+          );
+
+
+          div.innerHTML =
+            `
+
+            <div class="size-legend-title">
+
+              ${
+                config.label
+              }
+
+            </div>
+
+            ${rows}
+
+            `;
+
+
+          return div;
+
+        };
+
+
+      sizeLegend.addTo(
+        map
+      );
+
+    }
+
+
+
+    // ======================================================
+    // UPDATE STATION SIZES
+    // ======================================================
+
+    function updateStationSizes() {
+
+      if (
+        stationLayer === null
+      ) {
+
+        return;
+
+      }
+
+
+      const config =
+        metrics[
+          activeMetric
+        ];
+
+
+      stationLayer.eachLayer(
+        layer => {
+
+          const p =
+            layer.feature.properties;
+
+
+          const value =
+            p[
+              config.field
+            ];
+
+
+          const radius =
+            getRadius(
+              value,
+              activeMetric
+            );
+
+
+          layer.setRadius(
+            radius
+          );
+
+        }
+      );
+
+
+      const description =
+        document.getElementById(
+          "metric-description"
+        );
+
+
+      if (
+        description
+      ) {
+
+        description.textContent =
+          config.description;
+
+      }
+
+
+      updateLegend();
+
+    }
+
+
+
+    // ======================================================
+    // POPUP BUILDER
+    // ======================================================
+
+    function buildPopup(
+      p
+    ) {
+
+      return `
+
+        <div class="station-popup-name">
+          ${p.Station_Name}
+        </div>
+
+        <div class="station-popup-state">
+          ${p.State || ""}
+        </div>
+
+
+        <div class="popup-section">
+
+          <div class="popup-section-title">
+            Metrorail use
+          </div>
+
+
+          <div class="popup-stat">
+
+            <span>
+              Average daily entries
+            </span>
+
+            <strong>
+              ${
+                formatNumber(
+                  p.avg_daily_entries_7day
+                )
+              }
+            </strong>
+
+          </div>
+
+
+          <div class="popup-stat">
+
+            <span>
+              Average weekday entries
+            </span>
+
+            <strong>
+              ${
+                formatNumber(
+                  p.avg_daily_entries_weekday
+                )
+              }
+            </strong>
+
+          </div>
+
+        </div>
+
+
+        <div class="popup-section">
+
+          <div class="popup-section-title">
+            Within ¼ mile
+          </div>
+
+
+          <div class="popup-stat">
+
+            <span>
+              Residents
+            </span>
+
+            <strong>
+              ${
+                formatNumber(
+                  p.population_quarter
+                )
+              }
+            </strong>
+
+          </div>
+
+
+          <div class="popup-stat">
+
+            <span>
+              Jobs
+            </span>
+
+            <strong>
+              ${
+                formatNumber(
+                  p.jobs_quarter
+                )
+              }
+            </strong>
+
+          </div>
+
+
+          <div
+            class="
+              popup-stat
+              popup-stat-total
+            "
+          >
+
+            <span>
+              Residents + jobs
+            </span>
+
+            <strong>
+              ${
+                formatNumber(
+                  p.population_jobs_quarter
+                )
+              }
+            </strong>
+
+          </div>
+
+
+          <div class="popup-stat">
+
+            <span>
+              Housing units
+            </span>
+
+            <strong>
+              ${
+                formatNumber(
+                  p.housing_units_quarter
+                )
+              }
+            </strong>
+
+          </div>
+
+        </div>
+
+
+        <div class="popup-section">
+
+          <div class="popup-section-title">
+            Within ½ mile
+          </div>
+
+
+          <div class="popup-stat">
+
+            <span>
+              Residents
+            </span>
+
+            <strong>
+              ${
+                formatNumber(
+                  p.population_half
+                )
+              }
+            </strong>
+
+          </div>
+
+
+          <div class="popup-stat">
+
+            <span>
+              Jobs
+            </span>
+
+            <strong>
+              ${
+                formatNumber(
+                  p.jobs_half
+                )
+              }
+            </strong>
+
+          </div>
+
+
+          <div
+            class="
+              popup-stat
+              popup-stat-total
+            "
+          >
+
+            <span>
+              Residents + jobs
+            </span>
+
+            <strong>
+              ${
+                formatNumber(
+                  p.population_jobs_half
+                )
+              }
+            </strong>
+
+          </div>
+
+
+          <div class="popup-stat">
+
+            <span>
+              Housing units
+            </span>
+
+            <strong>
+              ${
+                formatNumber(
+                  p.housing_units_half
+                )
+              }
+            </strong>
+
+          </div>
+
+        </div>
+
+
+        <div class="popup-section">
+
+          <div class="popup-section-title">
+            Building coverage
+          </div>
+
+
+          <div class="popup-stat">
+
+            <span>
+              ⅛ mile
+            </span>
+
+            <strong>
+              ${
+                formatPercent(
+                  p.building_coverage_pct_eighth
+                )
+              }
+            </strong>
+
+          </div>
+
+
+          <div class="popup-stat">
+
+            <span>
+              ¼ mile
+            </span>
+
+            <strong>
+              ${
+                formatPercent(
+                  p.building_coverage_pct_quarter
+                )
+              }
+            </strong>
+
+          </div>
+
+
+          <div class="popup-stat">
+
+            <span>
+              ½ mile
+            </span>
+
+            <strong>
+              ${
+                formatPercent(
+                  p.building_coverage_pct_half
+                )
+              }
+            </strong>
+
+          </div>
+
+        </div>
+
+
+        <div class="popup-note">
+
+          Population: 2020 Census.
+          Jobs: 2024 LEHD LODES.
+          Ridership and land-use measures use different
+          source years.
+
+        </div>
+
+      `;
+
+    }
+
+
+
+    // ======================================================
+    // LOAD STATIONS
     // ======================================================
 
     fetch(
@@ -707,7 +1714,58 @@
       .then(
         data => {
 
-          const stationLayer =
+
+          // ----------------------------------------------
+          // Build value arrays for scaling.
+          // ----------------------------------------------
+
+          stationValues = {};
+
+
+          Object.keys(
+            metrics
+          ).forEach(
+            metricKey => {
+
+              const field =
+                metrics[
+                  metricKey
+                ].field;
+
+
+              stationValues[
+                metricKey
+              ] =
+
+                data.features
+
+                  .map(
+                    feature =>
+                      Number(
+                        feature
+                          .properties[
+                            field
+                          ]
+                      )
+                  )
+
+                  .filter(
+                    value =>
+                      Number.isFinite(
+                        value
+                      ) &&
+                      value >= 0
+                  );
+
+            }
+          );
+
+
+          // ----------------------------------------------
+          // Draw stations.
+          // ----------------------------------------------
+
+          stationLayer =
             L.geoJSON(
               data,
               {
@@ -725,9 +1783,18 @@
                     feature.properties;
 
 
+                  const config =
+                    metrics[
+                      activeMetric
+                    ];
+
+
                   const radius =
-                    ridershipRadius(
-                      p.avg_daily_entries_7day
+                    getRadius(
+                      p[
+                        config.field
+                      ],
+                      activeMetric
                     );
 
 
@@ -754,7 +1821,7 @@
                         1,
 
                       fillOpacity:
-                        1
+                        0.96
 
                     }
                   );
@@ -771,308 +1838,16 @@
                     feature.properties;
 
 
-                  const popupHtml =
-                    `
-
-                    <div class="station-popup-name">
-                      ${p.Station_Name}
-                    </div>
-
-                    <div class="station-popup-state">
-                      ${p.State || ""}
-                    </div>
-
-
-                    <div class="popup-section">
-
-                      <div class="popup-section-title">
-                        Metrorail use
-                      </div>
-
-
-                      <div class="popup-stat">
-
-                        <span>
-                          Average daily entries
-                        </span>
-
-                        <strong>
-                          ${
-                            formatNumber(
-                              p.avg_daily_entries_7day
-                            )
-                          }
-                        </strong>
-
-                      </div>
-
-
-                      <div class="popup-stat">
-
-                        <span>
-                          Average weekday entries
-                        </span>
-
-                        <strong>
-                          ${
-                            formatNumber(
-                              p.avg_daily_entries_weekday
-                            )
-                          }
-                        </strong>
-
-                      </div>
-
-                    </div>
-
-
-                    <div class="popup-section">
-
-                      <div class="popup-section-title">
-                        Within ¼ mile
-                      </div>
-
-
-                      <div class="popup-stat">
-
-                        <span>
-                          Residents
-                        </span>
-
-                        <strong>
-                          ${
-                            formatNumber(
-                              p.population_quarter
-                            )
-                          }
-                        </strong>
-
-                      </div>
-
-
-                      <div class="popup-stat">
-
-                        <span>
-                          Jobs
-                        </span>
-
-                        <strong>
-                          ${
-                            formatNumber(
-                              p.jobs_quarter
-                            )
-                          }
-                        </strong>
-
-                      </div>
-
-
-                      <div
-                        class="
-                          popup-stat
-                          popup-stat-total
-                        "
-                      >
-
-                        <span>
-                          Residents + jobs
-                        </span>
-
-                        <strong>
-                          ${
-                            formatNumber(
-                              p.population_jobs_quarter
-                            )
-                          }
-                        </strong>
-
-                      </div>
-
-
-                      <div class="popup-stat">
-
-                        <span>
-                          Housing units
-                        </span>
-
-                        <strong>
-                          ${
-                            formatNumber(
-                              p.housing_units_quarter
-                            )
-                          }
-                        </strong>
-
-                      </div>
-
-                    </div>
-
-
-                    <div class="popup-section">
-
-                      <div class="popup-section-title">
-                        Within ½ mile
-                      </div>
-
-
-                      <div class="popup-stat">
-
-                        <span>
-                          Residents
-                        </span>
-
-                        <strong>
-                          ${
-                            formatNumber(
-                              p.population_half
-                            )
-                          }
-                        </strong>
-
-                      </div>
-
-
-                      <div class="popup-stat">
-
-                        <span>
-                          Jobs
-                        </span>
-
-                        <strong>
-                          ${
-                            formatNumber(
-                              p.jobs_half
-                            )
-                          }
-                        </strong>
-
-                      </div>
-
-
-                      <div
-                        class="
-                          popup-stat
-                          popup-stat-total
-                        "
-                      >
-
-                        <span>
-                          Residents + jobs
-                        </span>
-
-                        <strong>
-                          ${
-                            formatNumber(
-                              p.population_jobs_half
-                            )
-                          }
-                        </strong>
-
-                      </div>
-
-
-                      <div class="popup-stat">
-
-                        <span>
-                          Housing units
-                        </span>
-
-                        <strong>
-                          ${
-                            formatNumber(
-                              p.housing_units_half
-                            )
-                          }
-                        </strong>
-
-                      </div>
-
-                    </div>
-
-
-                    <div class="popup-section">
-
-                      <div class="popup-section-title">
-                        Building coverage
-                      </div>
-
-
-                      <div class="popup-stat">
-
-                        <span>
-                          ⅛ mile
-                        </span>
-
-                        <strong>
-                          ${
-                            formatPercent(
-                              p.building_coverage_pct_eighth
-                            )
-                          }
-                        </strong>
-
-                      </div>
-
-
-                      <div class="popup-stat">
-
-                        <span>
-                          ¼ mile
-                        </span>
-
-                        <strong>
-                          ${
-                            formatPercent(
-                              p.building_coverage_pct_quarter
-                            )
-                          }
-                        </strong>
-
-                      </div>
-
-
-                      <div class="popup-stat">
-
-                        <span>
-                          ½ mile
-                        </span>
-
-                        <strong>
-                          ${
-                            formatPercent(
-                              p.building_coverage_pct_half
-                            )
-                          }
-                        </strong>
-
-                      </div>
-
-                    </div>
-
-
-                    <div class="popup-note">
-
-                      Population: 2020 Census.
-                      Jobs: 2024 LEHD LODES.
-                      Ridership and land-use measures use
-                      different source years.
-
-                    </div>
-
-                  `;
-
-
                   layer.bindPopup(
-                    popupHtml,
+                    buildPopup(
+                      p
+                    ),
                     {
-                      maxWidth: 300
+                      maxWidth:
+                        300
                     }
                   );
 
-
-                  // ----------------------------------------
-                  // Hover emphasis
-                  // ----------------------------------------
 
                   layer.on(
                     "mouseover",
@@ -1089,6 +1864,7 @@
 
                         }
                       );
+
 
                       this.bringToFront();
 
@@ -1123,13 +1899,6 @@
             );
 
 
-          // ==================================================
-          // INITIAL EXTENT
-          //
-          // Stations control initial zoom.
-          // Water extent does not.
-          // ==================================================
-
           map.fitBounds(
             stationLayer.getBounds(),
             {
@@ -1137,6 +1906,33 @@
                 [30, 30]
             }
           );
+
+
+          // ----------------------------------------------
+          // Activate selector.
+          // ----------------------------------------------
+
+          const selector =
+            document.getElementById(
+              "metric-select"
+            );
+
+
+          selector.addEventListener(
+            "change",
+            function(event) {
+
+              activeMetric =
+                event.target.value;
+
+
+              updateStationSizes();
+
+            }
+          );
+
+
+          updateLegend();
 
 
           console.log(
@@ -1158,98 +1954,6 @@
 
         }
       );
-
-
-
-    // ======================================================
-    // RIDERSHIP SIZE LEGEND
-    // ======================================================
-
-    const ridershipLegend =
-      L.control(
-        {
-          position:
-            "bottomright"
-        }
-      );
-
-
-    ridershipLegend.onAdd =
-      function() {
-
-        const div =
-          L.DomUtil.create(
-            "div",
-            "ridership-legend"
-          );
-
-
-        div.innerHTML =
-          `
-
-          <div class="ridership-legend-title">
-            Average daily entries
-          </div>
-
-
-          <div class="legend-row">
-
-            <span
-              class="
-                legend-circle
-                legend-circle-small
-              "
-            ></span>
-
-            <span>
-              ~1,000
-            </span>
-
-          </div>
-
-
-          <div class="legend-row">
-
-            <span
-              class="
-                legend-circle
-                legend-circle-medium
-              "
-            ></span>
-
-            <span>
-              ~5,000
-            </span>
-
-          </div>
-
-
-          <div class="legend-row">
-
-            <span
-              class="
-                legend-circle
-                legend-circle-large
-              "
-            ></span>
-
-            <span>
-              10,000+
-            </span>
-
-          </div>
-
-        `;
-
-
-        return div;
-
-      };
-
-
-    ridershipLegend.addTo(
-      map
-    );
 
 
   </script>
