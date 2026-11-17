@@ -12,11 +12,6 @@
 
   <title>Development Around Washington Metro</title>
 
-
-  <!-- ======================================================
-       LEAFLET
-       ====================================================== -->
-
   <link
     rel="stylesheet"
     href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
@@ -27,10 +22,6 @@
   ></script>
 
 
-  <!-- ======================================================
-       STYLES
-       ====================================================== -->
-
   <style>
 
     :root {
@@ -40,7 +31,12 @@
       --border: #D8D1C8;
       --station-outline: #3F3A35;
       --accent: #C8643B;
+
       --water: #DCE6E5;
+
+      --county: #AEA59C;
+
+      --highway: #B5ADA5;
     }
 
 
@@ -48,7 +44,6 @@
     body {
       margin: 0;
       padding: 0;
-
       width: 100%;
       height: 100%;
     }
@@ -123,8 +118,7 @@
       width: 100%;
 
       padding:
-        6px
-        7px;
+        6px 7px;
 
       background:
         #FFFFFF;
@@ -155,17 +149,14 @@
     .metric-description {
       max-width: 210px;
 
-      margin-top:
-        7px;
+      margin-top: 7px;
 
       color:
         var(--secondary-text);
 
-      font-size:
-        10px;
+      font-size: 10px;
 
-      line-height:
-        1.35;
+      line-height: 1.35;
     }
 
 
@@ -181,8 +172,7 @@
 
 
     .leaflet-popup-content-wrapper {
-      border-radius:
-        6px;
+      border-radius: 6px;
 
       box-shadow:
         0 2px 12px
@@ -191,8 +181,7 @@
 
 
     .leaflet-popup-content {
-      width:
-        250px !important;
+      width: 250px !important;
 
       margin:
         15px
@@ -204,20 +193,14 @@
 
 
     .station-popup-name {
-      margin-bottom:
-        2px;
+      margin-bottom: 2px;
 
       color:
         var(--text);
 
-      font-size:
-        17px;
-
-      font-weight:
-        700;
-
-      line-height:
-        1.2;
+      font-size: 17px;
+      font-weight: 700;
+      line-height: 1.2;
     }
 
 
@@ -225,20 +208,16 @@
       color:
         var(--secondary-text);
 
-      font-size:
-        12px;
+      font-size: 12px;
 
-      line-height:
-        1.4;
+      line-height: 1.4;
     }
 
 
     .popup-section {
-      margin-top:
-        12px;
+      margin-top: 12px;
 
-      padding-top:
-        9px;
+      padding-top: 9px;
 
       border-top:
         1px solid
@@ -247,56 +226,41 @@
 
 
     .popup-section-title {
-      margin-bottom:
-        5px;
+      margin-bottom: 5px;
 
       color:
         var(--secondary-text);
 
-      font-size:
-        10px;
+      font-size: 10px;
+      font-weight: 700;
 
-      font-weight:
-        700;
+      letter-spacing: 0.07em;
 
-      letter-spacing:
-        0.07em;
+      line-height: 1.3;
 
-      line-height:
-        1.3;
-
-      text-transform:
-        uppercase;
+      text-transform: uppercase;
     }
 
 
     .popup-stat {
-      display:
-        flex;
+      display: flex;
 
-      justify-content:
-        space-between;
+      justify-content: space-between;
 
-      align-items:
-        baseline;
+      align-items: baseline;
 
-      gap:
-        18px;
+      gap: 18px;
 
-      padding:
-        2px 0;
+      padding: 2px 0;
 
-      font-size:
-        13px;
+      font-size: 13px;
 
-      line-height:
-        1.35;
+      line-height: 1.35;
     }
 
 
     .popup-stat span {
-      color:
-        #514B46;
+      color: #514B46;
     }
 
 
@@ -304,20 +268,16 @@
       color:
         var(--text);
 
-      font-weight:
-        700;
+      font-weight: 700;
 
-      text-align:
-        right;
+      text-align: right;
     }
 
 
     .popup-stat-total {
-      margin-top:
-        3px;
+      margin-top: 3px;
 
-      padding-top:
-        5px;
+      padding-top: 5px;
 
       border-top:
         1px dotted
@@ -326,27 +286,22 @@
 
 
     .popup-note {
-      margin-top:
-        10px;
+      margin-top: 10px;
 
-      color:
-        #8A8179;
+      color: #8A8179;
 
-      font-size:
-        10px;
+      font-size: 10px;
 
-      line-height:
-        1.35;
+      line-height: 1.35;
     }
 
 
     /* ======================================================
-       DYNAMIC SIZE LEGEND
+       SIZE LEGEND
        ====================================================== */
 
     .size-legend {
-      min-width:
-        145px;
+      min-width: 145px;
 
       padding:
         10px
@@ -359,8 +314,7 @@
         1px solid
         rgba(216, 209, 200, 0.95);
 
-      border-radius:
-        6px;
+      border-radius: 6px;
 
       box-shadow:
         0 2px 8px
@@ -369,68 +323,51 @@
       color:
         var(--text);
 
-      font-size:
-        11px;
+      font-size: 11px;
 
-      line-height:
-        1.3;
+      line-height: 1.3;
     }
 
 
     .size-legend-title {
-      margin-bottom:
-        8px;
+      margin-bottom: 8px;
 
-      font-size:
-        11px;
+      font-size: 11px;
 
-      font-weight:
-        700;
+      font-weight: 700;
     }
 
 
     .size-legend-row {
-      display:
-        flex;
+      display: flex;
 
-      align-items:
-        center;
+      align-items: center;
 
-      gap:
-        9px;
+      gap: 9px;
 
-      min-height:
-        28px;
+      min-height: 27px;
 
-      margin:
-        3px 0;
+      margin: 3px 0;
     }
 
 
     .size-legend-circle-wrap {
-      display:
-        flex;
+      display: flex;
 
-      justify-content:
-        center;
+      justify-content: center;
 
-      align-items:
-        center;
+      align-items: center;
 
-      width:
-        38px;
+      width: 32px;
 
-      height:
-        30px;
+      height: 27px;
     }
 
 
     .size-legend-circle {
-      display:
-        block;
+      display: block;
 
-      box-sizing:
-        border-box;
+      box-sizing: border-box;
 
       background:
         var(--background);
@@ -439,13 +376,12 @@
         1.5px solid
         var(--station-outline);
 
-      border-radius:
-        50%;
+      border-radius: 50%;
     }
 
 
     /* ======================================================
-       LEAFLET CONTROLS
+       LEAFLET
        ====================================================== */
 
     .leaflet-control-zoom a {
@@ -467,37 +403,27 @@
       color:
         #8A8179;
 
-      font-size:
-        9px;
+      font-size: 9px;
     }
 
-
-    /* ======================================================
-       MOBILE
-       ====================================================== */
 
     @media (
       max-width: 700px
     ) {
 
       .metric-control {
-        min-width:
-          165px;
-
-        max-width:
-          180px;
+        min-width: 165px;
+        max-width: 180px;
       }
 
 
       .metric-description {
-        display:
-          none;
+        display: none;
       }
 
 
       .size-legend {
-        min-width:
-          120px;
+        min-width: 120px;
 
         padding:
           8px
@@ -537,7 +463,14 @@
 
 
     // ======================================================
-    // MAP PANES
+    // PANES
+    //
+    // background
+    // water
+    // counties
+    // highways
+    // Metro
+    // stations
     // ======================================================
 
     map.createPane(
@@ -548,6 +481,26 @@
       "waterPane"
     ).style.zIndex =
       200;
+
+
+    map.createPane(
+      "countyPane"
+    );
+
+    map.getPane(
+      "countyPane"
+    ).style.zIndex =
+      260;
+
+
+    map.createPane(
+      "highwayPane"
+    );
+
+    map.getPane(
+      "highwayPane"
+    ).style.zIndex =
+      320;
 
 
     map.createPane(
@@ -686,7 +639,7 @@
           "building_coverage_pct_eighth",
 
         description:
-          "Share of land covered by buildings within ⅛ mile",
+          "Land covered by buildings within ⅛ mile",
 
         legendValues:
           [10, 30, 50],
@@ -708,7 +661,7 @@
 
 
     let stationValues =
-      [];
+      {};
 
 
     let sizeLegend =
@@ -717,7 +670,7 @@
 
 
     // ======================================================
-    // HELPER FUNCTIONS
+    // FORMATTERS
     // ======================================================
 
     function formatNumber(
@@ -777,7 +730,8 @@
             minimumFractionDigits: 1,
             maximumFractionDigits: 1
           }
-        ) + "%"
+        ) +
+        "%"
       );
 
     }
@@ -811,18 +765,9 @@
 
 
     // ======================================================
-    // SIZE SCALING
+    // DYNAMIC SIZE SCALING
     //
-    // Stronger than the previous version.
-    //
-    // Minimum radius:
-    //   3.5 px
-    //
-    // Maximum radius:
-    //   20 px
-    //
-    // Radius is proportional to square root of the share
-    // of the maximum value.
+    // Reduced from 20px max to 14px max.
     // ======================================================
 
     function getRadius(
@@ -869,7 +814,7 @@
 
 
       const maxRadius =
-        20;
+        14;
 
 
       const ratio =
@@ -936,7 +881,7 @@
                   "#DCE6E5",
 
                 fillOpacity:
-                  0.9,
+                  0.90,
 
                 color:
                   "#DCE6E5",
@@ -945,7 +890,75 @@
                   0.5,
 
                 opacity:
-                  0.9
+                  0.90
+
+              }
+
+            }
+          ).addTo(
+            map
+          );
+
+        }
+      );
+
+
+    // ======================================================
+    // COUNTY BOUNDARIES
+    // ======================================================
+
+    fetch(
+      "county_boundaries.geojson"
+    )
+
+      .then(
+        response => {
+
+          if (!response.ok) {
+
+            throw new Error(
+              "Could not load county_boundaries.geojson"
+            );
+
+          }
+
+          return response.json();
+
+        }
+      )
+
+
+      .then(
+        data => {
+
+          L.geoJSON(
+            data,
+            {
+
+              pane:
+                "countyPane",
+
+
+              interactive:
+                false,
+
+
+              style: {
+
+                color:
+                  "#AEA59C",
+
+                weight:
+                  1,
+
+                opacity:
+                  0.62,
+
+                dashArray:
+                  "4,5",
+
+                lineCap:
+                  "round"
 
               }
 
@@ -962,7 +975,88 @@
         error => {
 
           console.error(
-            "Water layer error:",
+            "County boundary error:",
+            error
+          );
+
+        }
+      );
+
+
+
+    // ======================================================
+    // MAJOR HIGHWAYS
+    // ======================================================
+
+    fetch(
+      "major_highways.geojson"
+    )
+
+      .then(
+        response => {
+
+          if (!response.ok) {
+
+            throw new Error(
+              "Could not load major_highways.geojson"
+            );
+
+          }
+
+          return response.json();
+
+        }
+      )
+
+
+      .then(
+        data => {
+
+          L.geoJSON(
+            data,
+            {
+
+              pane:
+                "highwayPane",
+
+
+              interactive:
+                false,
+
+
+              style: {
+
+                color:
+                  "#B5ADA5",
+
+                weight:
+                  1.5,
+
+                opacity:
+                  0.65,
+
+                lineCap:
+                  "round",
+
+                lineJoin:
+                  "round"
+
+              }
+
+            }
+          ).addTo(
+            map
+          );
+
+        }
+      )
+
+
+      .catch(
+        error => {
+
+          console.error(
+            "Highway layer error:",
             error
           );
 
@@ -1238,7 +1332,8 @@
                 getRadius(
                   value,
                   activeMetric
-                ) * 2;
+                ) *
+                2;
 
 
               rows +=
@@ -1289,11 +1384,7 @@
             `
 
             <div class="size-legend-title">
-
-              ${
-                config.label
-              }
-
+              ${config.label}
             </div>
 
             ${rows}
@@ -1348,15 +1439,11 @@
             ];
 
 
-          const radius =
+          layer.setRadius(
             getRadius(
               value,
               activeMetric
-            );
-
-
-          layer.setRadius(
-            radius
+            )
           );
 
         }
@@ -1386,7 +1473,7 @@
 
 
     // ======================================================
-    // POPUP BUILDER
+    // POPUPS
     // ======================================================
 
     function buildPopup(
@@ -1715,11 +1802,8 @@
         data => {
 
 
-          // ----------------------------------------------
-          // Build value arrays for scaling.
-          // ----------------------------------------------
-
-          stationValues = {};
+          stationValues =
+            {};
 
 
           Object.keys(
@@ -1761,10 +1845,6 @@
           );
 
 
-          // ----------------------------------------------
-          // Draw stations.
-          // ----------------------------------------------
-
           stationLayer =
             L.geoJSON(
               data,
@@ -1789,15 +1869,6 @@
                     ];
 
 
-                  const radius =
-                    getRadius(
-                      p[
-                        config.field
-                      ],
-                      activeMetric
-                    );
-
-
                   return L.circleMarker(
                     latlng,
                     {
@@ -1806,7 +1877,12 @@
                         "stationPane",
 
                       radius:
-                        radius,
+                        getRadius(
+                          p[
+                            config.field
+                          ],
+                          activeMetric
+                        ),
 
                       fillColor:
                         "#F7F3EC",
@@ -1855,13 +1931,11 @@
 
                       this.setStyle(
                         {
-
                           weight:
                             2.5,
 
                           color:
                             "#C8643B"
-
                         }
                       );
 
@@ -1878,13 +1952,11 @@
 
                       this.setStyle(
                         {
-
                           weight:
                             1.5,
 
                           color:
                             "#3F3A35"
-
                         }
                       );
 
@@ -1908,10 +1980,6 @@
           );
 
 
-          // ----------------------------------------------
-          // Activate selector.
-          // ----------------------------------------------
-
           const selector =
             document.getElementById(
               "metric-select"
@@ -1920,7 +1988,9 @@
 
           selector.addEventListener(
             "change",
-            function(event) {
+            function(
+              event
+            ) {
 
               activeMetric =
                 event.target.value;
@@ -1933,12 +2003,6 @@
 
 
           updateLegend();
-
-
-          console.log(
-            "Stations loaded:",
-            data.features.length
-          );
 
         }
       )
