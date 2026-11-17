@@ -12,11 +12,6 @@
 
   <title>Development Around Washington Metro</title>
 
-
-  <!-- ======================================================
-       LEAFLET
-       ====================================================== -->
-
   <link
     rel="stylesheet"
     href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
@@ -27,10 +22,6 @@
   ></script>
 
 
-  <!-- ======================================================
-       STYLES
-       ====================================================== -->
-
   <style>
 
     :root {
@@ -40,7 +31,9 @@
       --border: #D8D1C8;
 
       --station-outline: #3F3A35;
+
       --accent: #C8643B;
+      --accent-dark: #A94E2D;
 
       --water: #DCE6E5;
       --county: #AEA59C;
@@ -48,6 +41,8 @@
 
       --secondary-road: #CEC7BF;
       --local-road: #DDD7D0;
+
+      --building: #8F877F;
     }
 
 
@@ -85,15 +80,13 @@
 
 
     /* ======================================================
-       METRIC SELECTOR
+       CONTROLS
        ====================================================== */
 
-    .metric-control {
+    .map-control-box {
       min-width: 190px;
 
-      padding:
-        11px
-        12px;
+      padding: 11px 12px;
 
       background:
         rgba(247, 243, 236, 0.96);
@@ -102,8 +95,7 @@
         1px solid
         rgba(216, 209, 200, 0.95);
 
-      border-radius:
-        6px;
+      border-radius: 6px;
 
       box-shadow:
         0 2px 10px
@@ -111,76 +103,130 @@
     }
 
 
-    .metric-control-title {
-      margin-bottom:
-        7px;
+    .control-title {
+      margin-bottom: 7px;
 
       color:
         var(--secondary-text);
 
-      font-size:
-        10px;
+      font-size: 10px;
+      font-weight: 700;
 
-      font-weight:
-        700;
+      letter-spacing: 0.07em;
 
-      letter-spacing:
-        0.07em;
-
-      text-transform:
-        uppercase;
+      text-transform: uppercase;
     }
 
 
-    .metric-select {
-      width:
-        100%;
+    .control-select {
+      width: 100%;
 
-      padding:
-        6px
-        7px;
+      padding: 6px 7px;
 
-      background:
-        #FFFFFF;
+      background: #FFFFFF;
 
       border:
         1px solid
         #CFC7BE;
 
-      border-radius:
-        4px;
+      border-radius: 4px;
 
       color:
         var(--text);
 
-      font-size:
-        13px;
+      font-size: 13px;
 
       font-family:
         Arial,
         Helvetica,
         sans-serif;
 
-      cursor:
-        pointer;
+      cursor: pointer;
     }
 
 
-    .metric-description {
-      max-width:
-        210px;
+    .control-description {
+      max-width: 210px;
 
-      margin-top:
-        7px;
+      margin-top: 7px;
 
       color:
         var(--secondary-text);
 
-      font-size:
-        10px;
+      font-size: 10px;
 
-      line-height:
-        1.35;
+      line-height: 1.35;
+    }
+
+
+    .radius-buttons {
+      display: grid;
+
+      grid-template-columns:
+        repeat(4, 1fr);
+
+      gap: 4px;
+    }
+
+
+    .radius-button {
+      padding: 6px 4px;
+
+      border:
+        1px solid
+        #CFC7BE;
+
+      border-radius: 4px;
+
+      background:
+        #FFFFFF;
+
+      color:
+        #514B46;
+
+      font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
+      font-size: 11px;
+
+      cursor: pointer;
+    }
+
+
+    .radius-button:hover {
+      border-color:
+        var(--accent);
+    }
+
+
+    .radius-button.active {
+      border-color:
+        var(--accent);
+
+      background:
+        var(--accent);
+
+      color:
+        #FFFFFF;
+
+      font-weight:
+        700;
+    }
+
+
+    .selected-station-name {
+      margin-bottom: 8px;
+
+      color:
+        var(--text);
+
+      font-size: 12px;
+
+      font-weight: 700;
+
+      line-height: 1.3;
     }
 
 
@@ -196,8 +242,7 @@
 
 
     .leaflet-popup-content-wrapper {
-      border-radius:
-        6px;
+      border-radius: 6px;
 
       box-shadow:
         0 2px 12px
@@ -206,12 +251,9 @@
 
 
     .leaflet-popup-content {
-      width:
-        250px !important;
+      width: 250px !important;
 
-      margin:
-        15px
-        17px;
+      margin: 15px 17px;
 
       color:
         var(--text);
@@ -219,20 +261,16 @@
 
 
     .station-popup-name {
-      margin-bottom:
-        2px;
+      margin-bottom: 2px;
 
       color:
         var(--text);
 
-      font-size:
-        17px;
+      font-size: 17px;
 
-      font-weight:
-        700;
+      font-weight: 700;
 
-      line-height:
-        1.2;
+      line-height: 1.2;
     }
 
 
@@ -240,20 +278,16 @@
       color:
         var(--secondary-text);
 
-      font-size:
-        12px;
+      font-size: 12px;
 
-      line-height:
-        1.4;
+      line-height: 1.4;
     }
 
 
     .popup-section {
-      margin-top:
-        12px;
+      margin-top: 12px;
 
-      padding-top:
-        9px;
+      padding-top: 9px;
 
       border-top:
         1px solid
@@ -262,56 +296,40 @@
 
 
     .popup-section-title {
-      margin-bottom:
-        5px;
+      margin-bottom: 5px;
 
       color:
         var(--secondary-text);
 
-      font-size:
-        10px;
+      font-size: 10px;
 
-      font-weight:
-        700;
+      font-weight: 700;
 
-      letter-spacing:
-        0.07em;
+      letter-spacing: 0.07em;
 
-      line-height:
-        1.3;
-
-      text-transform:
-        uppercase;
+      text-transform: uppercase;
     }
 
 
     .popup-stat {
-      display:
-        flex;
+      display: flex;
 
-      justify-content:
-        space-between;
+      justify-content: space-between;
 
-      align-items:
-        baseline;
+      align-items: baseline;
 
-      gap:
-        18px;
+      gap: 18px;
 
-      padding:
-        2px 0;
+      padding: 2px 0;
 
-      font-size:
-        13px;
+      font-size: 13px;
 
-      line-height:
-        1.35;
+      line-height: 1.35;
     }
 
 
     .popup-stat span {
-      color:
-        #514B46;
+      color: #514B46;
     }
 
 
@@ -319,20 +337,16 @@
       color:
         var(--text);
 
-      font-weight:
-        700;
+      font-weight: 700;
 
-      text-align:
-        right;
+      text-align: right;
     }
 
 
     .popup-stat-total {
-      margin-top:
-        3px;
+      margin-top: 3px;
 
-      padding-top:
-        5px;
+      padding-top: 5px;
 
       border-top:
         1px dotted
@@ -341,31 +355,22 @@
 
 
     .popup-note {
-      margin-top:
-        10px;
+      margin-top: 10px;
 
-      color:
-        #8A8179;
+      color: #8A8179;
 
-      font-size:
-        10px;
+      font-size: 10px;
 
-      line-height:
-        1.35;
+      line-height: 1.35;
     }
 
 
     /* ======================================================
-       DYNAMIC SIZE LEGEND
+       LEGENDS
        ====================================================== */
 
-    .size-legend {
-      min-width:
-        145px;
-
-      padding:
-        10px
-        12px;
+    .legend-box {
+      padding: 10px 12px;
 
       background:
         rgba(247, 243, 236, 0.95);
@@ -374,8 +379,7 @@
         1px solid
         rgba(216, 209, 200, 0.95);
 
-      border-radius:
-        6px;
+      border-radius: 6px;
 
       box-shadow:
         0 2px 8px
@@ -384,68 +388,54 @@
       color:
         var(--text);
 
-      font-size:
-        11px;
+      font-size: 10px;
 
-      line-height:
-        1.3;
+      line-height: 1.3;
     }
 
 
-    .size-legend-title {
-      margin-bottom:
-        8px;
+    .legend-title {
+      margin-bottom: 7px;
 
-      font-size:
-        11px;
+      font-size: 11px;
 
-      font-weight:
-        700;
+      font-weight: 700;
     }
 
 
-    .size-legend-row {
-      display:
-        flex;
+    .legend-row {
+      display: flex;
 
-      align-items:
-        center;
+      align-items: center;
 
-      gap:
-        9px;
+      gap: 8px;
 
-      min-height:
-        27px;
-
-      margin:
-        3px 0;
+      margin: 5px 0;
     }
 
 
-    .size-legend-circle-wrap {
-      display:
-        flex;
-
-      justify-content:
-        center;
-
-      align-items:
-        center;
-
-      width:
-        32px;
-
-      height:
-        27px;
+    .size-legend {
+      min-width: 145px;
     }
 
 
-    .size-legend-circle {
-      display:
-        block;
+    .size-circle-wrap {
+      display: flex;
 
-      box-sizing:
-        border-box;
+      justify-content: center;
+
+      align-items: center;
+
+      width: 32px;
+
+      height: 27px;
+    }
+
+
+    .size-circle {
+      display: block;
+
+      box-sizing: border-box;
 
       background:
         var(--background);
@@ -454,93 +444,23 @@
         1.5px solid
         var(--station-outline);
 
-      border-radius:
-        50%;
-    }
-
-
-    /* ======================================================
-       STATIC MAP LEGEND
-       ====================================================== */
-
-    .map-legend {
-      min-width:
-        145px;
-
-      padding:
-        10px
-        12px;
-
-      background:
-        rgba(247, 243, 236, 0.95);
-
-      border:
-        1px solid
-        rgba(216, 209, 200, 0.95);
-
-      border-radius:
-        6px;
-
-      box-shadow:
-        0 2px 8px
-        rgba(40, 37, 34, 0.08);
-
-      color:
-        var(--text);
-
-      font-size:
-        10px;
-
-      line-height:
-        1.3;
-    }
-
-
-    .map-legend-title {
-      margin-bottom:
-        7px;
-
-      font-size:
-        11px;
-
-      font-weight:
-        700;
-    }
-
-
-    .map-legend-row {
-      display:
-        flex;
-
-      align-items:
-        center;
-
-      gap:
-        8px;
-
-      margin:
-        5px 0;
+      border-radius: 50%;
     }
 
 
     .map-symbol {
-      display:
-        inline-block;
+      display: inline-block;
 
-      flex:
-        0 0 auto;
+      flex: 0 0 auto;
 
-      width:
-        28px;
+      width: 28px;
     }
 
 
     .symbol-metro {
-      height:
-        4px;
+      height: 4px;
 
-      border-radius:
-        2px;
+      border-radius: 2px;
 
       background:
         linear-gradient(
@@ -562,8 +482,7 @@
 
 
     .symbol-highway {
-      height:
-        0;
+      height: 0;
 
       border-top:
         1.25px solid
@@ -572,8 +491,7 @@
 
 
     .symbol-county {
-      height:
-        0;
+      height: 0;
 
       border-top:
         1px dashed
@@ -582,48 +500,26 @@
 
 
     .symbol-water {
-      height:
-        7px;
+      height: 7px;
 
-      border-radius:
-        2px;
+      border-radius: 2px;
 
       background:
         #DCE6E5;
     }
 
 
-    .symbol-station {
-      width:
-        10px;
+    .symbol-road {
+      height: 0;
 
-      height:
-        10px;
-
-      margin-left:
-        9px;
-
-      margin-right:
-        9px;
-
-      box-sizing:
-        border-box;
-
-      border:
-        1.4px solid
-        #3F3A35;
-
-      border-radius:
-        50%;
-
-      background:
-        #F7F3EC;
+      border-top:
+        1px solid
+        #CEC7BF;
     }
 
 
     .symbol-local-road {
-      height:
-        0;
+      height: 0;
 
       border-top:
         1px solid
@@ -631,31 +527,49 @@
     }
 
 
+    .symbol-building {
+      width: 18px;
+
+      height: 9px;
+
+      margin-left: 5px;
+      margin-right: 5px;
+
+      background:
+        rgba(143, 135, 127, 0.45);
+    }
+
+
+    .symbol-selected-building {
+      width: 18px;
+
+      height: 9px;
+
+      margin-left: 5px;
+      margin-right: 5px;
+
+      background:
+        rgba(200, 100, 59, 0.62);
+    }
+
+
     /* ======================================================
-       JURISDICTION LABELS
+       LABELS
        ====================================================== */
 
     .jurisdiction-label {
       color:
         #988F87;
 
-      font-size:
-        11px;
+      font-size: 11px;
 
-      font-weight:
-        600;
+      font-weight: 600;
 
-      letter-spacing:
-        0.10em;
+      letter-spacing: 0.10em;
 
-      line-height:
-        1;
+      white-space: nowrap;
 
-      white-space:
-        nowrap;
-
-      text-align:
-        center;
+      text-align: center;
 
       text-shadow:
         0 1px 0 #F7F3EC,
@@ -663,8 +577,7 @@
         0 -1px 0 #F7F3EC,
         -1px 0 0 #F7F3EC;
 
-      pointer-events:
-        none;
+      pointer-events: none;
     }
 
 
@@ -672,8 +585,44 @@
       color:
         #756D66;
 
-      font-weight:
-        700;
+      font-weight: 700;
+    }
+
+
+    /* ======================================================
+       LOADING INDICATOR
+       ====================================================== */
+
+    .building-loader {
+      display: none;
+
+      position: absolute;
+
+      left: 50%;
+      bottom: 18px;
+
+      transform:
+        translateX(-50%);
+
+      z-index: 1000;
+
+      padding: 7px 10px;
+
+      background:
+        rgba(247, 243, 236, 0.96);
+
+      border:
+        1px solid
+        #D8D1C8;
+
+      border-radius: 4px;
+
+      color:
+        #756D66;
+
+      font-size: 11px;
+
+      pointer-events: none;
     }
 
 
@@ -700,8 +649,7 @@
       color:
         #8A8179;
 
-      font-size:
-        9px;
+      font-size: 9px;
     }
 
 
@@ -709,35 +657,25 @@
       max-width: 700px
     ) {
 
-      .metric-control {
-        min-width:
-          160px;
+      .map-control-box {
+        min-width: 160px;
 
-        max-width:
-          175px;
+        max-width: 175px;
       }
 
 
-      .metric-description {
-        display:
-          none;
-      }
-
-
-      .size-legend,
-      .map-legend {
-        min-width:
-          115px;
-
-        padding:
-          8px
-          9px;
+      .control-description {
+        display: none;
       }
 
 
       .jurisdiction-label {
-        font-size:
-          9px;
+        font-size: 9px;
+      }
+
+
+      .legend-box {
+        padding: 8px 9px;
       }
 
     }
@@ -750,6 +688,13 @@
 <body>
 
   <div id="map"></div>
+
+  <div
+    id="building-loader"
+    class="building-loader"
+  >
+    Loading building footprints…
+  </div>
 
 
   <script>
@@ -776,54 +721,54 @@
     // PANES
     // ======================================================
 
-    map.createPane(
-      "waterPane"
+    const panes = {
+
+      water:
+        200,
+
+      county:
+        250,
+
+      minorRoad:
+        290,
+
+      highway:
+        320,
+
+      building:
+        340,
+
+      buffer:
+        370,
+
+      label:
+        390,
+
+      metro:
+        420,
+
+      station:
+        600
+
+    };
+
+
+    Object.entries(
+      panes
+    ).forEach(
+      ([name, z]) => {
+
+        map.createPane(
+          name + "Pane"
+        );
+
+        map.getPane(
+          name + "Pane"
+        ).style.zIndex =
+          z;
+
+      }
     );
-
-    map.getPane(
-      "waterPane"
-    ).style.zIndex =
-      200;
-
-
-    map.createPane(
-      "countyPane"
-    );
-
-    map.getPane(
-      "countyPane"
-    ).style.zIndex =
-      250;
-
-
-    map.createPane(
-      "minorRoadPane"
-    );
-
-    map.getPane(
-      "minorRoadPane"
-    ).style.zIndex =
-      290;
-
-
-    map.createPane(
-      "highwayPane"
-    );
-
-    map.getPane(
-      "highwayPane"
-    ).style.zIndex =
-      320;
-
-
-    map.createPane(
-      "labelPane"
-    );
-
-    map.getPane(
-      "labelPane"
-    ).style.zIndex =
-      360;
 
 
     map.getPane(
@@ -832,29 +777,141 @@
       "none";
 
 
-    map.createPane(
-      "metroPane"
-    );
 
-    map.getPane(
-      "metroPane"
-    ).style.zIndex =
-      400;
+    // ======================================================
+    // CONSTANTS
+    // ======================================================
+
+    const BUILDING_MIN_ZOOM =
+      15;
 
 
-    map.createPane(
-      "stationPane"
-    );
+    const SECONDARY_ROAD_MIN_ZOOM =
+      13;
 
-    map.getPane(
-      "stationPane"
-    ).style.zIndex =
-      600;
+
+    const LOCAL_ROAD_MIN_ZOOM =
+      15;
+
+
+    const COUNTY_MAX_ZOOM =
+      13;
+
+
+    const JURISDICTION_MAX_ZOOM =
+      12;
+
+
+    // ======================================================
+    // GLOBAL STATE
+    // ======================================================
+
+    let activeMetric =
+      "ridership";
+
+
+    let activeRadius =
+      "quarter";
+
+
+    let selectedStationId =
+      null;
+
+
+    let selectedStationName =
+      null;
+
+
+    let stationLayer =
+      null;
+
+
+    let stationValues =
+      {};
+
+
+    let sizeLegend =
+      null;
+
+
+    let countyLayer =
+      null;
+
+
+    let secondaryRoadLayer =
+      null;
+
+
+    let localRoadLayer =
+      null;
+
+
+    let jurisdictionLayer =
+      L.layerGroup();
+
+
+    let buildingTileIndex =
+      null;
+
+
+    /*
+      downloadedBuildingData:
+
+      tile filename =>
+      parsed GeoJSON
+
+      Once fetched, a tile remains cached here even if it is
+      removed from the visible map.
+    */
+
+    const downloadedBuildingData =
+      new Map();
+
+
+    /*
+      visibleBuildingLayers:
+
+      tile filename =>
+      currently rendered Leaflet layer
+    */
+
+    const visibleBuildingLayers =
+      new Map();
+
+
+    const buildingRequests =
+      new Map();
+
+
+    let bufferData = {
+
+      eighth:
+        null,
+
+      quarter:
+        null,
+
+      half:
+        null
+
+    };
+
+
+    let selectedBufferLayer =
+      null;
+
+
+    let selectedBufferFeature =
+      null;
+
+
+    let buildingMoveTimer =
+      null;
 
 
 
     // ======================================================
-    // METRIC CONFIGURATION
+    // METRICS
     // ======================================================
 
     const metrics = {
@@ -969,34 +1026,6 @@
     };
 
 
-    let activeMetric =
-      "ridership";
-
-
-    let stationLayer =
-      null;
-
-
-    let stationValues =
-      {};
-
-
-    let sizeLegend =
-      null;
-
-
-    let secondaryRoadLayer =
-      null;
-
-
-    let localRoadLayer =
-      null;
-
-
-    let jurisdictionLayer =
-      L.layerGroup();
-
-
 
     // ======================================================
     // FORMATTERS
@@ -1098,7 +1127,7 @@
 
 
     // ======================================================
-    // SIZE SCALING
+    // STATION SIZE
     // ======================================================
 
     function getRadius(
@@ -1171,6 +1200,1500 @@
 
 
     // ======================================================
+    // SIMPLE BBOX INTERSECTION
+    // ======================================================
+
+    function boundsIntersect(
+      a,
+      b
+    ) {
+
+      return !(
+        a.getWest() >
+          b.getEast() ||
+
+        a.getEast() <
+          b.getWest() ||
+
+        a.getSouth() >
+          b.getNorth() ||
+
+        a.getNorth() <
+          b.getSouth()
+      );
+
+    }
+
+
+
+    // ======================================================
+    // POINT IN POLYGON HELPERS
+    //
+    // Used to visually highlight buildings whose representative
+    // point lies inside the selected station buffer.
+    //
+    // For visualization this is substantially faster than
+    // full browser-side polygon intersection.
+    // ======================================================
+
+    function pointInRing(
+      point,
+      ring
+    ) {
+
+      const x =
+        point[0];
+
+
+      const y =
+        point[1];
+
+
+      let inside =
+        false;
+
+
+      for (
+        let i = 0,
+        j = ring.length - 1;
+
+        i < ring.length;
+
+        j = i++
+      ) {
+
+        const xi =
+          ring[i][0];
+
+
+        const yi =
+          ring[i][1];
+
+
+        const xj =
+          ring[j][0];
+
+
+        const yj =
+          ring[j][1];
+
+
+        const intersect =
+          (
+            (
+              yi > y
+            ) !==
+            (
+              yj > y
+            )
+          ) &&
+          (
+            x <
+            (
+              (
+                xj - xi
+              ) *
+              (
+                y - yi
+              )
+            ) /
+            (
+              yj - yi
+            ) +
+            xi
+          );
+
+
+        if (
+          intersect
+        ) {
+
+          inside =
+            !inside;
+
+        }
+
+      }
+
+
+      return inside;
+
+    }
+
+
+    function pointInPolygonCoordinates(
+      point,
+      coordinates
+    ) {
+
+      if (
+        !coordinates ||
+        coordinates.length === 0
+      ) {
+
+        return false;
+
+      }
+
+
+      if (
+        !pointInRing(
+          point,
+          coordinates[0]
+        )
+      ) {
+
+        return false;
+
+      }
+
+
+      /*
+        Holes:
+        if point lies inside any interior ring,
+        treat it as outside.
+      */
+
+      for (
+        let i = 1;
+
+        i < coordinates.length;
+
+        i++
+      ) {
+
+        if (
+          pointInRing(
+            point,
+            coordinates[i]
+          )
+        ) {
+
+          return false;
+
+        }
+
+      }
+
+
+      return true;
+
+    }
+
+
+    function pointInGeoJSONFeature(
+      point,
+      feature
+    ) {
+
+      if (
+        !feature ||
+        !feature.geometry
+      ) {
+
+        return false;
+
+      }
+
+
+      const geometry =
+        feature.geometry;
+
+
+      if (
+        geometry.type ===
+        "Polygon"
+      ) {
+
+        return pointInPolygonCoordinates(
+          point,
+          geometry.coordinates
+        );
+
+      }
+
+
+      if (
+        geometry.type ===
+        "MultiPolygon"
+      ) {
+
+        return geometry
+          .coordinates
+          .some(
+            polygon =>
+              pointInPolygonCoordinates(
+                point,
+                polygon
+              )
+          );
+
+      }
+
+
+      return false;
+
+    }
+
+
+
+    // ======================================================
+    // BUILDING REPRESENTATIVE POINT
+    //
+    // Uses bounds center for speed.
+    // ======================================================
+
+    function buildingRepresentativePoint(
+      layer
+    ) {
+
+      const bounds =
+        layer.getBounds();
+
+
+      const center =
+        bounds.getCenter();
+
+
+      return [
+        center.lng,
+        center.lat
+      ];
+
+    }
+
+
+
+    // ======================================================
+    // BUILDING STYLE
+    // ======================================================
+
+    function buildingStyle(
+      feature,
+      layer
+    ) {
+
+      let selected =
+        false;
+
+
+      if (
+        selectedBufferFeature
+      ) {
+
+        const point =
+          buildingRepresentativePoint(
+            layer
+          );
+
+
+        selected =
+          pointInGeoJSONFeature(
+            point,
+            selectedBufferFeature
+          );
+
+      }
+
+
+      if (
+        selected
+      ) {
+
+        return {
+
+          fillColor:
+            "#C8643B",
+
+          fillOpacity:
+            0.60,
+
+          color:
+            "#A94E2D",
+
+          weight:
+            0.45,
+
+          opacity:
+            0.65
+
+        };
+
+      }
+
+
+      return {
+
+        fillColor:
+          "#8F877F",
+
+        fillOpacity:
+          0.28,
+
+        color:
+          "#8F877F",
+
+        weight:
+          0,
+
+        opacity:
+          0
+
+      };
+
+    }
+
+
+
+    // ======================================================
+    // REFRESH BUILDING STYLES
+    // ======================================================
+
+    function refreshBuildingStyles() {
+
+      visibleBuildingLayers.forEach(
+        tileLayer => {
+
+          tileLayer.eachLayer(
+            buildingLayer => {
+
+              buildingLayer.setStyle(
+                buildingStyle(
+                  buildingLayer.feature,
+                  buildingLayer
+                )
+              );
+
+            }
+          );
+
+        }
+      );
+
+    }
+
+
+
+    // ======================================================
+    // BUILDING TILE INDEX
+    // ======================================================
+
+    fetch(
+      "building_tiles_index.geojson"
+    )
+
+      .then(
+        response => {
+
+          if (
+            !response.ok
+          ) {
+
+            throw new Error(
+              "Could not load building_tiles_index.geojson"
+            );
+
+          }
+
+
+          return response.json();
+
+        }
+      )
+
+
+      .then(
+        data => {
+
+          buildingTileIndex =
+            data.features.map(
+              feature => {
+
+                const layer =
+                  L.geoJSON(
+                    feature
+                  );
+
+
+                return {
+
+                  feature:
+                    feature,
+
+                  filename:
+                    feature
+                      .properties
+                      .filename,
+
+                  bounds:
+                    layer
+                      .getBounds()
+
+                };
+
+              }
+            );
+
+
+          updateBuildingTiles();
+
+        }
+      )
+
+
+      .catch(
+        error => {
+
+          console.error(
+            "Building tile index error:",
+            error
+          );
+
+        }
+      );
+
+
+
+    // ======================================================
+    // BUILDING LOADER UI
+    // ======================================================
+
+    function setBuildingLoader(
+      visible
+    ) {
+
+      const el =
+        document.getElementById(
+          "building-loader"
+        );
+
+
+      el.style.display =
+        visible
+          ? "block"
+          : "none";
+
+    }
+
+
+
+    // ======================================================
+    // CREATE BUILDING TILE LAYER
+    // ======================================================
+
+    function createBuildingLayer(
+      geojson
+    ) {
+
+      return L.geoJSON(
+        geojson,
+        {
+
+          pane:
+            "buildingPane",
+
+          interactive:
+            false,
+
+
+          onEachFeature: function(
+            feature,
+            layer
+          ) {
+
+            layer.setStyle(
+              buildingStyle(
+                feature,
+                layer
+              )
+            );
+
+          }
+
+        }
+      );
+
+    }
+
+
+
+    // ======================================================
+    // FETCH ONE BUILDING TILE
+    // ======================================================
+
+    async function loadBuildingTile(
+      tile
+    ) {
+
+      const filename =
+        tile.filename;
+
+
+      if (
+        visibleBuildingLayers.has(
+          filename
+        )
+      ) {
+
+        return;
+
+      }
+
+
+      if (
+        downloadedBuildingData.has(
+          filename
+        )
+      ) {
+
+        const layer =
+          createBuildingLayer(
+            downloadedBuildingData.get(
+              filename
+            )
+          );
+
+
+        layer.addTo(
+          map
+        );
+
+
+        visibleBuildingLayers.set(
+          filename,
+          layer
+        );
+
+
+        return;
+
+      }
+
+
+      if (
+        buildingRequests.has(
+          filename
+        )
+      ) {
+
+        return buildingRequests.get(
+          filename
+        );
+
+      }
+
+
+      const request =
+        fetch(
+          "buildings/" +
+          filename
+        )
+
+          .then(
+            response => {
+
+              if (
+                !response.ok
+              ) {
+
+                throw new Error(
+                  "Could not load " +
+                  filename
+                );
+
+              }
+
+
+              return response.json();
+
+            }
+          )
+
+
+          .then(
+            data => {
+
+              downloadedBuildingData.set(
+                filename,
+                data
+              );
+
+
+              const layer =
+                createBuildingLayer(
+                  data
+                );
+
+
+              layer.addTo(
+                map
+              );
+
+
+              visibleBuildingLayers.set(
+                filename,
+                layer
+              );
+
+            }
+          )
+
+
+          .catch(
+            error => {
+
+              console.error(
+                "Building tile error:",
+                filename,
+                error
+              );
+
+            }
+          )
+
+
+          .finally(
+            () => {
+
+              buildingRequests.delete(
+                filename
+              );
+
+            }
+          );
+
+
+      buildingRequests.set(
+        filename,
+        request
+      );
+
+
+      return request;
+
+    }
+
+
+
+    // ======================================================
+    // UPDATE VISIBLE BUILDING TILES
+    // ======================================================
+
+    async function updateBuildingTiles() {
+
+      if (
+        !buildingTileIndex
+      ) {
+
+        return;
+
+      }
+
+
+      if (
+        map.getZoom() <
+        BUILDING_MIN_ZOOM
+      ) {
+
+        visibleBuildingLayers.forEach(
+          layer => {
+
+            map.removeLayer(
+              layer
+            );
+
+          }
+        );
+
+
+        visibleBuildingLayers.clear();
+
+
+        return;
+
+      }
+
+
+      /*
+        Slightly padded viewport:
+        avoids obvious loading at every tiny pan.
+      */
+
+      const bounds =
+        map.getBounds()
+          .pad(
+            0.12
+          );
+
+
+      const neededTiles =
+        buildingTileIndex.filter(
+          tile =>
+            boundsIntersect(
+              bounds,
+              tile.bounds
+            )
+        );
+
+
+      const neededNames =
+        new Set(
+          neededTiles.map(
+            tile =>
+              tile.filename
+          )
+        );
+
+
+      /*
+        Remove rendered layers outside current padded viewport.
+        Downloaded GeoJSON remains cached in memory.
+      */
+
+      visibleBuildingLayers.forEach(
+        (
+          layer,
+          filename
+        ) => {
+
+          if (
+            !neededNames.has(
+              filename
+            )
+          ) {
+
+            map.removeLayer(
+              layer
+            );
+
+
+            visibleBuildingLayers.delete(
+              filename
+            );
+
+          }
+
+        }
+      );
+
+
+      /*
+        Fetch missing visible tiles.
+      */
+
+      const pending =
+        neededTiles.filter(
+          tile =>
+            !visibleBuildingLayers.has(
+              tile.filename
+            )
+        );
+
+
+      if (
+        pending.length === 0
+      ) {
+
+        return;
+
+      }
+
+
+      setBuildingLoader(
+        true
+      );
+
+
+      await Promise.all(
+        pending.map(
+          tile =>
+            loadBuildingTile(
+              tile
+            )
+        )
+      );
+
+
+      setBuildingLoader(
+        false
+      );
+
+
+      refreshBuildingStyles();
+
+    }
+
+
+
+    // ======================================================
+    // DEBOUNCED BUILDING UPDATE
+    // ======================================================
+
+    function scheduleBuildingUpdate() {
+
+      if (
+        buildingMoveTimer
+      ) {
+
+        clearTimeout(
+          buildingMoveTimer
+        );
+
+      }
+
+
+      buildingMoveTimer =
+        setTimeout(
+          updateBuildingTiles,
+          180
+        );
+
+    }
+
+
+
+    // ======================================================
+    // BUFFER DATA
+    // ======================================================
+
+    async function loadBufferData() {
+
+      const [
+        eighth,
+        quarter,
+        half
+      ] =
+        await Promise.all(
+          [
+
+            fetch(
+              "buffers_eighth.geojson"
+            )
+              .then(
+                response =>
+                  response.json()
+              ),
+
+
+            fetch(
+              "buffers_quarter.geojson"
+            )
+              .then(
+                response =>
+                  response.json()
+              ),
+
+
+            fetch(
+              "buffers_half.geojson"
+            )
+              .then(
+                response =>
+                  response.json()
+              )
+
+          ]
+        );
+
+
+      bufferData.eighth =
+        eighth;
+
+
+      bufferData.quarter =
+        quarter;
+
+
+      bufferData.half =
+        half;
+
+    }
+
+
+    loadBufferData();
+
+
+
+    // ======================================================
+    // IDENTIFY STATION ID PROPERTY
+    // ======================================================
+
+    function normalizeStationId(
+      value
+    ) {
+
+      if (
+        value === null ||
+        value === undefined
+      ) {
+
+        return null;
+
+      }
+
+
+      return String(
+        value
+      );
+
+    }
+
+
+
+    // ======================================================
+    // FIND BUFFER FEATURE
+    // ======================================================
+
+    function findBufferFeature(
+      radiusKey,
+      stationId
+    ) {
+
+      if (
+        radiusKey ===
+        "none"
+      ) {
+
+        return null;
+
+      }
+
+
+      const data =
+        bufferData[
+          radiusKey
+        ];
+
+
+      if (
+        !data
+      ) {
+
+        return null;
+
+      }
+
+
+      const id =
+        normalizeStationId(
+          stationId
+        );
+
+
+      return (
+        data.features.find(
+          feature => {
+
+            const p =
+              feature.properties;
+
+
+            const featureId =
+              normalizeStationId(
+                p.station_id ??
+                p.Station_ID ??
+                p.STATION_ID ??
+                p.stationid
+              );
+
+
+            return (
+              featureId === id
+            );
+
+          }
+        ) ||
+        null
+      );
+
+    }
+
+
+
+    // ======================================================
+    // DRAW SELECTED BUFFER
+    // ======================================================
+
+    function updateSelectedBuffer() {
+
+      if (
+        selectedBufferLayer
+      ) {
+
+        map.removeLayer(
+          selectedBufferLayer
+        );
+
+
+        selectedBufferLayer =
+          null;
+
+      }
+
+
+      selectedBufferFeature =
+        null;
+
+
+      if (
+        selectedStationId ===
+        null
+      ) {
+
+        refreshBuildingStyles();
+
+        return;
+
+      }
+
+
+      if (
+        activeRadius ===
+        "none"
+      ) {
+
+        refreshBuildingStyles();
+
+        return;
+
+      }
+
+
+      const feature =
+        findBufferFeature(
+          activeRadius,
+          selectedStationId
+        );
+
+
+      if (
+        !feature
+      ) {
+
+        console.warn(
+          "No matching buffer found:",
+          selectedStationId,
+          activeRadius
+        );
+
+
+        refreshBuildingStyles();
+
+        return;
+
+      }
+
+
+      selectedBufferFeature =
+        feature;
+
+
+      selectedBufferLayer =
+        L.geoJSON(
+          feature,
+          {
+
+            pane:
+              "bufferPane",
+
+            interactive:
+              false,
+
+            style: {
+
+              fillColor:
+                "#C8643B",
+
+              fillOpacity:
+                0.075,
+
+              color:
+                "#C8643B",
+
+              weight:
+                2,
+
+              opacity:
+                0.90,
+
+              dashArray:
+                "5,4"
+
+            }
+
+          }
+        ).addTo(
+          map
+        );
+
+
+      refreshBuildingStyles();
+
+    }
+
+
+
+    // ======================================================
+    // SELECT STATION
+    // ======================================================
+
+    function selectStation(
+      properties,
+      latlng
+    ) {
+
+      const id =
+
+        properties.station_id ??
+
+        properties.Station_ID ??
+
+        properties.STATION_ID ??
+
+        properties.stationid;
+
+
+      selectedStationId =
+        id;
+
+
+      selectedStationName =
+        properties.Station_Name;
+
+
+      updateRadiusControlText();
+
+
+      updateSelectedBuffer();
+
+
+      /*
+        If reader clicked a station from a regional view,
+        move close enough to reveal buildings.
+
+        If already zoomed in, preserve the reader's current
+        zoom.
+      */
+
+      if (
+        map.getZoom() <
+        BUILDING_MIN_ZOOM
+      ) {
+
+        map.flyTo(
+          latlng,
+          BUILDING_MIN_ZOOM,
+          {
+            duration:
+              0.65
+          }
+        );
+
+      }
+
+
+      scheduleBuildingUpdate();
+
+    }
+
+
+
+    // ======================================================
+    // METRICS
+    // ======================================================
+
+    const metrics = {
+
+      ridership: {
+        label:
+          "Metrorail use",
+
+        field:
+          "avg_daily_entries_7day",
+
+        description:
+          "Average daily station entries",
+
+        legendValues:
+          [1000, 5000, 15000],
+
+        format:
+          "number"
+      },
+
+
+      activity: {
+        label:
+          "Residents + jobs",
+
+        field:
+          "population_jobs_quarter",
+
+        description:
+          "Residents and jobs within ¼ mile",
+
+        legendValues:
+          [2000, 10000, 50000],
+
+        format:
+          "number"
+      },
+
+
+      population: {
+        label:
+          "Residents",
+
+        field:
+          "population_quarter",
+
+        description:
+          "Residents within ¼ mile",
+
+        legendValues:
+          [1000, 5000, 15000],
+
+        format:
+          "number"
+      },
+
+
+      jobs: {
+        label:
+          "Jobs",
+
+        field:
+          "jobs_quarter",
+
+        description:
+          "Jobs within ¼ mile",
+
+        legendValues:
+          [1000, 10000, 50000],
+
+        format:
+          "number"
+      },
+
+
+      housing: {
+        label:
+          "Housing units",
+
+        field:
+          "housing_units_quarter",
+
+        description:
+          "Housing units within ¼ mile",
+
+        legendValues:
+          [500, 2000, 5000],
+
+        format:
+          "number"
+      },
+
+
+      coverage: {
+        label:
+          "Building coverage",
+
+        field:
+          "building_coverage_pct_eighth",
+
+        description:
+          "Land covered by buildings within ⅛ mile",
+
+        legendValues:
+          [10, 30, 50],
+
+        format:
+          "percent"
+      }
+
+    };
+
+
+
+    // ======================================================
+    // FORMATTERS
+    // ======================================================
+
+    function formatNumber(
+      value
+    ) {
+
+      const number =
+        Number(value);
+
+
+      if (
+        value === null ||
+        value === undefined ||
+        value === "" ||
+        Number.isNaN(
+          number
+        )
+      ) {
+
+        return "—";
+
+      }
+
+
+      return number.toLocaleString(
+        "en-US",
+        {
+          maximumFractionDigits:
+            0
+        }
+      );
+
+    }
+
+
+    function formatPercent(
+      value
+    ) {
+
+      const number =
+        Number(value);
+
+
+      if (
+        value === null ||
+        value === undefined ||
+        value === "" ||
+        Number.isNaN(
+          number
+        )
+      ) {
+
+        return "—";
+
+      }
+
+
+      return (
+        number.toLocaleString(
+          "en-US",
+          {
+            minimumFractionDigits:
+              1,
+
+            maximumFractionDigits:
+              1
+          }
+        ) +
+        "%"
+      );
+
+    }
+
+
+    function formatMetricValue(
+      value,
+      metricKey
+    ) {
+
+      if (
+        metrics[
+          metricKey
+        ].format ===
+        "percent"
+      ) {
+
+        return formatPercent(
+          value
+        );
+
+      }
+
+
+      return formatNumber(
+        value
+      );
+
+    }
+
+
+
+    // ======================================================
+    // STATION SIZE
+    // ======================================================
+
+    function getRadius(
+      value,
+      metricKey
+    ) {
+
+      const number =
+        Number(value) || 0;
+
+
+      const values =
+        stationValues[
+          metricKey
+        ] || [];
+
+
+      if (
+        values.length ===
+        0
+      ) {
+
+        return 4;
+
+      }
+
+
+      const maxValue =
+        Math.max(
+          ...values
+        );
+
+
+      if (
+        maxValue <= 0
+      ) {
+
+        return 4;
+
+      }
+
+
+      const minRadius =
+        3.5;
+
+
+      const maxRadius =
+        14;
+
+
+      const ratio =
+        Math.max(
+          0,
+          number /
+          maxValue
+        );
+
+
+      return (
+        minRadius +
+        Math.sqrt(
+          ratio
+        ) *
+        (
+          maxRadius -
+          minRadius
+        )
+      );
+
+    }
+
+
+
+    // ======================================================
     // WATER
     // ======================================================
 
@@ -1197,6 +2720,7 @@
                 false,
 
               style: {
+
                 fillColor:
                   "#DCE6E5",
 
@@ -1211,6 +2735,7 @@
 
                 opacity:
                   0.90
+
               }
 
             }
@@ -1239,37 +2764,41 @@
       .then(
         data => {
 
-          L.geoJSON(
-            data,
-            {
+          countyLayer =
+            L.geoJSON(
+              data,
+              {
 
-              pane:
-                "countyPane",
+                pane:
+                  "countyPane",
 
-              interactive:
-                false,
+                interactive:
+                  false,
 
-              style: {
-                color:
-                  "#AEA59C",
+                style: {
 
-                weight:
-                  1,
+                  color:
+                    "#AEA59C",
 
-                opacity:
-                  0.60,
+                  weight:
+                    1,
 
-                dashArray:
-                  "4,5",
+                  opacity:
+                    0.60,
 
-                lineCap:
-                  "round"
+                  dashArray:
+                    "4,5",
+
+                  lineCap:
+                    "round"
+
+                }
+
               }
+            );
 
-            }
-          ).addTo(
-            map
-          );
+
+          updateContextVisibility();
 
         }
       );
@@ -1278,12 +2807,6 @@
 
     // ======================================================
     // MINOR ROADS
-    //
-    // S1200 = secondary roads
-    // S1400 = local roads
-    //
-    // Both layers are loaded once, but not initially
-    // displayed.
     // ======================================================
 
     fetch(
@@ -1291,21 +2814,9 @@
     )
 
       .then(
-        response => {
-
-          if (!response.ok) {
-
-            throw new Error(
-              "Could not load minor_roads.geojson"
-            );
-
-          }
-
-          return response.json();
-
-        }
+        response =>
+          response.json()
       )
-
 
       .then(
         data => {
@@ -1319,23 +2830,18 @@
                 pane:
                   "minorRoadPane",
 
-                filter: function(
-                  feature
-                ) {
-
-                  return (
+                filter:
+                  feature =>
                     feature
                       .properties
                       .MTFCC ===
-                    "S1200"
-                  );
-
-                },
+                    "S1200",
 
                 interactive:
                   false,
 
                 style: {
+
                   color:
                     "#CEC7BF",
 
@@ -1343,13 +2849,14 @@
                     0.9,
 
                   opacity:
-                    0.65,
+                    0.68,
 
                   lineCap:
                     "round",
 
                   lineJoin:
                     "round"
+
                 }
 
               }
@@ -1364,23 +2871,18 @@
                 pane:
                   "minorRoadPane",
 
-                filter: function(
-                  feature
-                ) {
-
-                  return (
+                filter:
+                  feature =>
                     feature
                       .properties
                       .MTFCC ===
-                    "S1400"
-                  );
-
-                },
+                    "S1400",
 
                 interactive:
                   false,
 
                 style: {
+
                   color:
                     "#DDD7D0",
 
@@ -1388,32 +2890,21 @@
                     0.55,
 
                   opacity:
-                    0.60,
+                    0.62,
 
                   lineCap:
                     "round",
 
                   lineJoin:
                     "round"
+
                 }
 
               }
             );
 
 
-          updateRoadVisibility();
-
-        }
-      )
-
-
-      .catch(
-        error => {
-
-          console.error(
-            "Minor road error:",
-            error
-          );
+          updateContextVisibility();
 
         }
       );
@@ -1447,6 +2938,7 @@
                 false,
 
               style: {
+
                 color:
                   "#B8B1A9",
 
@@ -1461,6 +2953,7 @@
 
                 lineJoin:
                   "round"
+
               }
 
             }
@@ -1497,10 +2990,10 @@
             "FAIRFAX",
 
           lat:
-            38.88,
+            38.885,
 
           lon:
-            -77.32
+            -77.33
         },
 
 
@@ -1512,7 +3005,7 @@
             39.09,
 
           lon:
-            -77.13
+            -77.14
         },
 
 
@@ -1533,10 +3026,10 @@
             "ARLINGTON",
 
           lat:
-            38.88,
+            38.89,
 
           lon:
-            -77.13
+            -77.16
         },
 
 
@@ -1548,7 +3041,7 @@
             38.79,
 
           lon:
-            -77.08
+            -77.105
         },
 
 
@@ -1557,10 +3050,10 @@
             "DISTRICT OF COLUMBIA",
 
           lat:
-            38.915,
+            38.925,
 
           lon:
-            -77.025,
+            -76.985,
 
           dc:
             true
@@ -1569,99 +3062,131 @@
       ];
 
 
-    function buildJurisdictionLabels() {
-
-      jurisdictionLayer.clearLayers();
-
-
-      jurisdictions.forEach(
-        place => {
+    jurisdictions.forEach(
+      place => {
 
 
-          const className =
+        const className =
 
-            place.dc
+          place.dc
 
-              ? "jurisdiction-label jurisdiction-label-dc"
+            ? "jurisdiction-label jurisdiction-label-dc"
 
-              : "jurisdiction-label";
-
-
-          const marker =
-            L.marker(
-              [
-                place.lat,
-                place.lon
-              ],
-              {
-
-                pane:
-                  "labelPane",
-
-                interactive:
-                  false,
-
-                icon:
-                  L.divIcon(
-                    {
-
-                      className:
-                        "",
-
-                      html:
-                        `
-                        <div
-                          class="${className}"
-                        >
-                          ${place.name}
-                        </div>
-                        `,
-
-                      iconSize:
-                        null
-
-                    }
-                  )
-
-              }
-            );
+            : "jurisdiction-label";
 
 
-          jurisdictionLayer.addLayer(
-            marker
+        const marker =
+          L.marker(
+            [
+              place.lat,
+              place.lon
+            ],
+            {
+
+              pane:
+                "labelPane",
+
+              interactive:
+                false,
+
+              icon:
+                L.divIcon(
+                  {
+
+                    className:
+                      "",
+
+                    html:
+                      `
+                      <div
+                        class="${className}"
+                      >
+                        ${place.name}
+                      </div>
+                      `,
+
+                    iconSize:
+                      null
+
+                  }
+                )
+
+            }
           );
 
-        }
-      );
 
-    }
+        jurisdictionLayer.addLayer(
+          marker
+        );
 
-
-    buildJurisdictionLabels();
+      }
+    );
 
 
 
     // ======================================================
-    // ROAD + LABEL ZOOM VISIBILITY
+    // CONTEXT VISIBILITY BY ZOOM
     // ======================================================
 
-    function updateRoadVisibility() {
+    function updateContextVisibility() {
 
       const zoom =
         map.getZoom();
 
 
-      // ----------------------------------------------
-      // Secondary roads:
-      // zoom 13+
-      // ----------------------------------------------
+      // Counties
+
+      if (
+        countyLayer
+      ) {
+
+        if (
+          zoom <=
+          COUNTY_MAX_ZOOM
+        ) {
+
+          if (
+            !map.hasLayer(
+              countyLayer
+            )
+          ) {
+
+            countyLayer.addTo(
+              map
+            );
+
+          }
+
+        }
+
+        else {
+
+          if (
+            map.hasLayer(
+              countyLayer
+            )
+          ) {
+
+            map.removeLayer(
+              countyLayer
+            );
+
+          }
+
+        }
+
+      }
+
+
+      // Secondary roads
 
       if (
         secondaryRoadLayer
       ) {
 
         if (
-          zoom >= 13
+          zoom >=
+          SECONDARY_ROAD_MIN_ZOOM
         ) {
 
           if (
@@ -1697,17 +3222,15 @@
       }
 
 
-      // ----------------------------------------------
-      // Local roads:
-      // zoom 15+
-      // ----------------------------------------------
+      // Local streets
 
       if (
         localRoadLayer
       ) {
 
         if (
-          zoom >= 15
+          zoom >=
+          LOCAL_ROAD_MIN_ZOOM
         ) {
 
           if (
@@ -1743,16 +3266,11 @@
       }
 
 
-      // ----------------------------------------------
-      // Jurisdiction labels:
-      //
-      // visible through zoom 11.
-      // Hide when neighborhood streets become the
-      // useful geographic context.
-      // ----------------------------------------------
+      // Jurisdiction labels
 
       if (
-        zoom <= 12
+        zoom <=
+        JURISDICTION_MAX_ZOOM
       ) {
 
         if (
@@ -1788,20 +3306,9 @@
     }
 
 
-    map.on(
-      "zoomend",
-      updateRoadVisibility
-    );
-
-
-    jurisdictionLayer.addTo(
-      map
-    );
-
-
 
     // ======================================================
-    // METRO LINES
+    // METRO
     // ======================================================
 
     const lineColors = {
@@ -1868,6 +3375,7 @@
 
 
                 return {
+
                   color:
                     lineColors[
                       lineName
@@ -1885,6 +3393,7 @@
 
                   lineJoin:
                     "round"
+
                 };
 
               }
@@ -1918,21 +3427,21 @@
         const div =
           L.DomUtil.create(
             "div",
-            "metric-control"
+            "map-control-box"
           );
 
 
         div.innerHTML =
           `
 
-          <div class="metric-control-title">
+          <div class="control-title">
             Size stations by
           </div>
 
 
           <select
             id="metric-select"
-            class="metric-select"
+            class="control-select"
           >
 
             <option value="ridership">
@@ -1964,7 +3473,7 @@
 
           <div
             id="metric-description"
-            class="metric-description"
+            class="control-description"
           >
 
             ${
@@ -2000,10 +3509,183 @@
 
 
     // ======================================================
-    // DYNAMIC SIZE LEGEND
+    // RADIUS CONTROL
     // ======================================================
 
-    function updateLegend() {
+    const radiusControl =
+      L.control(
+        {
+          position:
+            "topright"
+        }
+      );
+
+
+    radiusControl.onAdd =
+      function() {
+
+        const div =
+          L.DomUtil.create(
+            "div",
+            "map-control-box"
+          );
+
+
+        div.innerHTML =
+          `
+
+          <div class="control-title">
+            Selected station area
+          </div>
+
+
+          <div
+            id="selected-station-name"
+            class="selected-station-name"
+          >
+            Click a station
+          </div>
+
+
+          <div class="radius-buttons">
+
+            <button
+              class="radius-button"
+              data-radius="eighth"
+            >
+              ⅛
+            </button>
+
+
+            <button
+              class="radius-button active"
+              data-radius="quarter"
+            >
+              ¼
+            </button>
+
+
+            <button
+              class="radius-button"
+              data-radius="half"
+            >
+              ½
+            </button>
+
+
+            <button
+              class="radius-button"
+              data-radius="none"
+            >
+              None
+            </button>
+
+          </div>
+
+
+          <div class="control-description">
+            Radius in miles. Buildings inside the active
+            station area are highlighted.
+          </div>
+
+        `;
+
+
+        L.DomEvent.disableClickPropagation(
+          div
+        );
+
+
+        L.DomEvent.disableScrollPropagation(
+          div
+        );
+
+
+        return div;
+
+      };
+
+
+    radiusControl.addTo(
+      map
+    );
+
+
+    function updateRadiusControlText() {
+
+      const name =
+        document.getElementById(
+          "selected-station-name"
+        );
+
+
+      if (
+        name
+      ) {
+
+        name.textContent =
+
+          selectedStationName ||
+
+          "Click a station";
+
+      }
+
+
+      document
+        .querySelectorAll(
+          ".radius-button"
+        )
+        .forEach(
+          button => {
+
+            button.classList.toggle(
+              "active",
+              button
+                .dataset
+                .radius ===
+              activeRadius
+            );
+
+          }
+        );
+
+    }
+
+
+    document
+      .querySelectorAll(
+        ".radius-button"
+      )
+      .forEach(
+        button => {
+
+          button.addEventListener(
+            "click",
+            function() {
+
+              activeRadius =
+                this.dataset.radius;
+
+
+              updateRadiusControlText();
+
+
+              updateSelectedBuffer();
+
+            }
+          );
+
+        }
+      );
+
+
+
+    // ======================================================
+    // SIZE LEGEND
+    // ======================================================
+
+    function updateSizeLegend() {
 
       if (
         sizeLegend
@@ -2031,7 +3713,7 @@
           const div =
             L.DomUtil.create(
               "div",
-              "size-legend"
+              "legend-box size-legend"
             );
 
 
@@ -2062,20 +3744,12 @@
                 rows +=
                   `
 
-                  <div
-                    class="size-legend-row"
-                  >
+                  <div class="legend-row">
 
-                    <div
-                      class="
-                        size-legend-circle-wrap
-                      "
-                    >
+                    <div class="size-circle-wrap">
 
                       <span
-                        class="
-                          size-legend-circle
-                        "
+                        class="size-circle"
                         style="
                           width:
                             ${diameter}px;
@@ -2089,14 +3763,12 @@
 
 
                     <span>
-
                       ${
                         formatMetricValue(
                           value,
                           activeMetric
                         )
                       }
-
                     </span>
 
                   </div>
@@ -2110,7 +3782,7 @@
           div.innerHTML =
             `
 
-            <div class="size-legend-title">
+            <div class="legend-title">
               ${config.label}
             </div>
 
@@ -2133,7 +3805,7 @@
 
 
     // ======================================================
-    // STATIC MAP LEGEND
+    // MAP LEGEND
     // ======================================================
 
     const mapLegend =
@@ -2151,25 +3823,22 @@
         const div =
           L.DomUtil.create(
             "div",
-            "map-legend"
+            "legend-box"
           );
 
 
         div.innerHTML =
           `
 
-          <div class="map-legend-title">
+          <div class="legend-title">
             Map
           </div>
 
 
-          <div class="map-legend-row">
+          <div class="legend-row">
 
             <span
-              class="
-                map-symbol
-                symbol-metro
-              "
+              class="map-symbol symbol-metro"
             ></span>
 
             <span>
@@ -2179,13 +3848,10 @@
           </div>
 
 
-          <div class="map-legend-row">
+          <div class="legend-row">
 
             <span
-              class="
-                map-symbol
-                symbol-highway
-              "
+              class="map-symbol symbol-highway"
             ></span>
 
             <span>
@@ -2195,13 +3861,47 @@
           </div>
 
 
-          <div class="map-legend-row">
+          <div
+            id="secondary-road-legend"
+            class="legend-row"
+            style="display:none;"
+          >
 
             <span
-              class="
-                map-symbol
-                symbol-county
-              "
+              class="map-symbol symbol-road"
+            ></span>
+
+            <span>
+              Secondary road
+            </span>
+
+          </div>
+
+
+          <div
+            id="local-road-legend"
+            class="legend-row"
+            style="display:none;"
+          >
+
+            <span
+              class="map-symbol symbol-local-road"
+            ></span>
+
+            <span>
+              Local street
+            </span>
+
+          </div>
+
+
+          <div
+            id="county-legend"
+            class="legend-row"
+          >
+
+            <span
+              class="map-symbol symbol-county"
             ></span>
 
             <span>
@@ -2211,13 +3911,10 @@
           </div>
 
 
-          <div class="map-legend-row">
+          <div class="legend-row">
 
             <span
-              class="
-                map-symbol
-                symbol-water
-              "
+              class="map-symbol symbol-water"
             ></span>
 
             <span>
@@ -2227,39 +3924,35 @@
           </div>
 
 
-          <div class="map-legend-row">
+          <div
+            id="building-legend"
+            class="legend-row"
+            style="display:none;"
+          >
 
             <span
-              class="
-                map-symbol
-                symbol-station
-              "
+              class="map-symbol symbol-building"
             ></span>
 
             <span>
-              Metrorail station
+              Building footprint
             </span>
 
           </div>
 
 
           <div
-            class="
-              map-legend-row
-              local-road-legend-row
-            "
+            id="selected-building-legend"
+            class="legend-row"
             style="display:none;"
           >
 
             <span
-              class="
-                map-symbol
-                symbol-local-road
-              "
+              class="map-symbol symbol-selected-building"
             ></span>
 
             <span>
-              Local streets
+              Inside selected area
             </span>
 
           </div>
@@ -2279,110 +3972,128 @@
 
 
     // ======================================================
-    // UPDATE STATIC LEGEND WITH ZOOM
+    // LEGEND VISIBILITY
     // ======================================================
 
     function updateMapLegend() {
 
-      const row =
-        document.querySelector(
-          ".local-road-legend-row"
-        );
+      const zoom =
+        map.getZoom();
 
 
-      if (
-        !row
-      ) {
-
-        return;
-
-      }
-
-
-      if (
-        map.getZoom() >= 15
-      ) {
-
-        row.style.display =
-          "flex";
-
-      }
-
-      else {
-
-        row.style.display =
-          "none";
-
-      }
-
-    }
-
-
-    map.on(
-      "zoomend",
-      updateMapLegend
-    );
-
-
-
-    // ======================================================
-    // UPDATE STATION SIZES
-    // ======================================================
-
-    function updateStationSizes() {
-
-      if (
-        !stationLayer
-      ) {
-
-        return;
-
-      }
-
-
-      const config =
-        metrics[
-          activeMetric
-        ];
-
-
-      stationLayer.eachLayer(
-        layer => {
-
-          const p =
-            layer.feature.properties;
-
-
-          layer.setRadius(
-            getRadius(
-              p[
-                config.field
-              ],
-              activeMetric
-            )
-          );
-
-        }
-      );
-
-
-      const description =
+      const secondary =
         document.getElementById(
-          "metric-description"
+          "secondary-road-legend"
+        );
+
+
+      const local =
+        document.getElementById(
+          "local-road-legend"
+        );
+
+
+      const county =
+        document.getElementById(
+          "county-legend"
+        );
+
+
+      const building =
+        document.getElementById(
+          "building-legend"
+        );
+
+
+      const selected =
+        document.getElementById(
+          "selected-building-legend"
         );
 
 
       if (
-        description
+        secondary
       ) {
 
-        description.textContent =
-          config.description;
+        secondary.style.display =
+          zoom >=
+          SECONDARY_ROAD_MIN_ZOOM
+
+            ? "flex"
+
+            : "none";
 
       }
 
 
-      updateLegend();
+      if (
+        local
+      ) {
+
+        local.style.display =
+          zoom >=
+          LOCAL_ROAD_MIN_ZOOM
+
+            ? "flex"
+
+            : "none";
+
+      }
+
+
+      if (
+        county
+      ) {
+
+        county.style.display =
+          zoom <=
+          COUNTY_MAX_ZOOM
+
+            ? "flex"
+
+            : "none";
+
+      }
+
+
+      if (
+        building
+      ) {
+
+        building.style.display =
+          zoom >=
+          BUILDING_MIN_ZOOM
+
+            ? "flex"
+
+            : "none";
+
+      }
+
+
+      if (
+        selected
+      ) {
+
+        selected.style.display =
+          (
+            zoom >=
+            BUILDING_MIN_ZOOM
+          ) &&
+          (
+            selectedStationId !==
+            null
+          ) &&
+          (
+            activeRadius !==
+            "none"
+          )
+
+            ? "flex"
+
+            : "none";
+
+      }
 
     }
 
@@ -2802,6 +4513,7 @@
 
                       fillOpacity:
                         0.96
+
                     }
                   );
 
@@ -2829,16 +4541,33 @@
 
 
                   layer.on(
+                    "click",
+                    function(
+                      event
+                    ) {
+
+                      selectStation(
+                        p,
+                        event.latlng
+                      );
+
+                    }
+                  );
+
+
+                  layer.on(
                     "mouseover",
                     function() {
 
                       this.setStyle(
                         {
+
                           weight:
                             2.5,
 
                           color:
                             "#C8643B"
+
                         }
                       );
 
@@ -2855,11 +4584,13 @@
 
                       this.setStyle(
                         {
+
                           weight:
                             1.5,
 
                           color:
                             "#3F3A35"
+
                         }
                       );
 
@@ -2905,14 +4636,120 @@
           );
 
 
-          updateLegend();
+          updateSizeLegend();
 
-          updateRoadVisibility();
+          updateContextVisibility();
 
           updateMapLegend();
 
         }
       );
+
+
+
+    // ======================================================
+    // UPDATE STATION SIZES
+    // ======================================================
+
+    function updateStationSizes() {
+
+      if (
+        !stationLayer
+      ) {
+
+        return;
+
+      }
+
+
+      const config =
+        metrics[
+          activeMetric
+        ];
+
+
+      stationLayer.eachLayer(
+        layer => {
+
+          const p =
+            layer.feature.properties;
+
+
+          layer.setRadius(
+            getRadius(
+              p[
+                config.field
+              ],
+              activeMetric
+            )
+          );
+
+        }
+      );
+
+
+      const description =
+        document.getElementById(
+          "metric-description"
+        );
+
+
+      if (
+        description
+      ) {
+
+        description.textContent =
+          config.description;
+
+      }
+
+
+      updateSizeLegend();
+
+    }
+
+
+
+    // ======================================================
+    // MAP EVENT HANDLERS
+    // ======================================================
+
+    map.on(
+      "zoomend",
+      function() {
+
+        updateContextVisibility();
+
+        updateMapLegend();
+
+        scheduleBuildingUpdate();
+
+      }
+    );
+
+
+    map.on(
+      "moveend",
+      function() {
+
+        scheduleBuildingUpdate();
+
+      }
+    );
+
+
+    // ======================================================
+    // INITIAL CONTEXT
+    // ======================================================
+
+    jurisdictionLayer.addTo(
+      map
+    );
+
+
+    updateContextVisibility();
+
+    updateMapLegend();
 
 
   </script>
