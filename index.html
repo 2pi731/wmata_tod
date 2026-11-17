@@ -107,6 +107,56 @@ const lineOffsets = {
   "Green": -2.25,
   "Yellow": 2.25
 };
+
+// --------------------------------------------------------
+// Major water features
+// --------------------------------------------------------
+
+fetch("water.geojson")
+
+  .then(response => {
+
+    if (!response.ok) {
+      throw new Error(
+        "Could not load water.geojson"
+      );
+    }
+
+    return response.json();
+
+  })
+
+  .then(data => {
+
+    const waterLayer = L.geoJSON(
+      data,
+      {
+
+        style: {
+          fillColor: "#DCE6E5",
+          fillOpacity: 0.9,
+          color: "#DCE6E5",
+          weight: 0.5,
+          opacity: 0.9
+        }
+
+      }
+    ).addTo(map);
+
+
+    // Keep water beneath Metro lines and stations.
+    waterLayer.bringToBack();
+
+  })
+
+  .catch(error => {
+
+    console.error(
+      "Water layer error:",
+      error
+    );
+
+  });
     
 // --------------------------------------------------------
 // Load Metro lines
