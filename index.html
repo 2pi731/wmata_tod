@@ -229,6 +229,42 @@
       line-height: 1.3;
     }
 
+    /* ======================================================
+   FIXED STATION INFORMATION PANEL
+   ====================================================== */
+
+.station-info-panel {
+  *idth: 265px;
+
+  max-height:
+    ca*c(100vh - 40px);
+
+  overflow-y: au*o;
+
+  margin-left:
+    42px !impor*ant;
+
+  padding:
+    15px
+    17px*
+
+  background:
+    rgba(247, 243,*236, 0.97);
+
+  border:
+    1px sol*d
+    rgba(216, 209, 200, 0.95);
+
+* border-radius:
+    6px;
+
+  box-sh*dow:
+    0 2px 12px
+    rgba(40, 3*, 34, 0.14);
+
+  color:
+    #282522*
+}
 
     /* ======================================================
        POPUPS
@@ -2242,6 +2278,27 @@
       selectedStationName =
         properties.Station_Name;
 
+      const pan*l =
+  document.get*lementById(
+    "station-info-pane*"
+  );
+
+
+if *
+  panel
+) {
+
+  panel.innerHTML =
+*   buildPopup(
+      properties
+  * );
+
+
+  panel.style.display =
+    *block";
+
+}
+
 
       updateRadiusControlText();
 
@@ -3487,10 +3544,65 @@
 
       };
 
+radiusControl.addTo(
+  map
+);
 
-    radiusControl.addTo(
-      map
+
+// ======================================================
+// FIXED STATION INFORMATION PANEL
+// ======================================================
+
+const stationInfoControl =
+  L.control(
+    {
+      position:
+        "topleft"
+    }
+  );
+
+
+stationInfoControl.onAdd =
+  function() {
+
+    const div =
+      L.DomUtil.create(
+        "div",
+        "station-info-panel"
+      );
+
+
+    div.id =
+      "station-info-panel";
+
+
+    div.style.display =
+      "none";
+
+
+    L.DomEvent.disableClickPropagation(
+      div
     );
+
+
+    L.DomEvent.disableScrollPropagation(
+      div
+    );
+
+
+    return div;
+
+  };
+
+
+stationInfoControl.addTo(
+  map
+);
+
+
+// ======================================================
+// RADIUS CONTROL STATE
+// ======================================================
 
 
     function updateRadiusControlText() {
@@ -4409,35 +4521,6 @@
 
                   const p =
                     feature.properties;
-
-
-                  layer.bindPopup(
-  buildPopup(
-    p
-  ),
-  {
-    maxWidth:
-      300,
-
-    offset:
-      L.point(
-        -155,
-        20
-      ),
-
-    autoPan:
-      true,
-
-    autoPanPaddingTopLeft:
-      [40, 40],
-
-    autoPanPaddingBottomRight:
-      [280, 40],
-
-    keepInView:
-      true
-  }
-);
 
 
                   layer.on(
