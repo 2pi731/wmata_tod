@@ -2297,7 +2297,7 @@
           "Average daily station entries",
 
         legendValues:
-          [1000, 5000, 15000],
+          [1000, 3000, 6000, 9000, 12000, 15000],
 
         format:
           "number"
@@ -2315,7 +2315,7 @@
           "Residents and jobs within ¼ mile",
 
         legendValues:
-          [2000, 10000, 50000],
+          [2000, 5000, 10000, 20000, 35000, 50000],
 
         format:
           "number"
@@ -2333,7 +2333,7 @@
           "Residents within ¼ mile",
 
         legendValues:
-          [1000, 5000, 15000],
+          [1000, 3000, 6000, 9000, 12000, 15000],
 
         format:
           "number"
@@ -2351,7 +2351,7 @@
           "Jobs within ¼ mile",
 
         legendValues:
-          [1000, 10000, 50000],
+          [1000, 5000, 10000, 20000, 35000, 50000],
 
         format:
           "number"
@@ -2369,7 +2369,7 @@
           "Housing units within ¼ mile",
 
         legendValues:
-          [500, 2000, 5000],
+          [500, 1000, 2000, 3000, 4000, 5000],
 
         format:
           "number"
@@ -2387,7 +2387,7 @@
           "Land covered by buildings within ⅛ mile",
 
         legendValues:
-          [10, 30, 50],
+          [10, 20, 30, 40, 50],
 
         format:
           "percent"
@@ -4412,14 +4412,32 @@
 
 
                   layer.bindPopup(
-                    buildPopup(
-                      p
-                    ),
-                    {
-                      maxWidth:
-                        300
-                    }
-                  );
+  buildPopup(
+    p
+  ),
+  {
+    maxWidth:
+      300,
+
+    offset:
+      L.point(
+        -155,
+        20
+      ),
+
+    autoPan:
+      true,
+
+    autoPanPaddingTopLeft:
+      [40, 40],
+
+    autoPanPaddingBottomRight:
+      [280, 40],
+
+    keepInView:
+      true
+  }
+);
 
 
                   layer.on(
