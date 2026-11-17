@@ -522,4 +522,738 @@
             data.features.length
           );
 
-    
+        }
+      )
+
+
+      .catch(
+        error => {
+
+          console.error(
+            "Water layer error:",
+            error
+          );
+
+        }
+      );
+
+
+
+    // ======================================================
+    // WMATA LINE COLORS
+    // ======================================================
+
+    const lineColors = {
+
+      "Red":
+        "#BF0D3E",
+
+      "Blue":
+        "#009CDE",
+
+      "Orange":
+        "#ED8B00",
+
+      "Silver":
+        "#919D9D",
+
+      "Green":
+        "#00B140",
+
+      "Yellow":
+        "#FFD100"
+
+    };
+
+
+
+    // ======================================================
+    // METRO LINES
+    //
+    // Original geometry only.
+    // No line offsets or interlining manipulation.
+    // ======================================================
+
+    fetch(
+      "metro_lines.geojson"
+    )
+
+      .then(
+        response => {
+
+          if (!response.ok) {
+
+            throw new Error(
+              "Could not load metro_lines.geojson"
+            );
+
+          }
+
+          return response.json();
+
+        }
+      )
+
+
+      .then(
+        data => {
+
+          L.geoJSON(
+            data,
+            {
+
+              pane:
+                "metroPane",
+
+
+              style: function(
+                feature
+              ) {
+
+                const properties =
+                  feature.properties;
+
+
+                const lineName =
+
+                  properties.LINE ||
+
+                  properties.Line ||
+
+                  properties.NAME ||
+
+                  properties.Name ||
+
+                  "";
+
+
+                return {
+
+                  color:
+                    lineColors[
+                      lineName
+                    ] ||
+                    "#77736E",
+
+                  weight:
+                    4,
+
+                  opacity:
+                    0.90,
+
+                  lineCap:
+                    "round",
+
+                  lineJoin:
+                    "round"
+
+                };
+
+              }
+
+            }
+          ).addTo(
+            map
+          );
+
+
+          console.log(
+            "Metro line features loaded:",
+            data.features.length
+          );
+
+        }
+      )
+
+
+      .catch(
+        error => {
+
+          console.error(
+            "Metro line error:",
+            error
+          );
+
+        }
+      );
+
+
+
+    // ======================================================
+    // STATIONS
+    // ======================================================
+
+    fetch(
+      "stations.geojson"
+    )
+
+      .then(
+        response => {
+
+          if (!response.ok) {
+
+            throw new Error(
+              "Could not load stations.geojson"
+            );
+
+          }
+
+          return response.json();
+
+        }
+      )
+
+
+      .then(
+        data => {
+
+          const stationLayer =
+            L.geoJSON(
+              data,
+              {
+
+                pane:
+                  "stationPane",
+
+
+                pointToLayer: function(
+                  feature,
+                  latlng
+                ) {
+
+                  const p =
+                    feature.properties;
+
+
+                  const radius =
+                    ridershipRadius(
+                      p.avg_daily_entries_7day
+                    );
+
+
+                  return L.circleMarker(
+                    latlng,
+                    {
+
+                      pane:
+                        "stationPane",
+
+                      radius:
+                        radius,
+
+                      fillColor:
+                        "#F7F3EC",
+
+                      color:
+                        "#3F3A35",
+
+                      weight:
+                        1.5,
+
+                      opacity:
+                        1,
+
+                      fillOpacity:
+                        1
+
+                    }
+                  );
+
+                },
+
+
+                onEachFeature: function(
+                  feature,
+                  layer
+                ) {
+
+                  const p =
+                    feature.properties;
+
+
+                  const popupHtml =
+                    `
+
+                    <div class="station-popup-name">
+                      ${p.Station_Name}
+                    </div>
+
+                    <div class="station-popup-state">
+                      ${p.State || ""}
+                    </div>
+
+
+                    <div class="popup-section">
+
+                      <div class="popup-section-title">
+                        Metrorail use
+                      </div>
+
+
+                      <div class="popup-stat">
+
+                        <span>
+                          Average daily entries
+                        </span>
+
+                        <strong>
+                          ${
+                            formatNumber(
+                              p.avg_daily_entries_7day
+                            )
+                          }
+                        </strong>
+
+                      </div>
+
+
+                      <div class="popup-stat">
+
+                        <span>
+                          Average weekday entries
+                        </span>
+
+                        <strong>
+                          ${
+                            formatNumber(
+                              p.avg_daily_entries_weekday
+                            )
+                          }
+                        </strong>
+
+                      </div>
+
+                    </div>
+
+
+                    <div class="popup-section">
+
+                      <div class="popup-section-title">
+                        Within ¼ mile
+                      </div>
+
+
+                      <div class="popup-stat">
+
+                        <span>
+                          Residents
+                        </span>
+
+                        <strong>
+                          ${
+                            formatNumber(
+                              p.population_quarter
+                            )
+                          }
+                        </strong>
+
+                      </div>
+
+
+                      <div class="popup-stat">
+
+                        <span>
+                          Jobs
+                        </span>
+
+                        <strong>
+                          ${
+                            formatNumber(
+                              p.jobs_quarter
+                            )
+                          }
+                        </strong>
+
+                      </div>
+
+
+                      <div
+                        class="
+                          popup-stat
+                          popup-stat-total
+                        "
+                      >
+
+                        <span>
+                          Residents + jobs
+                        </span>
+
+                        <strong>
+                          ${
+                            formatNumber(
+                              p.population_jobs_quarter
+                            )
+                          }
+                        </strong>
+
+                      </div>
+
+
+                      <div class="popup-stat">
+
+                        <span>
+                          Housing units
+                        </span>
+
+                        <strong>
+                          ${
+                            formatNumber(
+                              p.housing_units_quarter
+                            )
+                          }
+                        </strong>
+
+                      </div>
+
+                    </div>
+
+
+                    <div class="popup-section">
+
+                      <div class="popup-section-title">
+                        Within ½ mile
+                      </div>
+
+
+                      <div class="popup-stat">
+
+                        <span>
+                          Residents
+                        </span>
+
+                        <strong>
+                          ${
+                            formatNumber(
+                              p.population_half
+                            )
+                          }
+                        </strong>
+
+                      </div>
+
+
+                      <div class="popup-stat">
+
+                        <span>
+                          Jobs
+                        </span>
+
+                        <strong>
+                          ${
+                            formatNumber(
+                              p.jobs_half
+                            )
+                          }
+                        </strong>
+
+                      </div>
+
+
+                      <div
+                        class="
+                          popup-stat
+                          popup-stat-total
+                        "
+                      >
+
+                        <span>
+                          Residents + jobs
+                        </span>
+
+                        <strong>
+                          ${
+                            formatNumber(
+                              p.population_jobs_half
+                            )
+                          }
+                        </strong>
+
+                      </div>
+
+
+                      <div class="popup-stat">
+
+                        <span>
+                          Housing units
+                        </span>
+
+                        <strong>
+                          ${
+                            formatNumber(
+                              p.housing_units_half
+                            )
+                          }
+                        </strong>
+
+                      </div>
+
+                    </div>
+
+
+                    <div class="popup-section">
+
+                      <div class="popup-section-title">
+                        Building coverage
+                      </div>
+
+
+                      <div class="popup-stat">
+
+                        <span>
+                          ⅛ mile
+                        </span>
+
+                        <strong>
+                          ${
+                            formatPercent(
+                              p.building_coverage_pct_eighth
+                            )
+                          }
+                        </strong>
+
+                      </div>
+
+
+                      <div class="popup-stat">
+
+                        <span>
+                          ¼ mile
+                        </span>
+
+                        <strong>
+                          ${
+                            formatPercent(
+                              p.building_coverage_pct_quarter
+                            )
+                          }
+                        </strong>
+
+                      </div>
+
+
+                      <div class="popup-stat">
+
+                        <span>
+                          ½ mile
+                        </span>
+
+                        <strong>
+                          ${
+                            formatPercent(
+                              p.building_coverage_pct_half
+                            )
+                          }
+                        </strong>
+
+                      </div>
+
+                    </div>
+
+
+                    <div class="popup-note">
+
+                      Population: 2020 Census.
+                      Jobs: 2024 LEHD LODES.
+                      Ridership and land-use measures use
+                      different source years.
+
+                    </div>
+
+                  `;
+
+
+                  layer.bindPopup(
+                    popupHtml,
+                    {
+                      maxWidth: 300
+                    }
+                  );
+
+
+                  // ----------------------------------------
+                  // Hover emphasis
+                  // ----------------------------------------
+
+                  layer.on(
+                    "mouseover",
+                    function() {
+
+                      this.setStyle(
+                        {
+
+                          weight:
+                            2.5,
+
+                          color:
+                            "#C8643B"
+
+                        }
+                      );
+
+                      this.bringToFront();
+
+                    }
+                  );
+
+
+                  layer.on(
+                    "mouseout",
+                    function() {
+
+                      this.setStyle(
+                        {
+
+                          weight:
+                            1.5,
+
+                          color:
+                            "#3F3A35"
+
+                        }
+                      );
+
+                    }
+                  );
+
+                }
+
+              }
+            ).addTo(
+              map
+            );
+
+
+          // ==================================================
+          // INITIAL EXTENT
+          //
+          // Stations control initial zoom.
+          // Water extent does not.
+          // ==================================================
+
+          map.fitBounds(
+            stationLayer.getBounds(),
+            {
+              padding:
+                [30, 30]
+            }
+          );
+
+
+          console.log(
+            "Stations loaded:",
+            data.features.length
+          );
+
+        }
+      )
+
+
+      .catch(
+        error => {
+
+          console.error(
+            "Station layer error:",
+            error
+          );
+
+        }
+      );
+
+
+
+    // ======================================================
+    // RIDERSHIP SIZE LEGEND
+    // ======================================================
+
+    const ridershipLegend =
+      L.control(
+        {
+          position:
+            "bottomright"
+        }
+      );
+
+
+    ridershipLegend.onAdd =
+      function() {
+
+        const div =
+          L.DomUtil.create(
+            "div",
+            "ridership-legend"
+          );
+
+
+        div.innerHTML =
+          `
+
+          <div class="ridership-legend-title">
+            Average daily entries
+          </div>
+
+
+          <div class="legend-row">
+
+            <span
+              class="
+                legend-circle
+                legend-circle-small
+              "
+            ></span>
+
+            <span>
+              ~1,000
+            </span>
+
+          </div>
+
+
+          <div class="legend-row">
+
+            <span
+              class="
+                legend-circle
+                legend-circle-medium
+              "
+            ></span>
+
+            <span>
+              ~5,000
+            </span>
+
+          </div>
+
+
+          <div class="legend-row">
+
+            <span
+              class="
+                legend-circle
+                legend-circle-large
+              "
+            ></span>
+
+            <span>
+              10,000+
+            </span>
+
+          </div>
+
+        `;
+
+
+        return div;
+
+      };
+
+
+    ridershipLegend.addTo(
+      map
+    );
+
+
+  </script>
+
+</body>
+
+</html>
