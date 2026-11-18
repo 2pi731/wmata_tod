@@ -593,7 +593,24 @@
         );
     }
 
+.symbol-purple-line {
+  height:
+    0;
 
+  border-top:
+    2px dashed
+    rgba(122, 62, 152, 0.70);
+}
+
+
+.legend-status {
+  color:
+    #8A8179;
+
+  font-size:
+    9px;
+}
+    
     .symbol-highway {
       height: 0;
 
@@ -872,36 +889,42 @@
     // PANES
     // ======================================================
 
-    const panes = {
+const panes = {
 
-      water:
-        200,
+  water:
+    200,
 
-      county:
-        250,
+  county:
+    250,
 
-      minorRoad:
-        290,
+  minorRoad:
+    290,
 
-      highway:
-        320,
+  highway:
+    320,
 
-      building:
-        340,
+  building:
+    340,
 
-      buffer:
-        370,
+  buffer:
+    370,
 
-      label:
-        390,
+  label:
+    390,
 
-      metro:
-        420,
+  purple:
+    405,
 
-      station:
-        600
+  metro:
+    420,
 
-    };
+  purpleStation:
+    580,
+
+  station:
+    600
+
+};
 
 
     Object.entries(
@@ -3357,7 +3380,256 @@ if (
 
     }
 
+// ======================================================
+// PURPLE LINE
+//
+// Under-construction light rail.
+// Kept visually distinct from operating Metrorail.
+// ======================================================
 
+const PURPLE_LINE_COLOR =
+  "#7A3E98";
+
+
+fetch(
+  "purple_line.geojson"
+)
+
+  .then(
+    response => {
+
+      if (
+        !response.ok
+      ) {
+
+        throw new Error(
+          "Could not load purple_line.geojson"
+        );
+
+      }
+
+      return response.json();
+
+    }
+  )
+
+
+  .then(
+    data => {
+
+      L.geoJSON(
+        data,
+        {
+
+          pane:
+            "purplePane",
+
+          interactive:
+            false,
+
+          style: {
+
+            color:
+              PURPLE_LINE_COLOR,
+
+            weight:
+              3,
+
+            opacity:
+              0.62,
+
+            dashArray:
+              "7,5",
+
+            lineCap:
+              "round",
+
+            lineJoin:
+              "round"
+
+          }
+
+        }
+      ).addTo(
+        map
+      );
+
+    }
+  )
+
+
+  .catch(
+    error => {
+
+      console.error(
+        "Purple Line alignment error:",
+        error
+      );
+
+    }
+  );
+
+
+
+// ======================================================
+// PURPLE LINE STATIONS
+//
+// Only Purple-Line-only stations receive additional
+// markers.
+//
+// Bethesda, Silver Spring, College Park and New Carrollton
+// retain their existing Metrorail station symbols.
+// ======================================================
+
+fetch(
+  "purple_line_stations.geojson"
+)
+
+  .then(
+    response => {
+
+      if (
+        !response.ok
+      ) {
+
+        throw new Error(
+          "Could not load purple_line_stations.geojson"
+        );
+
+      }
+
+      return response.json();
+
+    }
+  )
+
+
+  .then(
+    data => {
+
+      L.geoJSON(
+        data,
+        {
+
+          pane:
+            "purpleStationPane",
+
+
+          filter: function(
+            feature
+          ) {
+
+            const p =
+              feature.properties;
+
+
+            return (
+              p.is_metrorail_interchange !== true &&
+              p.is_metrorail_interchange !== "true" &&
+              p.is_metrorail_interchange !== 1 &&
+              p.is_metrorail_interchange !== "1"
+            );
+
+          },
+
+
+          pointToLayer: function(
+            feature,
+            latlng
+          ) {
+
+            return L.circleMarker(
+              latlng,
+              {
+
+                pane:
+                  "purpleStationPane",
+
+                radius:
+                  3.5,
+
+                fillColor:
+                  "#F7F3EC",
+
+                fillOpacity:
+                  0.78,
+
+                color:
+                  PURPLE_LINE_COLOR,
+
+                opacity:
+                  0.72,
+
+                weight:
+                  1.25
+
+              }
+            );
+
+          },
+
+
+          onEachFeature: function(
+            feature,
+            layer
+          ) {
+
+            const p =
+              feature.properties;
+
+
+            const stationName =
+              p.station_name ||
+              "Purple Line station";
+
+
+            layer.bindTooltip(
+              `
+
+              <strong>
+                ${stationName}
+              </strong>
+              <br>
+              Purple Line
+              <br>
+              Under construction
+
+              `,
+              {
+
+                direction:
+                  "top",
+
+                offset:
+                  [0, -5],
+
+                opacity:
+                  0.95
+
+              }
+            );
+
+          }
+
+        }
+      ).addTo(
+        map
+      );
+
+    }
+  )
+
+
+  .catch(
+    error => {
+
+      console.error(
+        "Purple Line station error:",
+        error
+      );
+
+    }
+  );
 
     // ======================================================
     // METRO
@@ -3954,6 +4226,23 @@ stationInfoControl.addTo(
 
           </div>
 
+<div class="legend-row">
+
+  <span
+    class="
+      map-symbol
+      symbol-purple-line
+    "
+  ></span>
+
+  <span>
+    Purple Line
+    <span class="legend-status">
+      under construction
+    </span>
+  </span>
+
+</div>
 
           <div class="legend-row">
 
