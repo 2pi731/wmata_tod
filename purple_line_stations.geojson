@@ -1,0 +1,28 @@
+{
+"type": "FeatureCollection",
+"name": "purple_line_stations",
+"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
+"features": [
+{ "type": "Feature", "properties": { "station_name": "Bethesda Station", "system": "Purple Line", "status": "Under construction", "is_metrorail_interchange": true }, "geometry": { "type": "Point", "coordinates": [ -77.0946354, 38.9818752 ] } },
+{ "type": "Feature", "properties": { "station_name": "Chevy Chase Lake Station/Connecticut Ave", "system": "Purple Line", "status": "Under construction", "is_metrorail_interchange": false }, "geometry": { "type": "Point", "coordinates": [ -77.0766205, 38.9946653 ] } },
+{ "type": "Feature", "properties": { "station_name": "Lyttonsville Station", "system": "Purple Line", "status": "Under construction", "is_metrorail_interchange": false }, "geometry": { "type": "Point", "coordinates": [ -77.0535097, 39.0008162 ] } },
+{ "type": "Feature", "properties": { "station_name": "Woodside/16th Street", "system": "Purple Line", "status": "Under construction", "is_metrorail_interchange": false }, "geometry": { "type": "Point", "coordinates": [ -77.0375664, 38.9980894 ] } },
+{ "type": "Feature", "properties": { "station_name": "Silver Spring Transit Center", "system": "Purple Line", "status": "Under construction", "is_metrorail_interchange": true }, "geometry": { "type": "Point", "coordinates": [ -77.0297928, 38.9938385 ] } },
+{ "type": "Feature", "properties": { "station_name": "Silver Spring Library", "system": "Purple Line", "status": "Under construction", "is_metrorail_interchange": false }, "geometry": { "type": "Point", "coordinates": [ -77.0245145, 38.9947805 ] } },
+{ "type": "Feature", "properties": { "station_name": "Dale Drive", "system": "Purple Line", "status": "Under construction", "is_metrorail_interchange": false }, "geometry": { "type": "Point", "coordinates": [ -77.0165105, 38.9993358 ] } },
+{ "type": "Feature", "properties": { "station_name": "Manchester Place", "system": "Purple Line", "status": "Under construction", "is_metrorail_interchange": false }, "geometry": { "type": "Point", "coordinates": [ -77.0075863, 39.0011492 ] } },
+{ "type": "Feature", "properties": { "station_name": "Long Branch", "system": "Purple Line", "status": "Under construction", "is_metrorail_interchange": false }, "geometry": { "type": "Point", "coordinates": [ -77.0011628, 38.9989198 ] } },
+{ "type": "Feature", "properties": { "station_name": "Piney Branch Road", "system": "Purple Line", "status": "Under construction", "is_metrorail_interchange": false }, "geometry": { "type": "Point", "coordinates": [ -76.9949847, 38.9989134 ] } },
+{ "type": "Feature", "properties": { "station_name": "Takoma/Langley Transit Center", "system": "Purple Line", "status": "Under construction", "is_metrorail_interchange": false }, "geometry": { "type": "Point", "coordinates": [ -76.988412, 38.9896562 ] } },
+{ "type": "Feature", "properties": { "station_name": "Riggs Road", "system": "Purple Line", "status": "Under construction", "is_metrorail_interchange": false }, "geometry": { "type": "Point", "coordinates": [ -76.9800543, 38.9842899 ] } },
+{ "type": "Feature", "properties": { "station_name": "Adelphi Road/West Campus", "system": "Purple Line", "status": "Under construction", "is_metrorail_interchange": false }, "geometry": { "type": "Point", "coordinates": [ -76.9547994, 38.9854189 ] } },
+{ "type": "Feature", "properties": { "station_name": "UM Campus Center", "system": "Purple Line", "status": "Under construction", "is_metrorail_interchange": false }, "geometry": { "type": "Point", "coordinates": [ -76.9460008, 38.9872216 ] } },
+{ "type": "Feature", "properties": { "station_name": "East Campus", "system": "Purple Line", "status": "Under construction", "is_metrorail_interchange": false }, "geometry": { "type": "Point", "coordinates": [ -76.9365136, 38.9854702 ] } },
+{ "type": "Feature", "properties": { "station_name": "College Park", "system": "Purple Line", "status": "Under construction", "is_metrorail_interchange": true }, "geometry": { "type": "Point", "coordinates": [ -76.9281661, 38.9783635 ] } },
+{ "type": "Feature", "properties": { "station_name": "M Square/Riverdale Park North", "system": "Purple Line", "status": "Under construction", "is_metrorail_interchange": false }, "geometry": { "type": "Point", "coordinates": [ -76.9242131, 38.968355 ] } },
+{ "type": "Feature", "properties": { "station_name": "Riverdale Park", "system": "Purple Line", "status": "Under construction", "is_metrorail_interchange": false }, "geometry": { "type": "Point", "coordinates": [ -76.9186217, 38.9600461 ] } },
+{ "type": "Feature", "properties": { "station_name": "Beacon Heights", "system": "Purple Line", "status": "Under construction", "is_metrorail_interchange": false }, "geometry": { "type": "Point", "coordinates": [ -76.9020565, 38.9619581 ] } },
+{ "type": "Feature", "properties": { "station_name": "Annapolis Road/Glenridge", "system": "Purple Line", "status": "Under construction", "is_metrorail_interchange": false }, "geometry": { "type": "Point", "coordinates": [ -76.8851063, 38.950936 ] } },
+{ "type": "Feature", "properties": { "station_name": "New Carrollton", "system": "Purple Line", "status": "Under construction", "is_metrorail_interchange": true }, "geometry": { "type": "Point", "coordinates": [ -76.872361200000014, 38.9491868 ] } }
+]
+}
