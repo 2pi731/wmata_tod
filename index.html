@@ -12,14 +12,14 @@
 
   <title>Development Around Washington Metro</title>
 
-  <link
-    rel="stylesheet"
-    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-  >
+<link
+  rel="stylesheet"
+  href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+>
 
-  <script
-    src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-  ></script>
+<script
+  src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+></script>
 
 
   <style>
@@ -77,6 +77,82 @@
       background:
         var(--background);
     }
+
+    /* ======================================================
+   MAP INTRO
+   ====================================================== */
+
+.map-intro {
+  position: absolute;
+
+  top: 12px;
+  left: 50%;
+
+  transform:
+    translateX(-50%);
+
+  width: 420px;
+
+  max-width:
+    calc(100vw - 620px);
+
+  padding:
+    10px
+    16px;
+
+  background:
+    rgba(247, 243, 236, 0.94);
+
+  border:
+    1px solid
+    rgba(216, 209, 200, 0.95);
+
+  border-radius:
+    6px;
+
+  box-shadow:
+    0 2px 10px
+    rgba(40, 37, 34, 0.08);
+
+  text-align:
+    center;
+
+  pointer-events:
+    none;
+
+  z-index:
+    1000;
+}
+
+
+.map-intro-title {
+  margin-bottom:
+    3px;
+
+  color:
+    #282522;
+
+  font-size:
+    16px;
+
+  font-weight:
+    700;
+
+  line-height:
+    1.2;
+}
+
+
+.map-intro-text {
+  color:
+    #756D66;
+
+  font-size:
+    11px;
+
+  line-height:
+    1.35;
+}
 
 
     /* ======================================================
@@ -229,6 +305,43 @@
       line-height: 1.3;
     }
 
+   /* ======================================================
+   FIXED STATION INFORMATION PANEL
+   ====================================================== */
+
+.station-info-panel {
+  width: 265px;
+
+  max-height:
+    calc(100vh - 40px);
+
+  overflow-y:
+    auto;
+
+  margin-left:
+    42px !important;
+
+  padding:
+    15px
+    17px;
+
+  background:
+    rgba(247, 243, 236, 0.97);
+
+  border:
+    1px solid
+    rgba(216, 209, 200, 0.95);
+
+  border-radius:
+    6px;
+
+  box-shadow:
+    0 2px 12px
+    rgba(40, 37, 34, 0.14);
+
+  color:
+    #282522;
+}
 
     /* ======================================================
        POPUPS
@@ -480,7 +593,24 @@
         );
     }
 
+.symbol-purple-line {
+  height:
+    0;
 
+  border-top:
+    2px dashed
+    rgba(122, 62, 152, 0.70);
+}
+
+
+.legend-status {
+  color:
+    #8A8179;
+
+  font-size:
+    9px;
+}
+    
     .symbol-highway {
       height: 0;
 
@@ -655,8 +785,25 @@
 
     @media (
       max-width: 700px
-    ) {
+    ) { 
+      .map-intro {
+  width:
+    calc(100vw - 120px);
 
+  max-width:
+    360px;
+
+  padding:
+    8px
+    10px;
+}
+
+
+.map-intro-text {
+  display:
+    none;
+}
+      
       .map-control-box {
         min-width: 160px;
 
@@ -690,6 +837,27 @@
   <div id="map"></div>
 
   <div
+    class="map-intro"
+  >
+
+    <div
+      class="map-intro-title"
+    >
+      Explore the Metro
+    </div>
+
+    <div
+      class="map-intro-text"
+    >
+      Click any station to see ridership, nearby residents
+      and jobs, and building coverage. Change the radius
+      or metric to compare places across the system.
+    </div>
+
+  </div>
+
+
+  <div
     id="building-loader"
     class="building-loader"
   >
@@ -721,36 +889,42 @@
     // PANES
     // ======================================================
 
-    const panes = {
+const panes = {
 
-      water:
-        200,
+  water:
+    200,
 
-      county:
-        250,
+  county:
+    250,
 
-      minorRoad:
-        290,
+  minorRoad:
+    290,
 
-      highway:
-        320,
+  highway:
+    320,
 
-      building:
-        340,
+  building:
+    340,
 
-      buffer:
-        370,
+  buffer:
+    370,
 
-      label:
-        390,
+  label:
+    390,
 
-      metro:
-        420,
+  purple:
+    405,
 
-      station:
-        600
+  metro:
+    420,
 
-    };
+  purpleStation:
+    580,
+
+  station:
+    600
+
+};
 
 
     Object.entries(
@@ -775,8 +949,6 @@
       "labelPane"
     ).style.pointerEvents =
       "none";
-
-
 
     // ======================================================
     // CONSTANTS
@@ -883,19 +1055,40 @@
       new Map();
 
 
-    let bufferData = {
+let bufferData = {
 
-      eighth:
-        null,
+  metro: {
 
-      quarter:
-        null,
+    eighth:
+      null,
 
-      half:
-        null
+    quarter:
+      null,
 
-    };
+    half:
+      null
 
+  },
+
+
+  purple: {
+
+    eighth:
+      null,
+
+    quarter:
+      null,
+
+    half:
+      null
+
+  }
+
+};
+
+
+let selectedStationSystem =
+  "metro";
 
     let selectedBufferLayer =
       null;
@@ -907,124 +1100,6 @@
 
     let buildingMoveTimer =
       null;
-
-
-
-    // ======================================================
-    // METRICS
-    // ======================================================
-
-    const metrics = {
-
-      ridership: {
-        label:
-          "Metrorail use",
-
-        field:
-          "avg_daily_entries_7day",
-
-        description:
-          "Average daily station entries",
-
-        legendValues:
-          [1000, 5000, 15000],
-
-        format:
-          "number"
-      },
-
-
-      activity: {
-        label:
-          "Residents + jobs",
-
-        field:
-          "population_jobs_quarter",
-
-        description:
-          "Residents and jobs within ¼ mile",
-
-        legendValues:
-          [2000, 10000, 50000],
-
-        format:
-          "number"
-      },
-
-
-      population: {
-        label:
-          "Residents",
-
-        field:
-          "population_quarter",
-
-        description:
-          "Residents within ¼ mile",
-
-        legendValues:
-          [1000, 5000, 15000],
-
-        format:
-          "number"
-      },
-
-
-      jobs: {
-        label:
-          "Jobs",
-
-        field:
-          "jobs_quarter",
-
-        description:
-          "Jobs within ¼ mile",
-
-        legendValues:
-          [1000, 10000, 50000],
-
-        format:
-          "number"
-      },
-
-
-      housing: {
-        label:
-          "Housing units",
-
-        field:
-          "housing_units_quarter",
-
-        description:
-          "Housing units within ¼ mile",
-
-        legendValues:
-          [500, 2000, 5000],
-
-        format:
-          "number"
-      },
-
-
-      coverage: {
-        label:
-          "Building coverage",
-
-        field:
-          "building_coverage_pct_eighth",
-
-        description:
-          "Land covered by buildings within ⅛ mile",
-
-        legendValues:
-          [10, 30, 50],
-
-        format:
-          "percent"
-      }
-
-    };
-
 
 
     // ======================================================
@@ -2056,61 +2131,97 @@
     // BUFFER DATA
     // ======================================================
 
-    async function loadBufferData() {
+async function loadBufferData() {
 
-      const [
-        eighth,
-        quarter,
-        half
-      ] =
-        await Promise.all(
-          [
+  const [
+    metroEighth,
+    metroQuarter,
+    metroHalf,
+    purpleEighth,
+    purpleQuarter,
+    purpleHalf
+  ] =
+    await Promise.all(
+      [
 
-            fetch(
-              "buffers_eighth.geojson"
-            )
-              .then(
-                response =>
-                  response.json()
-              ),
-
-
-            fetch(
-              "buffers_quarter.geojson"
-            )
-              .then(
-                response =>
-                  response.json()
-              ),
+        fetch(
+          "buffers_eighth.geojson"
+        ).then(
+          response =>
+            response.json()
+        ),
 
 
-            fetch(
-              "buffers_half.geojson"
-            )
-              .then(
-                response =>
-                  response.json()
-              )
-
-          ]
-        );
+        fetch(
+          "buffers_quarter.geojson"
+        ).then(
+          response =>
+            response.json()
+        ),
 
 
-      bufferData.eighth =
-        eighth;
+        fetch(
+          "buffers_half.geojson"
+        ).then(
+          response =>
+            response.json()
+        ),
 
 
-      bufferData.quarter =
-        quarter;
+        fetch(
+          "purple_buffers_eighth.geojson"
+        ).then(
+          response =>
+            response.json()
+        ),
 
 
-      bufferData.half =
-        half;
+        fetch(
+          "purple_buffers_quarter.geojson"
+        ).then(
+          response =>
+            response.json()
+        ),
 
-    }
+
+        fetch(
+          "purple_buffers_half.geojson"
+        ).then(
+          response =>
+            response.json()
+        )
+
+      ]
+    );
 
 
-    loadBufferData();
+  bufferData.metro.eighth =
+    metroEighth;
+
+
+  bufferData.metro.quarter =
+    metroQuarter;
+
+
+  bufferData.metro.half =
+    metroHalf;
+
+
+  bufferData.purple.eighth =
+    purpleEighth;
+
+
+  bufferData.purple.quarter =
+    purpleQuarter;
+
+
+  bufferData.purple.half =
+    purpleHalf;
+
+}
+
+
+loadBufferData();
 
 
 
@@ -2144,52 +2255,75 @@
     // FIND BUFFER FEATURE
     // ======================================================
 
-    function findBufferFeature(
-      radiusKey,
+function findBufferFeature(
+  radiusKey,
+  stationId,
+  stationSystem
+) {
+
+  if (
+    radiusKey ===
+    "none"
+  ) {
+
+    return null;
+
+  }
+
+
+  const systemData =
+    bufferData[
+      stationSystem
+    ];
+
+
+  if (
+    !systemData
+  ) {
+
+    return null;
+
+  }
+
+
+  const data =
+    systemData[
+      radiusKey
+    ];
+
+
+  if (
+    !data
+  ) {
+
+    return null;
+
+  }
+
+
+  const id =
+    normalizeStationId(
       stationId
-    ) {
-
-      if (
-        radiusKey ===
-        "none"
-      ) {
-
-        return null;
-
-      }
+    );
 
 
-      const data =
-        bufferData[
-          radiusKey
-        ];
+  return (
+    data.features.find(
+      feature => {
+
+        const p =
+          feature.properties;
 
 
-      if (
-        !data
-      ) {
+        const featureId =
+          stationSystem ===
+          "purple"
 
-        return null;
+            ? normalizeStationId(
+                p.purple_station_id
+              )
 
-      }
-
-
-      const id =
-        normalizeStationId(
-          stationId
-        );
-
-
-      return (
-        data.features.find(
-          feature => {
-
-            const p =
-              feature.properties;
-
-
-            const featureId =
-              normalizeStationId(
+            : normalizeStationId(
                 p.station_id ??
                 p.Station_ID ??
                 p.STATION_ID ??
@@ -2197,16 +2331,16 @@
               );
 
 
-            return (
-              featureId === id
-            );
+        return (
+          featureId === id
+        );
 
-          }
-        ) ||
-        null
-      );
+      }
+    ) ||
+    null
+  );
 
-    }
+}
 
 
 
@@ -2259,11 +2393,12 @@
       }
 
 
-      const feature =
-        findBufferFeature(
-          activeRadius,
-          selectedStationId
-        );
+const feature =
+  findBufferFeature(
+    activeRadius,
+    selectedStationId,
+    selectedStationSystem
+  );
 
 
       if (
@@ -2331,7 +2466,75 @@
 
     }
 
+// ======================================================
+// SELECT PURPLE LINE STATION
+// ======================================================
 
+function selectPurpleLineStation(
+  properties,
+  latlng
+) {
+
+  selectedStationId =
+    properties.purple_station_id;
+
+
+  selectedStationSystem =
+    "purple";
+
+
+  selectedStationName =
+    properties.station_name;
+
+
+  const panel =
+    document.getElementById(
+      "station-info-panel"
+    );
+
+
+  if (
+    panel
+  ) {
+
+    panel.innerHTML =
+      buildPurpleLinePanel(
+        properties
+      );
+
+
+    panel.style.display =
+      "block";
+
+  }
+
+
+  updateRadiusControlText();
+
+
+  updateSelectedBuffer();
+
+
+  if (
+    map.getZoom() <
+    BUILDING_MIN_ZOOM
+  ) {
+
+    map.flyTo(
+      latlng,
+      BUILDING_MIN_ZOOM,
+      {
+        duration:
+          0.65
+      }
+    );
+
+  }
+
+
+  scheduleBuildingUpdate();
+
+}
 
     // ======================================================
     // SELECT STATION
@@ -2356,9 +2559,33 @@
       selectedStationId =
         id;
 
+selectedStationSystem =
+  "metro";
 
+      
       selectedStationName =
         properties.Station_Name;
+
+      const panel =
+  document.getElementById(
+    "station-info-panel"
+  );
+
+
+if (
+  panel
+) {
+
+  panel.innerHTML =
+    buildPopup(
+      properties
+    );
+
+
+  panel.style.display =
+    "block";
+
+}
 
 
       updateRadiusControlText();
@@ -2415,7 +2642,7 @@
           "Average daily station entries",
 
         legendValues:
-          [1000, 5000, 15000],
+          [1000, 3000, 6000, 9000, 12000, 15000],
 
         format:
           "number"
@@ -2433,7 +2660,7 @@
           "Residents and jobs within ¼ mile",
 
         legendValues:
-          [2000, 10000, 50000],
+          [2000, 5000, 10000, 20000, 35000, 50000],
 
         format:
           "number"
@@ -2451,7 +2678,7 @@
           "Residents within ¼ mile",
 
         legendValues:
-          [1000, 5000, 15000],
+          [1000, 3000, 6000, 9000, 12000, 15000],
 
         format:
           "number"
@@ -2469,7 +2696,7 @@
           "Jobs within ¼ mile",
 
         legendValues:
-          [1000, 10000, 50000],
+          [1000, 5000, 10000, 20000, 35000, 50000],
 
         format:
           "number"
@@ -2487,7 +2714,7 @@
           "Housing units within ¼ mile",
 
         legendValues:
-          [500, 2000, 5000],
+          [500, 1000, 2000, 3000, 4000, 5000],
 
         format:
           "number"
@@ -2505,7 +2732,7 @@
           "Land covered by buildings within ⅛ mile",
 
         legendValues:
-          [10, 30, 50],
+          [10, 20, 30, 40, 50],
 
         format:
           "percent"
@@ -3305,7 +3532,276 @@
 
     }
 
+// ======================================================
+// PURPLE LINE
+//
+// Under-construction light rail.
+// Kept visually distinct from operating Metrorail.
+// ======================================================
 
+const PURPLE_LINE_COLOR =
+  "#7A3E98";
+
+
+fetch(
+  "purple_line.geojson"
+)
+
+  .then(
+    response => {
+
+      if (
+        !response.ok
+      ) {
+
+        throw new Error(
+          "Could not load purple_line.geojson"
+        );
+
+      }
+
+      return response.json();
+
+    }
+  )
+
+
+  .then(
+    data => {
+
+      L.geoJSON(
+        data,
+        {
+
+          pane:
+            "purplePane",
+
+          interactive:
+            false,
+
+          style: {
+
+            color:
+              PURPLE_LINE_COLOR,
+
+            weight:
+              3,
+
+            opacity:
+              0.62,
+
+            dashArray:
+              "7,5",
+
+            lineCap:
+              "round",
+
+            lineJoin:
+              "round"
+
+          }
+
+        }
+      ).addTo(
+        map
+      );
+
+    }
+  )
+
+
+  .catch(
+    error => {
+
+      console.error(
+        "Purple Line alignment error:",
+        error
+      );
+
+    }
+  );
+
+
+
+// ======================================================
+// PURPLE LINE STATIONS
+//
+// Only Purple-Line-only stations receive additional
+// markers.
+//
+// Bethesda, Silver Spring, College Park and New Carrollton
+// retain their existing Metrorail station symbols.
+// ======================================================
+
+fetch(
+  "purple_line_stations.geojson"
+)
+
+  .then(
+    response => {
+
+      if (
+        !response.ok
+      ) {
+
+        throw new Error(
+          "Could not load purple_line_stations.geojson"
+        );
+
+      }
+
+      return response.json();
+
+    }
+  )
+
+
+  .then(
+    data => {
+
+      L.geoJSON(
+        data,
+        {
+
+          pane:
+            "purpleStationPane",
+
+
+          filter: function(
+            feature
+          ) {
+
+            const p =
+              feature.properties;
+
+
+            return (
+              p.is_metrorail_interchange !== true &&
+              p.is_metrorail_interchange !== "true" &&
+              p.is_metrorail_interchange !== 1 &&
+              p.is_metrorail_interchange !== "1"
+            );
+
+          },
+
+
+          pointToLayer: function(
+            feature,
+            latlng
+          ) {
+
+            return L.circleMarker(
+              latlng,
+              {
+
+                pane:
+                  "purpleStationPane",
+
+                radius:
+                  5,
+                interactive:
+  true,
+                fillColor:
+                  "#F7F3EC",
+
+                fillOpacity:
+                  0.78,
+
+                color:
+                  PURPLE_LINE_COLOR,
+
+                opacity:
+                  0.72,
+
+                weight:
+                  1.25
+
+              }
+            );
+
+          },
+
+
+onEachFeature: function(
+  feature,
+  layer
+) {
+
+  const p =
+    feature.properties;
+
+
+  const stationName =
+    p.station_name ||
+    "Purple Line station";
+
+
+  // Hover label
+
+  layer.bindTooltip(
+    `
+
+    <strong>
+      ${stationName}
+    </strong>
+    <br>
+    Purple Line
+    <br>
+    Under construction
+
+    `,
+    {
+
+      direction:
+        "top",
+
+      offset:
+        [0, -5],
+
+      opacity:
+        0.95
+
+    }
+  );
+
+
+  // Click behavior
+
+  layer.on(
+    "click",
+    function(
+      event
+    ) {
+
+      selectPurpleLineStation(
+        p,
+        event.latlng
+      );
+
+    }
+  );
+
+}
+
+        }
+      ).addTo(
+        map
+      );
+
+    }
+  )
+
+
+  .catch(
+    error => {
+
+      console.error(
+        "Purple Line station error:",
+        error
+      );
+
+    }
+  );
 
     // ======================================================
     // METRO
@@ -3605,10 +4101,65 @@
 
       };
 
+radiusControl.addTo(
+  map
+);
 
-    radiusControl.addTo(
-      map
+
+// ======================================================
+// FIXED STATION INFORMATION PANEL
+// ======================================================
+
+const stationInfoControl =
+  L.control(
+    {
+      position:
+        "topleft"
+    }
+  );
+
+
+stationInfoControl.onAdd =
+  function() {
+
+    const div =
+      L.DomUtil.create(
+        "div",
+        "station-info-panel"
+      );
+
+
+    div.id =
+      "station-info-panel";
+
+
+    div.style.display =
+      "none";
+
+
+    L.DomEvent.disableClickPropagation(
+      div
     );
+
+
+    L.DomEvent.disableScrollPropagation(
+      div
+    );
+
+
+    return div;
+
+  };
+
+
+stationInfoControl.addTo(
+  map
+);
+
+
+// ======================================================
+// RADIUS CONTROL STATE
+// ======================================================
 
 
     function updateRadiusControlText() {
@@ -3812,7 +4363,7 @@
       L.control(
         {
           position:
-            "bottomleft"
+            "bottomright"
         }
       );
 
@@ -3847,6 +4398,23 @@
 
           </div>
 
+<div class="legend-row">
+
+  <span
+    class="
+      map-symbol
+      symbol-purple-line
+    "
+  ></span>
+
+  <span>
+    Purple Line
+    <span class="legend-status">
+      under construction
+    </span>
+  </span>
+
+</div>
 
           <div class="legend-row">
 
@@ -4398,7 +4966,297 @@
 
     }
 
+// ======================================================
+// PURPLE LINE INFORMATION PANEL
+// ======================================================
 
+function buildPurpleLinePanel(
+  p
+) {
+
+  return `
+
+    <div class="station-popup-name">
+      ${p.station_name}
+    </div>
+
+
+    <div class="station-popup-state">
+      Maryland
+    </div>
+
+
+    <div class="popup-section">
+
+      <div class="popup-section-title">
+        Purple Line
+      </div>
+
+
+      <div class="popup-stat">
+
+        <span>
+          Status
+        </span>
+
+        <strong>
+          Under construction
+        </strong>
+
+      </div>
+
+
+      <div class="popup-stat">
+
+        <span>
+          Ridership
+        </span>
+
+        <strong>
+          Not yet in service
+        </strong>
+
+      </div>
+
+    </div>
+
+
+    <div class="popup-section">
+
+      <div class="popup-section-title">
+        Within ¼ mile
+      </div>
+
+
+      <div class="popup-stat">
+
+        <span>
+          Residents
+        </span>
+
+        <strong>
+          ${
+            formatNumber(
+              p.population_quarter
+            )
+          }
+        </strong>
+
+      </div>
+
+
+      <div class="popup-stat">
+
+        <span>
+          Jobs
+        </span>
+
+        <strong>
+          ${
+            formatNumber(
+              p.jobs_quarter
+            )
+          }
+        </strong>
+
+      </div>
+
+
+      <div
+        class="
+          popup-stat
+          popup-stat-total
+        "
+      >
+
+        <span>
+          Residents + jobs
+        </span>
+
+        <strong>
+          ${
+            formatNumber(
+              p.population_jobs_quarter
+            )
+          }
+        </strong>
+
+      </div>
+
+
+      <div class="popup-stat">
+
+        <span>
+          Housing units
+        </span>
+
+        <strong>
+          ${
+            formatNumber(
+              p.housing_units_quarter
+            )
+          }
+        </strong>
+
+      </div>
+
+    </div>
+
+
+    <div class="popup-section">
+
+      <div class="popup-section-title">
+        Within ½ mile
+      </div>
+
+
+      <div class="popup-stat">
+
+        <span>
+          Residents
+        </span>
+
+        <strong>
+          ${
+            formatNumber(
+              p.population_half
+            )
+          }
+        </strong>
+
+      </div>
+
+
+      <div class="popup-stat">
+
+        <span>
+          Jobs
+        </span>
+
+        <strong>
+          ${
+            formatNumber(
+              p.jobs_half
+            )
+          }
+        </strong>
+
+      </div>
+
+
+      <div
+        class="
+          popup-stat
+          popup-stat-total
+        "
+      >
+
+        <span>
+          Residents + jobs
+        </span>
+
+        <strong>
+          ${
+            formatNumber(
+              p.population_jobs_half
+            )
+          }
+        </strong>
+
+      </div>
+
+
+      <div class="popup-stat">
+
+        <span>
+          Housing units
+        </span>
+
+        <strong>
+          ${
+            formatNumber(
+              p.housing_units_half
+            )
+          }
+        </strong>
+
+      </div>
+
+    </div>
+
+
+    <div class="popup-section">
+
+      <div class="popup-section-title">
+        Building coverage
+      </div>
+
+
+      <div class="popup-stat">
+
+        <span>
+          ⅛ mile
+        </span>
+
+        <strong>
+          ${
+            formatPercent(
+              p.building_coverage_pct_eighth
+            )
+          }
+        </strong>
+
+      </div>
+
+
+      <div class="popup-stat">
+
+        <span>
+          ¼ mile
+        </span>
+
+        <strong>
+          ${
+            formatPercent(
+              p.building_coverage_pct_quarter
+            )
+          }
+        </strong>
+
+      </div>
+
+
+      <div class="popup-stat">
+
+        <span>
+          ½ mile
+        </span>
+
+        <strong>
+          ${
+            formatPercent(
+              p.building_coverage_pct_half
+            )
+          }
+        </strong>
+
+      </div>
+
+    </div>
+
+
+    <div class="popup-note">
+
+      Purple Line service is under construction,
+      so observed station ridership is not yet available.
+      Population: 2020 Census.
+      Jobs: 2024 LEHD LODES.
+
+    </div>
+
+  `;
+
+}
 
     // ======================================================
     // STATIONS
@@ -4529,13 +5387,17 @@
                     feature.properties;
 
 
-                  layer.bindPopup(
-                    buildPopup(
-                      p
-                    ),
-                    {
-                      maxWidth:
-                        300
+                  layer.on(
+                    "click",
+                    function(
+                      event
+                    ) {
+
+                      selectStation(
+                        p,
+                        event.latlng
+                      );
+
                     }
                   );
 
