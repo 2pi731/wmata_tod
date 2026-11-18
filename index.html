@@ -83,14 +83,25 @@
    ====================================================== */
 
 .map-intro {
-  width: 380px;
+  position: absolute;
+
+  top: 12px;
+  left: 50%;
+
+  transform:
+    translateX(-50%);
+
+  width: 420px;
+
+  max-width:
+    calc(100vw - 620px);
 
   padding:
-    11px
+    10px
     16px;
 
   background:
-    rgba(247, 243, 236, 0.96);
+    rgba(247, 243, 236, 0.94);
 
   border:
     1px solid
@@ -101,19 +112,22 @@
 
   box-shadow:
     0 2px 10px
-    rgba(40, 37, 34, 0.10);
+    rgba(40, 37, 34, 0.08);
 
   text-align:
     center;
 
   pointer-events:
     none;
+
+  z-index:
+    1000;
 }
 
 
 .map-intro-title {
   margin-bottom:
-    4px;
+    3px;
 
   color:
     #282522;
@@ -137,8 +151,9 @@
     11px;
 
   line-height:
-    1.4;
+    1.35;
 }
+
 
     /* ======================================================
        CONTROLS
@@ -753,8 +768,25 @@
 
     @media (
       max-width: 700px
-    ) {
+    ) { 
+      .map-intro {
+  width:
+    calc(100vw - 120px);
 
+  max-width:
+    360px;
+
+  padding:
+    8px
+    10px;
+}
+
+
+.map-intro-text {
+  display:
+    none;
+}
+      
       .map-control-box {
         min-width: 160px;
 
@@ -786,6 +818,27 @@
 <body>
 
   <div id="map"></div>
+
+  <div
+    class="map-intro"
+  >
+
+    <div
+      class="map-intro-title"
+    >
+      Explore the Metro
+    </div>
+
+    <div
+      class="map-intro-text"
+    >
+      Click any station to see ridership, nearby residents
+      and jobs, and building coverage. Change the radius
+      or metric to compare places across the system.
+    </div>
+
+  </div>
+
 
   <div
     id="building-loader"
@@ -873,55 +926,6 @@
       "labelPane"
     ).style.pointerEvents =
       "none";
-
-// ======================================================
-// MAP INTRO
-// ======================================================
-
-const mapIntro =
-  L.control(
-    {
-      position:
-        "topleft"
-    }
-  );
-
-
-mapIntro.onAdd =
-  function() {
-
-    const div =
-      L.DomUtil.create(
-        "div",
-        "map-intro"
-      );
-
-
-    div.innerHTML =
-      `
-
-      <div class="map-intro-title">
-        Explore the Metro
-      </div>
-
-      <div class="map-intro-text">
-        Click any station to see ridership, nearby residents
-        and jobs, and how much of the surrounding land is
-        covered by buildings. Change the station-area radius
-        or metric to compare places across the system.
-      </div>
-
-      `;
-
-
-    return div;
-
-  };
-
-
-mapIntro.addTo(
-  map
-);
 
     // ======================================================
     // CONSTANTS
