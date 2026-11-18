@@ -2385,7 +2385,178 @@ const panes = {
 
     }
 
+// ======================================================
+// SELECT PURPLE LINE STATION
+// ======================================================
 
+function selectPurpleLineStation(
+  properties,
+  latlng
+) {
+
+  const stationName =
+    properties.station_name ||
+    "Purple Line station";
+
+
+  // Clear Metrorail analytical selection.
+
+  selectedStationId =
+    null;
+
+
+  selectedStationName =
+    stationName;
+
+
+  // Remove any existing Metrorail buffer.
+
+  if (
+    selectedBufferLayer
+  ) {
+
+    map.removeLayer(
+      selectedBufferLayer
+    );
+
+
+    selectedBufferLayer =
+      null;
+
+  }
+
+
+  selectedBufferFeature =
+    null;
+
+
+  // Return buildings to normal styling.
+
+  refreshBuildingStyles();
+
+
+  // Populate left information panel.
+
+  const panel =
+    document.getElementById(
+      "station-info-panel"
+    );
+
+
+  if (
+    panel
+  ) {
+
+    panel.innerHTML =
+      `
+
+      <div class="station-popup-name">
+        ${stationName}
+      </div>
+
+
+      <div class="station-popup-state">
+        Maryland
+      </div>
+
+
+      <div class="popup-section">
+
+        <div class="popup-section-title">
+          Purple Line
+        </div>
+
+
+        <div class="popup-stat">
+
+          <span>
+            Status
+          </span>
+
+          <strong>
+            Under construction
+          </strong>
+
+        </div>
+
+      </div>
+
+
+      <div class="popup-note">
+
+        Ridership data are not yet available for this station.
+        Purple Line stations are shown for context and are not
+        included in the 98-station Metrorail analysis.
+
+      </div>
+
+      `;
+
+
+    panel.style.display =
+      "block";
+
+  }
+
+
+  // Update the right-side station-area box.
+
+  const selectedName =
+    document.getElementById(
+      "selected-station-name"
+    );
+
+
+  if (
+    selectedName
+  ) {
+
+    selectedName.textContent =
+      stationName;
+
+  }
+
+
+  // Ensure radius buttons do not appear to describe
+  // this Purple Line station.
+
+  document
+    .querySelectorAll(
+      ".radius-button"
+    )
+    .forEach(
+      button => {
+
+        button.classList.remove(
+          "active"
+        );
+
+      }
+    );
+
+
+  // If regional view, zoom to neighborhood level.
+
+  if (
+    map.getZoom() <
+    BUILDING_MIN_ZOOM
+  ) {
+
+    map.flyTo(
+      latlng,
+      BUILDING_MIN_ZOOM,
+      {
+        duration:
+          0.65
+      }
+    );
+
+  }
+
+
+  scheduleBuildingUpdate();
+
+}
 
     // ======================================================
     // SELECT STATION
@@ -3569,47 +3740,66 @@ fetch(
           },
 
 
-          onEachFeature: function(
-            feature,
-            layer
-          ) {
+onEachFeature: function(
+  feature,
+  layer
+) {
 
-            const p =
-              feature.properties;
-
-
-            const stationName =
-              p.station_name ||
-              "Purple Line station";
+  const p =
+    feature.properties;
 
 
-            layer.bindTooltip(
-              `
+  const stationName =
+    p.station_name ||
+    "Purple Line station";
 
-              <strong>
-                ${stationName}
-              </strong>
-              <br>
-              Purple Line
-              <br>
-              Under construction
 
-              `,
-              {
+  // Hover label
 
-                direction:
-                  "top",
+  layer.bindTooltip(
+    `
 
-                offset:
-                  [0, -5],
+    <strong>
+      ${stationName}
+    </strong>
+    <br>
+    Purple Line
+    <br>
+    Under construction
 
-                opacity:
-                  0.95
+    `,
+    {
 
-              }
-            );
+      direction:
+        "top",
 
-          }
+      offset:
+        [0, -5],
+
+      opacity:
+        0.95
+
+    }
+  );
+
+
+  // Click behavior
+
+  layer.on(
+    "click",
+    function(
+      event
+    ) {
+
+      selectPurpleLineStation(
+        p,
+        event.latlng
+      );
+
+    }
+  );
+
+}
 
         }
       ).addTo(
